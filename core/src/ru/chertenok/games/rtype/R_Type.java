@@ -125,8 +125,8 @@ public class R_Type extends ApplicationAdapter {
     private boolean isCollision = false;
 
     // config
-    public boolean isMusicOn = false;
-    public boolean isSoundcOn = false;
+    public boolean isMusicOn = true;
+    public boolean isSoundcOn = true;
     private boolean isDebagDraw = true;
 
 

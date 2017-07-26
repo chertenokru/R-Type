@@ -19,7 +19,6 @@ public class ShipControl extends Sprites  {
     private final int MAX_LIVE = 1;
     private final int CONST_DX = 170;
     private final int CONST_DY = 120;
-    private int energy = MAX_ENERGY;
     private int live = MAX_LIVE;
     private Rectangle rectangle = new Rectangle();
 
@@ -45,6 +44,7 @@ public class ShipControl extends Sprites  {
         ship.velocity = new Vector2(0, 0);
         ship.originSpriteSize.x = spriteSizeX;
         ship.originSpriteSize.y = spriteSizeY;
+        ship.energy = MAX_ENERGY;
     }
 
 
@@ -88,11 +88,11 @@ public class ShipControl extends Sprites  {
     }
 
     public int getEnergy() {
-        return energy;
+        return ship.energy;
     }
 
     public void setEnergy(int energy) {
-        this.energy = energy;
+        this.ship.energy = energy;
     }
 
     public Rectangle getPosition() {
@@ -116,7 +116,7 @@ public class ShipControl extends Sprites  {
 
     public void reset() {
         live = MAX_LIVE;
-        energy = MAX_ENERGY;
+        ship.energy = MAX_ENERGY;
         isFired = false;
         ship.position.set(defaultPosition);
         isEnableFire = true;
@@ -136,7 +136,7 @@ public class ShipControl extends Sprites  {
             Gdx.input.vibrate(500);
         }
 
-        if (energy <= 0 && !isFired) {
+        if (ship.energy <= 0 && !isFired) {
             isFired = true;
             ship.setDamaging(false);
         }
