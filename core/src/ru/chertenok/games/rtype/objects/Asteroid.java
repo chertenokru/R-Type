@@ -30,7 +30,7 @@ public class Asteroid extends GameInnerObject {
 
     @Override
     public int getDamage() {
-        return super.getDamage() * (int) ((scale - 0.5f) / 0.5f);
+        return super.getDamage() * ((int) ((scale - 0.5f) / 0.5f)+1);
     }
 
     @Override

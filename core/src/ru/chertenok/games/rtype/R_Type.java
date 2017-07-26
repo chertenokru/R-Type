@@ -101,8 +101,8 @@ public class R_Type extends ApplicationAdapter {
     BitmapFont font;
     BitmapFont fontBig;
 
-        Rectangle rectangle1 = new Rectangle();
-//    Rectangle rectangle2 = new Rectangle();
+    Rectangle rectangle1 = new Rectangle();
+    //    Rectangle rectangle2 = new Rectangle();
 //    Circle circle1 = new Circle();
 //    Circle circle2 = new Circle();
     Collisionable collisionable1;
@@ -127,8 +127,7 @@ public class R_Type extends ApplicationAdapter {
     // config
     public boolean isMusicOn = true;
     public boolean isSoundcOn = true;
-    private boolean isDebagDraw = true;
-
+    private boolean isDebagDraw = false;
 
 
     //хар-ки
@@ -276,7 +275,7 @@ public class R_Type extends ApplicationAdapter {
         }
 
 
-                //   font.draw(batch, "x,y: "+getWorldCoord().x+","+getWorldCoord().y, viewport.getWorldWidth() - 400, viewport.getWorldHeight() - 40);
+        //   font.draw(batch, "x,y: "+getWorldCoord().x+","+getWorldCoord().y, viewport.getWorldWidth() - 400, viewport.getWorldHeight() - 40);
         //   font.draw(batch, "1 ",getWorldCoord().x,getWorldCoord().y);
         batch.end();
 
@@ -429,54 +428,56 @@ public class R_Type extends ApplicationAdapter {
         lastMouseTouch = Gdx.input.isTouched(0);
         lastMouseTouch1 = Gdx.input.isTouched(1);
 
-        // обработка столкновений всего со всем 8-)
-        for (int i = collObjects.size - 1; i > 0; i--) {
-            // если не активен, то просто  выкидываем и чешем дальше
-            if (! collObjects.get(i).isActive() ) {
-                collObjects.removeIndex(i);
-                continue;
-            }
+        if (state == GameState.Run) {
+            // обработка столкновений всего со всем 8-)
+            for (int i = collObjects.size - 1; i > 0; i--) {
+                // если не активен, то просто  выкидываем и чешем дальше
+                if (!collObjects.get(i).isActive()) {
+                    collObjects.removeIndex(i);
+                    continue;
+                }
 
-            for (int j = i - 1; j >= 0; j--) {
-                // если не активен, то просто  чешем дальше
-                if (!collObjects.get(j).isActive()) continue;
+                for (int j = i - 1; j >= 0; j--) {
+                    // если не активен, то просто  чешем дальше
+                    if (!collObjects.get(j).isActive()) continue;
 
 
-                isCollision = false;
-                collisionable1 = collObjects.get(i);
-                collisionable2 = collObjects.get(j);
+                    isCollision = false;
+                    collisionable1 = collObjects.get(i);
+                    collisionable2 = collObjects.get(j);
 
-                // круги
-                if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                    if (collisionable1.getHitAreaCircle().overlaps(collisionable2.getHitAreaCircle()))
-                        isCollision = true;
-                // прямоугольники
-                if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle)
-                    if (collisionable1.getHitAreaRectangle().overlaps(collisionable2.getHitAreaRectangle()))
-                        isCollision = true;
-                // прямоугольник и круг
-                if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                    if (Intersector.overlaps(collisionable2.getHitAreaCircle(), collisionable1.getHitAreaRectangle()))
-                        isCollision = true;
-                //  круг и прямоугольник
-                if (collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                    if (Intersector.overlaps(collisionable1.getHitAreaCircle(), collisionable2.getHitAreaRectangle()))
-                        isCollision = true;
-                // столкнулись
-                if (isCollision) {
-                    // этот в помойку
-                    if (collisionable1.hitIsRemove(this,collisionable2)) {
-                        collObjects.removeIndex(i);
+                    // круги
+                    if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
+                        if (collisionable1.getHitAreaCircle().overlaps(collisionable2.getHitAreaCircle()))
+                            isCollision = true;
+                    // прямоугольники
+                    if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle)
+                        if (collisionable1.getHitAreaRectangle().overlaps(collisionable2.getHitAreaRectangle()))
+                            isCollision = true;
+                    // прямоугольник и круг
+                    if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
+                        if (Intersector.overlaps(collisionable2.getHitAreaCircle(), collisionable1.getHitAreaRectangle()))
+                            isCollision = true;
+                    //  круг и прямоугольник
+                    if (collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle)
+                        if (Intersector.overlaps(collisionable1.getHitAreaCircle(), collisionable2.getHitAreaRectangle()))
+                            isCollision = true;
+                    // столкнулись
+                    if (isCollision) {
+                        // этот в помойку
+                        if (collisionable1.hitIsRemove(this, collisionable2)) {
+                            collObjects.removeIndex(i);
+                        }
+                        // этот не активный и потом в помойку
+                        if (collisionable2.hitIsRemove(this, collisionable1)) {
+                            collisionable2.setNoActive();
+                        }
+
+                        break;
                     }
-                    // этот не активный и потом в помойку
-                    if (collisionable2.hitIsRemove(this,collisionable1)) {
-                        collisionable2.setNoActive();
-                    }
-
-                    break;
                 }
             }
-                }
+        }
 
 
         /*
@@ -512,15 +513,15 @@ public class R_Type extends ApplicationAdapter {
         }
 
         // проверяем жив ли корабль и если нет, то есть ли жизни
-                if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
-                    // уменьшаем жизни
-                    shipControl.setLive(shipControl.getLive() - 1);
-                    messages.addMessage("-1 Life", shipControl.getPosition().x, shipControl.getPosition().y, 3f, Color.RED);
+        if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
+            // уменьшаем жизни
+            shipControl.setLive(shipControl.getLive() - 1);
+            messages.addMessage("-1 Life", shipControl.getPosition().x, shipControl.getPosition().y, 3f, Color.RED);
 
-                    // восстанавливаем энергию
-                    shipControl.setEnergy(shipControl.getMAX_ENERGY());
-                    explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 1.0f);
-                }
+            // восстанавливаем энергию
+            shipControl.setEnergy(shipControl.getMAX_ENERGY());
+            explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 1.0f);
+        }
 
 //        // проверяем столкновения коробля с астероидами
 //        rectangle1 = shipControl.getPosition();

@@ -136,8 +136,15 @@ public class Enemys extends ObjectCollector {
         //  if (fixMaxScale) enemy.scale = 0.5f + 0.5f * maxScale;
         //  else enemy.scale = 0.5f + (0.5f * (Global.rnd.nextInt(maxScale + 1)));
         enemy.scale = 1;
-        if (enemy.type == EnemyType.Type1) enemy.live = (int) 50;
-        else enemy.live = 20;
+        if (enemy.type == EnemyType.Type1) {
+            enemy.live = (int) 50;
+            enemy.setScope(50);
+        }
+        else {
+            enemy.live = 20;
+            enemy.setScope(20);
+        }
+        enemy.setDamage(40);
        super.init(gameInnerObject,width,height);
            }
 
