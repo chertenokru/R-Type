@@ -51,7 +51,7 @@ public class Level1 {
             case 2: {
                 game.asteroids.setObjectCount(10);
                 game.shipControl.setEnableFire(false);
-                game.explosions.addExplosion(game.shipControl.getPosition().x, game.shipControl.getPosition().y);
+                game.explosions.addExplosion(game.shipControl.ship.position.x, game.shipControl.ship.position.y);
                 game.messages.addMessage("             Командир, плохая новость.", 150, 540, 0.05f, Color.WHITE,Color.GRAY);
                 game.messages.addMessage("Астероид повредил пушку,нужно время на ремонт.", 150, 500, 0.05f, Color.WHITE,Color.GRAY);
                 game.messages.addMessage("             Уклоняйтесь от астероидов ...", 150, 460, 0.05f, Color.WHITE,Color.GRAY);

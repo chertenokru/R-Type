@@ -106,7 +106,7 @@ public class Enemys extends ObjectCollector {
             if (((Enemy) activeObject.get(i)).type == EnemyType.Type2) {
                 activeObject.get(i).angle = (float) Math.toDegrees(
                         Global.rotateTo((float) Math.toRadians(activeObject.get(i).angle),
-                                Global.getAngle(activeObject.get(i).position.x, activeObject.get(i).position.y, game.shipControl.getPosition().x, game.shipControl.getPosition().y), (float) Math.toRadians(60), dt)
+                                Global.getAngle(activeObject.get(i).position.x, activeObject.get(i).position.y, game.shipControl.ship.position.x, game.shipControl.ship.position.y), (float) Math.toRadians(60), dt)
                 );
             }
         }

@@ -56,7 +56,8 @@ public class Bullet extends GameInnerObject {
         if ((collisionObject.getObjectType() == ObjectType.BulletPlayer && owner == ObjectOwner.AI) ||
                 (collisionObject.getObjectType() == ObjectType.BulletAI && owner == ObjectOwner.Gamer)){
             setActive(false);
-            game.explosions.addExplosion(position.x + originSpriteSize.x / 2, position.y + originSpriteSize.y / 2, 0.25f);
+            if (collisionObject.getObjectType() == ObjectType.BulletPlayer)
+                game.explosions.addExplosion(position.x + originSpriteSize.x / 2, position.y + originSpriteSize.y / 2, 0.25f);
             return true;
         }
 

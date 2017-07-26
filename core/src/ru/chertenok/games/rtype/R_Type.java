@@ -406,12 +406,12 @@ public class R_Type extends ApplicationAdapter {
                 int scopeNeed = (shipControl.getMAX_ENERGY() - shipControl.getEnergy()) * reChargeCost;
                 if (scopeNeed >= scope) {
                     messages.addMessage("+" + shipControl.getEnergy() + scope / reChargeCost + "HP  -" + (scope - scope % reChargeCost) + "XM",
-                            shipControl.getPosition().x, shipControl.getPosition().y, 2f, Color.ORANGE);
+                            shipControl.ship.position.x, shipControl.ship.position.y, 2f, Color.ORANGE);
                     shipControl.setEnergy(shipControl.getEnergy() + scope / reChargeCost);
                     scope = (scope % reChargeCost);
                 } else {
                     messages.addMessage("+" + (shipControl.getMAX_ENERGY() - shipControl.getEnergy()) + " HP  -" + ((shipControl.getMAX_ENERGY() - shipControl.getEnergy()) * reChargeCost) + "XM",
-                            shipControl.getPosition().x, shipControl.getPosition().y, 2f, Color.ORANGE);
+                            shipControl.ship.position.x, shipControl.ship.position.y, 2f, Color.ORANGE);
 
                     shipControl.setEnergy(shipControl.getMAX_ENERGY());
                     scope -= scopeNeed;
@@ -509,18 +509,18 @@ public class R_Type extends ApplicationAdapter {
 
         if (shipControl.getEnergy() <= 0 && shipControl.getLive() == 0) {
             state = GameState.End;
-            explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 1.0f);
+            explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
         }
 
         // проверяем жив ли корабль и если нет, то есть ли жизни
         if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
             // уменьшаем жизни
             shipControl.setLive(shipControl.getLive() - 1);
-            messages.addMessage("-1 Life", shipControl.getPosition().x, shipControl.getPosition().y, 3f, Color.RED);
+            messages.addMessage("-1 Life", shipControl.ship.position.x, shipControl.ship.position.y, 3f, Color.RED);
 
             // восстанавливаем энергию
             shipControl.setEnergy(shipControl.getMAX_ENERGY());
-            explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 1.0f);
+            explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
         }
 
 //        // проверяем столкновения коробля с астероидами

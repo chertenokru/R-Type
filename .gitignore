@@ -3,12 +3,7 @@
 *.class
 *.war
 *.ear
-*.jks
-
 hs_err_pid*
-
-
-/1/
 
 ## Robovm
 /ios/robovm-build/
