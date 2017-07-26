@@ -1,0 +1,237 @@
+package ru.chertenok.games.rtype.objects.collections;
+
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import ru.chertenok.games.rtype.Global;
+import ru.chertenok.games.rtype.ObjectOwner;
+import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.objects.Bullet;
+import ru.chertenok.games.rtype.objects.GameInnerObject;
+
+
+/**
+ * Created by 13th on 04-Jul-17.
+ */
+public class Bullets extends ObjectCollector {
+
+    public enum BulletsType {Type1, Type2, Type3}
+
+    ;
+
+
+    private Asteroids asteroids;
+    private Explosions explosions;
+    private Rectangle rectangle = new Rectangle();
+    private Rectangle rectangle1 = new Rectangle();
+    private Circle circle = new Circle();
+    private boolean isRemoved = false;
+    static int BULLET_SPEED = 300;
+    private Bullet bullet;
+    private Sound soundFirePlayer;
+    private Sound soundFireType1;
+    private Sound soundFireType2;
+
+    int BULLET_DISTANCE = (int) game.viewport.getWorldWidth() - (int) game.viewport.getWorldWidth() / 5;
+
+
+    public Bullets(R_Type game) throws Exception {
+        super(Bullet.class, game, "bullet", 4);
+        this.asteroids = game.asteroids;
+        this.explosions = game.explosions;
+
+        soundFireType1 = Global.assestManager.get("slimeball.mp3", Sound.class);
+
+        soundFirePlayer = Global.assestManager.get("foom_0.mp3", Sound.class);
+        soundFireType2 = Global.assestManager.get("acid6.mp3", Sound.class);
+    }
+
+
+    public void update(float dt) {
+        super.update(dt);
+
+        checkDistanceAndCollision();
+        for (GameInnerObject _bullet : activeObject) {
+            bullet = (Bullet) _bullet;
+        //    bullet.position.mulAdd(bullet.velocity, dt);
+            if (bullet.type == BulletsType.Type3) {
+                bullet.dtCouner += dt;
+                if (bullet.dtWait < bullet.dtCouner) {
+                    bullet.dtCouner = 0;
+                    if (bullet.textureNo == 2) bullet.textureNo = 3;
+                    else bullet.textureNo = 2;
+                }
+
+            }
+        }
+
+    }
+
+
+    public void render(SpriteBatch batch) {
+        for (GameInnerObject _bullet : activeObject) {
+            bullet = (Bullet) _bullet;
+            batch.draw(texture[bullet.textureNo], bullet.position.x-texture[bullet.textureNo].getRegionWidth() / 2, bullet.position.y-texture[bullet.textureNo].getRegionHeight() / 2,
+                    texture[bullet.textureNo].getRegionWidth() / 2, texture[bullet.textureNo].getRegionHeight() / 2,
+                    texture[bullet.textureNo].getRegionWidth(), texture[bullet.textureNo].getRegionHeight(), 1, 1, bullet.angle);
+        }
+
+    }
+
+    private void checkDistanceAndCollision() {
+
+        for (int i = activeObject.size; --i >= 0; ) {
+            Bullet b = (Bullet) activeObject.get(i);
+            if (b.startPosition.cpy().sub(b.position).len() > BULLET_DISTANCE || !b.isActive) {
+                activeObject.removeIndex(i);
+                objectPool.free(b);
+//            } else {
+//                rectangle.set(b.position.x, b.position.y, spriteSizeX, spriteSizeY);
+//
+//                isRemoved = false;
+//                for (int j = i; --j >= 0; ) {
+//                    if (b.owner == activeObject.get(j).owner) continue;
+//                    rectangle1.set(activeObject.get(j).position.x, activeObject.get(j).position.y, spriteSizeX, spriteSizeY);
+//                    if (Intersector.overlaps(rectangle1, rectangle)) {
+//                        activeObject.get(j).isActive = false;
+//                        explosions.addExplosion(activeObject.get(i).position.x + spriteSizeX / 2, activeObject.get(i).position.y + spriteSizeY / 2, 0.25f);
+//                        activeObject.removeIndex(i);
+//                        objectPool.free(b);
+//                        isRemoved = true;
+//
+//                        break;
+//                    }
+//
+//                }
+
+                /*            if (!isRemoved) {
+
+                    for (int j = 0; j < asteroids.getAsteroid_count(); j++) {
+                        circle.set(asteroids.getAsteroids()[j].position, asteroids.asteroids[j].getTEXTURE_SIZE() / 2);
+                        if (Intersector.overlaps(circle, rectangle)) {
+
+                            if (asteroids.asteroids[j].live == 0) {
+                                // если пуля игрока, то очки начисляем
+                                if (b.owner == ObjectOwner.Gamer) {
+                                    game.scope += asteroids.asteroids[j].getSCOPE();
+                                    game.messages.addMessage("+" + asteroids.asteroids[j].getSCOPE(), b.position.x + spriteSizeX, b.position.y + spriteSizeY, 1f, Color.GRAY);
+                                }
+                                explosions.addExplosion(asteroids.asteroids[j].position.x, asteroids.asteroids[j].position.y, asteroids.asteroids[j].scale);
+
+                                asteroids.init(asteroids.getAsteroids()[j]);
+                            } else {
+                                asteroids.asteroids[j].live--;
+                                explosions.addExplosion(b.position.x + spriteSizeX, b.position.y + spriteSizeY);
+                            }
+                            bullets.removeIndex(i);
+                            isRemoved = true;
+                            bulletPool.free(b);
+                            break;
+                        }
+                    }
+                }
+
+                if (!isRemoved && b.owner == ObjectOwner.AI) {
+                    rectangle1.set(game.shipControl.getPosition());
+                    if (Intersector.overlaps(rectangle1, rectangle)) {
+                        // уменьшаем энергию
+                        game.shipControl.setEnergy(game.shipControl.getEnergy() - b.damage);
+                        game.messages.addMessage("-" + b.damage + "HP",
+                                game.shipControl.getPosition().x, game.shipControl.getPosition().y, 2f, Color.RED);
+                        // признак отрисовки попадения
+                        game.shipControl.setDamaging(true);
+                        // проверяем жив ли корабль и если нет, то есть ли жизни
+                        if (game.shipControl.getEnergy() <= 0 && game.shipControl.getLive() > 0) {
+                            // уменьшаем жизни
+                            game.shipControl.setLive(game.shipControl.getLive() - 1);
+                            game.messages.addMessage("-1 Life", game.shipControl.getPosition().x, game.shipControl.getPosition().y, 3f, Color.RED);
+                            // state = GameState.Pause;
+                            // восстанавливаем энергию
+                            game.shipControl.setEnergy(game.shipControl.getMAX_ENERGY());
+                            explosions.addExplosion(game.shipControl.getPosition().x + 64, game.shipControl.getPosition().y, 1.0f);
+                        }
+                        bullets.removeIndex(i);
+                        bulletPool.free(b);
+                        isRemoved = true;
+
+                    }
+                }
+
+
+                if (!isRemoved && b.owner == ObjectOwner.Gamer) {
+                    // c кораблями врага
+                    for (int j = 0; j < game.enemys.getEnemys_count(); j++) {
+                        circle.set(game.enemys.enemys[j].position, game.enemys.enemys[j].getTEXTURE_SIZE() / 2);
+                        if (Intersector.overlaps(circle, rectangle)) {
+
+                            if (game.enemys.enemys[j].live == 0) {
+                                // если пуля игрока, то очки начисляем
+                                if (b.owner == ObjectOwner.Gamer) game.scope += game.enemys.enemys[j].getSCOPE();
+
+                                explosions.addExplosion(game.enemys.enemys[j].position.x, game.enemys.enemys[j].position.y, 1);
+                                game.messages.addMessage("+" + game.enemys.enemys[j].getSCOPE(), b.position.x + spriteSizeX, b.position.y + spriteSizeY, 1f, Color.GRAY);
+                                game.enemys.init(game.enemys.enemys[j]);
+                            } else {
+                                game.enemys.enemys[j].live--;
+                                explosions.addExplosion(b.position.x + spriteSizeX, b.position.y + spriteSizeY);
+                            }
+                            bullets.removeIndex(i);
+                            bulletPool.free(b);
+                            break;
+                        }
+                    }
+                }
+*/
+//
+
+            }
+
+
+        }
+    }
+
+
+    public void addBullet(float x, float y) {
+        Bullet b = (Bullet) objectPool.obtain();
+        b.activate(x, y,- BULLET_SPEED, 0, ObjectOwner.Gamer, BulletsType.Type1);
+        activeObject.add(b);
+        super.init(b,texture[b.textureNo].getRegionWidth(),texture[b.textureNo].getRegionHeight());
+        if (game.isSoundcOn)  soundFirePlayer.play(0.3f);
+
+    }
+
+    public void addBotBullet(float x, float y) {
+        Bullet b = (Bullet) objectPool.obtain();
+
+        b.activate(x, y, BULLET_SPEED, 0, ObjectOwner.AI, BulletsType.Type2);
+        activeObject.add(b);
+        super.init(b,texture[b.textureNo].getRegionWidth(),texture[b.textureNo].getRegionHeight());
+        if (game.isSoundcOn) soundFireType1.play(0.2f);
+    }
+
+    public void addBotBulletVector(float x, float y, float dx, float dy, float angle) {
+        Bullet b = (Bullet) objectPool.obtain();
+
+        b.activate(x, y, -dx, -dy, ObjectOwner.AI, BulletsType.Type3);
+        b.angle = angle;
+        activeObject.add(b);
+        super.init(b,texture[b.textureNo].getRegionWidth(),texture[b.textureNo].getRegionHeight());
+        if (game.isSoundcOn)  soundFireType2.play(1f);
+
+    }
+
+    public void reset() {
+        for (int i = activeObject.size - 1; i >= 0; i--) {
+            objectPool.free(activeObject.get(i));
+            activeObject.removeIndex(i);
+        }
+
+
+    }
+
+}

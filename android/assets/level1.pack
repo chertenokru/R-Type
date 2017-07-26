@@ -1,0 +1,173 @@
+
+level1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 0, 136
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+explosion
+  rotate: false
+  xy: 0, 6
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+explosion
+  rotate: false
+  xy: 130, 136
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 1
+explosion
+  rotate: false
+  xy: 130, 6
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 2
+pause
+  rotate: false
+  xy: 260, 136
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+shield
+  rotate: false
+  xy: 260, 6
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 390, 200
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 390, 134
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 390, 68
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 2
+block
+  rotate: false
+  xy: 520, 200
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
+Enegry
+  rotate: false
+  xy: 390, 34
+  size: 90, 32
+  orig: 90, 32
+  offset: 0, 0
+  index: 0
+Energy
+  rotate: false
+  xy: 390, 0
+  size: 90, 32
+  orig: 90, 32
+  offset: 0, 0
+  index: 1
+alien1
+  rotate: false
+  xy: 520, 158
+  size: 64, 40
+  orig: 64, 40
+  offset: 0, 0
+  index: 0
+alien1
+  rotate: false
+  xy: 520, 104
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 1
+Energy
+  rotate: false
+  xy: 482, 34
+  size: 90, 32
+  orig: 90, 32
+  offset: 0, 0
+  index: 2
+Energy
+  rotate: false
+  xy: 482, 0
+  size: 90, 32
+  orig: 90, 32
+  offset: 0, 0
+  index: 3
+bullet
+  rotate: false
+  xy: 520, 86
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: 0
+bullet
+  rotate: false
+  xy: 520, 68
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: 2
+bullet
+  rotate: false
+  xy: 554, 86
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: 3
+bullet
+  rotate: false
+  xy: 554, 68
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+rect
+  rotate: false
+  xy: 572, 68
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+star
+  rotate: false
+  xy: 574, 50
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 0
+star
+  rotate: false
+  xy: 574, 32
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+star
+  rotate: false
+  xy: 574, 14
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
