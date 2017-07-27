@@ -61,7 +61,7 @@ public class Bullet extends GameInnerObject {
             return true;
         }
 
-        if ((collisionObject.getObjectType() == ObjectType.Asteroid && owner == ObjectOwner.Gamer) ||
+        if ((collisionObject.getObjectType() == ObjectType.Asteroid ) ||
                 (collisionObject.getObjectType() == ObjectType.Enemy && owner == ObjectOwner.Gamer))
         {
             setActive(false);

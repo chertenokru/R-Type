@@ -1,12 +1,11 @@
 package ru.chertenok.games.rtype.objects;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Circle;
 import ru.chertenok.games.rtype.R_Type;
-import ru.chertenok.games.rtype.objects.collections.Enemys;
+import ru.chertenok.games.rtype.objects.collections.Enemies;
 
 public class Enemy extends GameInnerObject {
-    private Enemys enemys;
+    private Enemies enemies;
     public EnemyType type = EnemyType.Type1;
     public int textureNo = 0;
 
@@ -35,8 +34,9 @@ public class Enemy extends GameInnerObject {
 
         } else
         {
-            if  (collisionObject.getObjectType() != ObjectType.BulletAI)
-            collisionsObject(this,(GameInnerObject) collisionObject);
+            if  (collisionObject.getObjectType() != ObjectType.BulletAI && collisionObject.getObjectType() != ObjectType.Asteroid
+                    && collisionObject.getObjectType() != ObjectType.Enemy)
+            collisionsObject(this,(GameInnerObject) collisionObject,true);
         }
         return false;
     }

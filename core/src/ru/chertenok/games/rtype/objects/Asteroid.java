@@ -63,7 +63,7 @@ public class Asteroid extends GameInnerObject {
         } else {
             //   if (collisionObject.getObjectType() == ObjectType.ShipControl)  collisionObject = game.shipControl.getGa
 
-            collisionsObject(this, (GameInnerObject) collisionObject);
+            collisionsObject(this, (GameInnerObject) collisionObject,true);
         }
         return false;
     }

@@ -165,19 +165,19 @@ public class Bullets extends ObjectCollector {
 
                 if (!isRemoved && b.owner == ObjectOwner.Gamer) {
                     // c кораблями врага
-                    for (int j = 0; j < game.enemys.getEnemys_count(); j++) {
-                        circle.set(game.enemys.enemys[j].position, game.enemys.enemys[j].getTEXTURE_SIZE() / 2);
+                    for (int j = 0; j < game.enemies.getEnemys_count(); j++) {
+                        circle.set(game.enemies.enemies[j].position, game.enemies.enemies[j].getTEXTURE_SIZE() / 2);
                         if (Intersector.overlaps(circle, rectangle)) {
 
-                            if (game.enemys.enemys[j].live == 0) {
+                            if (game.enemies.enemies[j].live == 0) {
                                 // если пуля игрока, то очки начисляем
-                                if (b.owner == ObjectOwner.Gamer) game.scope += game.enemys.enemys[j].getSCOPE();
+                                if (b.owner == ObjectOwner.Gamer) game.scope += game.enemies.enemies[j].getSCOPE();
 
-                                explosions.addExplosion(game.enemys.enemys[j].position.x, game.enemys.enemys[j].position.y, 1);
-                                game.messages.addMessage("+" + game.enemys.enemys[j].getSCOPE(), b.position.x + spriteSizeX, b.position.y + spriteSizeY, 1f, Color.GRAY);
-                                game.enemys.init(game.enemys.enemys[j]);
+                                explosions.addExplosion(game.enemies.enemies[j].position.x, game.enemies.enemies[j].position.y, 1);
+                                game.messages.addMessage("+" + game.enemies.enemies[j].getSCOPE(), b.position.x + spriteSizeX, b.position.y + spriteSizeY, 1f, Color.GRAY);
+                                game.enemies.init(game.enemies.enemies[j]);
                             } else {
-                                game.enemys.enemys[j].live--;
+                                game.enemies.enemies[j].live--;
                                 explosions.addExplosion(b.position.x + spriteSizeX, b.position.y + spriteSizeY);
                             }
                             bullets.removeIndex(i);

@@ -29,6 +29,9 @@ public class Ship extends GameInnerObject {
         if (collisionObject.getObjectType() == ObjectType.BulletAI || collisionObject.getObjectType() == ObjectType.Asteroid || collisionObject.getObjectType() == ObjectType.Enemy) {
             energy -= collisionObject.getDamage();
             setDamaging(true);
+            if  (collisionObject.getObjectType() != ObjectType.BulletAI )
+                collisionsObject(this,(GameInnerObject) collisionObject,true);
+
         }
         return false;
     }

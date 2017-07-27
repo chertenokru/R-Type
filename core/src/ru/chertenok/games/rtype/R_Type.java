@@ -85,7 +85,7 @@ import ru.chertenok.games.rtype.menu.Menu;
 import ru.chertenok.games.rtype.objects.Collisionable;
 import ru.chertenok.games.rtype.objects.collections.Asteroids;
 import ru.chertenok.games.rtype.objects.collections.Bullets;
-import ru.chertenok.games.rtype.objects.collections.Enemys;
+import ru.chertenok.games.rtype.objects.collections.Enemies;
 import ru.chertenok.games.rtype.objects.collections.Explosions;
 import ru.chertenok.games.rtype.objects.ShipControl;
 
@@ -125,9 +125,9 @@ public class R_Type extends ApplicationAdapter {
     private boolean isCollision = false;
 
     // config
-    public boolean isMusicOn = true;
-    public boolean isSoundcOn = true;
-    private boolean isDebagDraw = false;
+    public boolean isMusicOn = false;
+    public boolean isSoundcOn = false;
+    private boolean isDebugDraw = true;
 
 
     //хар-ки
@@ -148,7 +148,7 @@ public class R_Type extends ApplicationAdapter {
     Menu menu;
     public ShipControl shipControl;
     public Asteroids asteroids;
-    public Enemys enemys;
+    public Enemies enemies;
     //public Asteroids asteroids_big;
     public Explosions explosions;
     public Messages messages;
@@ -179,7 +179,7 @@ public class R_Type extends ApplicationAdapter {
         fonGround = new FonGround(this);
 
         try {
-            enemys = new Enemys(this);
+            enemies = new Enemies(this);
             explosions = new Explosions(this);
             asteroids = new Asteroids(this);
             bullets = new Bullets(this);
@@ -192,8 +192,8 @@ public class R_Type extends ApplicationAdapter {
             music.play();
             music.setLooping(true);
         }
-        enemys.setEnemys_count(5);
-        enemys.setReversiveEnabled(false);
+        enemies.setEnemys_count(5);
+        enemies.setReversiveEnabled(false);
         asteroids.setObjectCount(5);
 
 
@@ -254,7 +254,7 @@ public class R_Type extends ApplicationAdapter {
         shipControl.render(batch);
         bullets.render(batch);
         asteroids.render(batch);
-        enemys.render(batch);
+        enemies.render(batch);
         explosions.render(batch);
 
         renderHUD();
@@ -262,7 +262,7 @@ public class R_Type extends ApplicationAdapter {
         messages.render(batch);
 
         // отрисовка зон столкновений
-        if (isDebagDraw) {
+        if (isDebugDraw) {
             for (int i = collObjects.size - 1; i >= 0; i--) {
                 // если не активен, то просто  выкидываем и чешем дальше
                 if (collObjects.get(i).isActive()) {
@@ -420,7 +420,7 @@ public class R_Type extends ApplicationAdapter {
 
             fonGround.update(dt);
             asteroids.update(dt);
-            enemys.update(dt);
+            enemies.update(dt);
             shipControl.update(dt);
             bullets.update(dt);
             messages.update(dt);
@@ -560,14 +560,14 @@ public class R_Type extends ApplicationAdapter {
 //
 //        // проверяем столкновения коробля с врагами
 //        rectangle1 = shipControl.getPosition();
-//        for (int i = 0; i < enemys.getEnemys_count(); i++) {
-//            circle.set(enemys.getEnemys()[i].position, enemys.getEnemys()[i].getTEXTURE_SIZE() / 2);
+//        for (int i = 0; i < enemies.getEnemys_count(); i++) {
+//            circle.set(enemies.getEnemys()[i].position, enemies.getEnemys()[i].getTEXTURE_SIZE() / 2);
 //            // если попадание
 //            if (Intersector.overlaps(circle, rectangle1)) {
 //                // уменьшаем энергию
-//                shipControl.setEnergy(shipControl.getEnergy() - enemys.getEnemys()[i].getDAMAGE());
-//                messages.addMessage("-" + enemys.getEnemys()[i].getSCOPE() + "HP",
-//                        enemys.enemys[i].position.x, enemys.enemys[i].position.y, 2f, Color.RED);
+//                shipControl.setEnergy(shipControl.getEnergy() - enemies.getEnemys()[i].getDAMAGE());
+//                messages.addMessage("-" + enemies.getEnemys()[i].getSCOPE() + "HP",
+//                        enemies.enemies[i].position.x, enemies.enemies[i].position.y, 2f, Color.RED);
 //                // признак отрисовки попадения
 //                shipControl.setDamaging(true);
 //                // проверяем жив ли корабль и если нет, то есть ли жизни
@@ -583,9 +583,9 @@ public class R_Type extends ApplicationAdapter {
 //
 //                // разбрасывание корабля и врага
 //                vector2.set(shipControl.getPosition().x + shipControl.getPosition().getWidth() / 2, shipControl.getPosition().y + shipControl.getPosition().getHeight() / 2);
-//                shipControl.getVelocity().add(enemys.enemys[i].position.cpy().sub(vector2));
-//                enemys.enemys[i].velocity.add(vector2.sub(enemys.enemys[i].position));
-//                enemys.enemys[i].position.x = enemys.enemys[i].position.x + shipControl.getPosition().getWidth() / 2;
+//                shipControl.getVelocity().add(enemies.enemies[i].position.cpy().sub(vector2));
+//                enemies.enemies[i].velocity.add(vector2.sub(enemies.enemies[i].position));
+//                enemies.enemies[i].position.x = enemies.enemies[i].position.x + shipControl.getPosition().getWidth() / 2;
 //            }
 //        }
 
@@ -652,7 +652,7 @@ public class R_Type extends ApplicationAdapter {
         shipControl.reset();
         level1.reset();
         asteroids.reset();
-        enemys.reset();
+        enemies.reset();
         bullets.reset();
 
 

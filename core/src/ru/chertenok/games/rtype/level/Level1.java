@@ -39,8 +39,11 @@ public class Level1 {
     private void execAction(int index) {
         switch (index) {
             case 0: {
-                game.asteroids.setObjectCount(5);
+                game.asteroids.setObjectCount(1);
                 game.asteroids.setReversiveEnabled(false);
+                game.enemies.setActiveObject_count(0);
+                game.asteroids.setMaxScale(4f);
+                game.asteroids.setFixMaxScale(true);
                 break;
             }
             case 1: {
@@ -97,7 +100,7 @@ public class Level1 {
     public Level1(R_Type game) {
         this.game = game;
 
-        actions.add(new Data(5.0f)); // 0
+        actions.add(new Data(7.0f)); // 0
         actions.add(new Data(4.7f)); // 1
         actions.add(new Data(4.5f)); // 2
         actions.add(new Data(4.45f)); // 3

@@ -13,6 +13,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     public Vector2 position;
     public Vector2 velocity;
     public Vector2 originSpriteSize;
+    public Vector2 vector = new Vector2();
     public float scale = 1;
     public boolean reversive = false;
     public ObjectOwner owner = ObjectOwner.System;
@@ -24,6 +25,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     protected Circle circle;
     protected int scope = 0;
     protected int damage = 0;
+    public float maxSpeed = 200;
 
     public GameInnerObject() {
         this.position = new Vector2();
@@ -121,13 +123,23 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     }
 
     // разбегаем объекты в разные стороны
-    public void collisionsObject(GameInnerObject o1,GameInnerObject o2)
+    public void collisionsObject(GameInnerObject o1,GameInnerObject o2, boolean fistOnly)
     {
-        o1.velocity.sub(o1.position.cpy().sub(o2.position));
-        o2.velocity.sub(o2.position.cpy().sub(o1.position));
+        vector.set(o1.position);
+        o1.velocity.sub(vector.sub(o2.position));
+        checkSpeedVector(o1.velocity);
+        if (!fistOnly) {
+            vector.set(o2.position);
+            o2.velocity.sub(vector.sub(o1.position));
+            checkSpeedVector(o2.velocity);
+        }
     }
 
 
+    public void checkSpeedVector(Vector2 velocity){
+        if (velocity.x > maxSpeed) velocity.x = maxSpeed;
+        if (velocity.y > maxSpeed) velocity.y = maxSpeed;
+    }
 
 
 }

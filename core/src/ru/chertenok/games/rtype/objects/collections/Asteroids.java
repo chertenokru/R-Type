@@ -62,6 +62,8 @@ public class Asteroids extends ObjectCollector {
 
         asteroid = (Asteroid) gameInnerObject;
         asteroid.reversive = false;
+        if (fixMaxScale) asteroid.scale = 0.5f + 0.5f * maxScale;
+        else asteroid.scale = 0.5f + (0.5f * (Global.rnd.nextInt((int) Asteroid.getMaxScale() + 1)));
         if (isReversiveEnabled) {
             if (Global.rnd.nextBoolean())
                 asteroid.reversive = Global.rnd.nextBoolean();
@@ -69,7 +71,7 @@ public class Asteroids extends ObjectCollector {
 
         if (asteroid.reversive) {
             asteroid.position.set(
-                    -asteroid.originSpriteSize.x,
+                    -asteroid.originSpriteSize.x*asteroid.scale,
                     Global.rnd.nextInt((int) game.viewport.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
             asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int)(maxSpeed - minSpeed)), 0).scl(-1);
         } else {
@@ -80,8 +82,7 @@ public class Asteroids extends ObjectCollector {
         }
         asteroid.angle = Global.rnd.nextInt(360);
         asteroid.angleInc = Global.rnd.nextInt(Asteroid.MAX_ANGLE_INC);
-        if (fixMaxScale) asteroid.scale = 0.5f + 0.5f * maxScale;
-        else asteroid.scale = 0.5f + (0.5f * (Global.rnd.nextInt((int) Asteroid.getMaxScale() + 1)));
+
         asteroid.live = (int) asteroid.scale * 2;
         if (width == 0)
         {

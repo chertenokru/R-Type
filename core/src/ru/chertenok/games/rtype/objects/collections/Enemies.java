@@ -13,7 +13,7 @@ import ru.chertenok.games.rtype.objects.GameInnerObject;
 /**
  * Created by 13th on 02.07.2017.
  */
-public class Enemys extends ObjectCollector {
+public class Enemies extends ObjectCollector {
 
 
 
@@ -33,7 +33,7 @@ public class Enemys extends ObjectCollector {
     private Vector2 vector = new Vector2(0, 0);
 
 
-    public Enemys(R_Type game) throws Exception {
+    public Enemies(R_Type game) throws Exception {
         super(Enemy.class, game, "alien1", 2);
         maxSpeed = 120;
         minSpeed = 30;
