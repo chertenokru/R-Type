@@ -1,8 +1,6 @@
 package ru.chertenok.games.rtype;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -30,8 +28,17 @@ public class FonStars extends Sprites{
     private final int START_COUNT = 80;
     // массив звезд
     private Star[] stars = new Star[START_COUNT];
-    
+    // движени звезд
+    private boolean isStop = false;
 
+
+    public boolean isStop() {
+        return isStop;
+    }
+
+    public void setStop(boolean stop) {
+        isStop = stop;
+    }
 
     public FonStars(R_Type game) {
         super(game,"star",3);
@@ -54,11 +61,11 @@ public class FonStars extends Sprites{
         // Разные скорости для звезд разного размера
         switch (stars[i].textureNo){
             case 0:{
-                stars[i].vx = Global.rnd.nextFloat()*10+5;
+                stars[i].vx = Global.rnd.nextFloat() * 10 + 15;
                 break;
             }
             case 1:{
-                stars[i].vx = Global.rnd.nextFloat()*10+50;
+                stars[i].vx = Global.rnd.nextFloat() * 10 + 150;
                 break;
             }
             case 2:{
@@ -73,9 +80,12 @@ public class FonStars extends Sprites{
 
 
     public void update(float dt){
-        for (int i = 0; i < START_COUNT; i++) {
-            stars[i].position.x -= stars[i].vx*dt;
-            if (stars[i].position.x < -spriteSize) initStar(i,false);
+
+        if (!isStop) {
+            for (int i = 0; i < START_COUNT; i++) {
+                stars[i].position.x -= stars[i].vx * dt;
+                if (stars[i].position.x < -spriteSize) initStar(i, false);
+            }
         }
     }
 

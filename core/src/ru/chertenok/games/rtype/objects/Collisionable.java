@@ -10,7 +10,10 @@ import ru.chertenok.games.rtype.R_Type;
  */
 public interface Collisionable {
     enum HitAreaType {Rectangle,Circle};
-    enum ObjectType {Enemy,Ship,BulletAI,BulletPlayer,Box,Explosion,Asteroid};
+
+    enum ObjectType {Enemy, Ship, BulletAI, BulletPlayer, Box, Explosion, Asteroid, Boss}
+
+    ;
     // вид области объекта
     HitAreaType getHitAreaType();
     // круглая область

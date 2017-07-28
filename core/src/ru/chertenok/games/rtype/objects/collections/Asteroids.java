@@ -1,8 +1,6 @@
 package ru.chertenok.games.rtype.objects.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.objects.Asteroid;
@@ -97,6 +95,7 @@ public class Asteroids extends ObjectCollector {
             width = spriteOriginSize;
             height = spriteOriginSize;
         }
+        asteroid.maxSpeed = 200;
         super.init(gameInnerObject,width,height);
     }
 

@@ -70,7 +70,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -83,11 +82,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.chertenok.games.rtype.level.Level1;
 import ru.chertenok.games.rtype.menu.Menu;
 import ru.chertenok.games.rtype.objects.Collisionable;
+import ru.chertenok.games.rtype.objects.ShipControl;
 import ru.chertenok.games.rtype.objects.collections.Asteroids;
 import ru.chertenok.games.rtype.objects.collections.Bullets;
 import ru.chertenok.games.rtype.objects.collections.Enemies;
 import ru.chertenok.games.rtype.objects.collections.Explosions;
-import ru.chertenok.games.rtype.objects.ShipControl;
 
 
 public class R_Type extends ApplicationAdapter {
@@ -128,6 +127,7 @@ public class R_Type extends ApplicationAdapter {
     public boolean isMusicOn = false;
     public boolean isSoundcOn = false;
     private boolean isDebugDraw = false;
+    private boolean bossMode = false;
 
 
     //хар-ки
@@ -156,6 +156,15 @@ public class R_Type extends ApplicationAdapter {
     // список объектов для обработки коллизий
     public Array<Collisionable> collObjects = new Array<Collisionable>();
 
+
+    public boolean isBossMode() {
+        return bossMode;
+    }
+
+    public void setBossMode(boolean bossMode) {
+        this.bossMode = bossMode;
+        fonStars.setStop(bossMode);
+    }
 
     @Override
     public void create() {
@@ -647,6 +656,7 @@ public class R_Type extends ApplicationAdapter {
         messages.restart();
         asteroids.setFixMaxScale(false);
         asteroids.setMaxScale(0);
+        asteroids.setFixOnScreen(false);
         asteroids.setObjectCount(5);
         asteroids.setReversiveEnabled(false);
         shipControl.reset();
@@ -654,6 +664,8 @@ public class R_Type extends ApplicationAdapter {
         asteroids.reset();
         enemies.reset();
         bullets.reset();
+        setBossMode(false);
+
 
 
     }
