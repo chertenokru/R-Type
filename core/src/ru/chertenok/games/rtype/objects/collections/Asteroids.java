@@ -19,9 +19,15 @@ public class Asteroids extends ObjectCollector {
     private boolean isReversiveEnabled = false;
     private float maxScale = 0.5f;
     private Asteroid asteroid;
+    private boolean fixOnScreen = false;
 
+    public boolean isFixOnScreen() {
+        return fixOnScreen;
+    }
 
-
+    public void setFixOnScreen(boolean fixOnScreen) {
+        this.fixOnScreen = fixOnScreen;
+    }
 
     public Asteroids(R_Type game) throws Exception {
         super(Asteroid.class, game, "asteroid", 1);
@@ -82,6 +88,8 @@ public class Asteroids extends ObjectCollector {
         }
         asteroid.angle = Global.rnd.nextInt(360);
         asteroid.angleInc = Global.rnd.nextInt(Asteroid.MAX_ANGLE_INC);
+
+         asteroid.fixOnScreen = fixOnScreen;
 
         asteroid.live = (int) asteroid.scale * 2;
         if (width == 0)

@@ -127,7 +127,7 @@ public class R_Type extends ApplicationAdapter {
     // config
     public boolean isMusicOn = false;
     public boolean isSoundcOn = false;
-    private boolean isDebugDraw = true;
+    private boolean isDebugDraw = false;
 
 
     //хар-ки

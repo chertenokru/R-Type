@@ -21,6 +21,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     public float angle;
     public float angleInc;
     public boolean isActive = true;
+    public boolean fixOnScreen = false;
     protected Rectangle rectangle = new Rectangle();
     protected Circle circle;
     protected int scope = 0;
@@ -71,11 +72,40 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         position.mulAdd(velocity, -dt);
         //  System.out.printf("upd %f,%f",velocity.x,velocity.y);
 
-        // если за пределами экрана, то вырубаем
-        if (worldHeight != -1 && ((position.x < -originSpriteSize.x * scale * 2) ||
-                (position.x > worldWidth + originSpriteSize.x * scale * 2) ||
-                (position.y < -originSpriteSize.y * scale * 2) || (position.y > worldHeight + originSpriteSize.y * scale * 2))) {
-            setActive(false);
+        if (fixOnScreen){
+            // отражаем
+            if (worldWidth != -1 && (position.x <= 0))
+            {
+                position.x = 0;
+                velocity.x = -velocity.x;
+            }
+
+            if ( worldWidth !=-1 &&(position.x >= worldWidth  ))
+            {
+                position.x = worldWidth;
+                velocity.x = - velocity.x;
+            }
+            if (worldHeight != -1 && (position.y <= 0 ))
+            {
+                position.y = 0;
+                velocity.y = -velocity.y;
+            }
+
+            if ( worldHeight !=-1 &&(position.y >= worldHeight  ))
+            {
+                position.y = worldHeight;
+                velocity.y = - velocity.y;
+            }
+
+
+
+        } else {
+            // если за пределами экрана, то вырубаем
+            if (worldHeight != -1 && ((position.x < -originSpriteSize.x * scale * 2) ||
+                    (position.x > worldWidth + originSpriteSize.x * scale * 2) ||
+                    (position.y < -originSpriteSize.y * scale * 2) || (position.y > worldHeight + originSpriteSize.y * scale * 2))) {
+                setActive(false);
+            }
         }
         // крутим
         angle += angleInc * dt;
