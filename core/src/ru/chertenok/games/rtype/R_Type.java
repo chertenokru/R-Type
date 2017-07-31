@@ -63,10 +63,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -81,6 +78,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.chertenok.games.rtype.level.Level1;
 import ru.chertenok.games.rtype.menu.Menu;
+import ru.chertenok.games.rtype.objects.BossControl;
 import ru.chertenok.games.rtype.objects.Collisionable;
 import ru.chertenok.games.rtype.objects.ShipControl;
 import ru.chertenok.games.rtype.objects.collections.Asteroids;
@@ -121,11 +119,13 @@ public class R_Type extends ApplicationAdapter {
     boolean lastMouseTouch1 = false;
     public boolean isAndroid = false;
     Music music;
+    Music musicBoss;
     private boolean isCollision = false;
+    private float tempEnergy =0;
 
     // config
-    public boolean isMusicOn = false;
-    public boolean isSoundcOn = false;
+    public boolean isMusicOn = true;
+    public boolean isSoundcOn = true;
     private boolean isDebugDraw = false;
     private boolean bossMode = false;
 
@@ -153,6 +153,7 @@ public class R_Type extends ApplicationAdapter {
     public Explosions explosions;
     public Messages messages;
     public Level1 level1 = new Level1(this);
+    public BossControl bossControl;
     // список объектов для обработки коллизий
     public Array<Collisionable> collObjects = new Array<Collisionable>();
 
@@ -164,6 +165,19 @@ public class R_Type extends ApplicationAdapter {
     public void setBossMode(boolean bossMode) {
         this.bossMode = bossMode;
         fonStars.setStop(bossMode);
+        bossControl.setActive();
+        if (bossMode) {
+            music.stop();
+            musicBoss.play();
+            musicBoss.setVolume(0.7f);
+            musicBoss.setLooping(true);
+        } else
+        {
+            musicBoss.stop();
+            music.play();
+            music.setLooping(true);
+
+        }
     }
 
     @Override
@@ -183,6 +197,7 @@ public class R_Type extends ApplicationAdapter {
         batch = new SpriteBatch();
         shape = new ShapeRenderer();
 
+
         // menu = new Menu(this);
         fonStars = new FonStars(this);
         fonGround = new FonGround(this);
@@ -198,6 +213,7 @@ public class R_Type extends ApplicationAdapter {
         }
         if (isMusicOn) {
             music = Global.assestManager.get("through_space.mp3", Music.class);
+            musicBoss = Global.assestManager.get("xeon6.mp3", Music.class);
             music.play();
             music.setLooping(true);
         }
@@ -207,6 +223,7 @@ public class R_Type extends ApplicationAdapter {
 
 
         shipControl = new ShipControl(this);
+        bossControl = new BossControl(this);
 
         collObjects.add(shipControl.ship);
 
@@ -253,20 +270,21 @@ public class R_Type extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.projection);
         batch.setTransformMatrix(camera.view);
         batch.begin();
-
-        if (state == GameState.Pause || state == GameState.End)
-            batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.9f);
-        else batch.setColor(1, 1, 1, 1);
-
+        batch.setColor(1, 1, 1, 1);
         fonStars.render(batch);
+
+        renderHUD();
+
         fonGround.render(batch);
-        shipControl.render(batch);
+        bossControl.render(batch);
         bullets.render(batch);
+        shipControl.render(batch);
         asteroids.render(batch);
         enemies.render(batch);
         explosions.render(batch);
 
-        renderHUD();
+
+
 
         messages.render(batch);
 
@@ -274,31 +292,41 @@ public class R_Type extends ApplicationAdapter {
         if (isDebugDraw) {
             for (int i = collObjects.size - 1; i >= 0; i--) {
                 // если не активен, то просто  выкидываем и чешем дальше
-                if (collObjects.get(i).isActive()) {
+                if (collObjects.get(i).isActive() ) {
+
                     rectangle1.set(collObjects.get(i).getHitAreaRectangle());
-                    batch.setColor(1, 0, 0, 0.6f);
+                    if (collObjects.get(i).isCollisinable()) batch.setColor(1, 0, 0, 0.6f); else  batch.setColor(0, 1, 0, 0.6f);
                     batch.draw(imgRect, rectangle1.x, rectangle1.y, rectangle1.width, rectangle1.height);
                     batch.setColor(1, 1, 1, 1);
                 }
             }
         }
 
-
-        //   font.draw(batch, "x,y: "+getWorldCoord().x+","+getWorldCoord().y, viewport.getWorldWidth() - 400, viewport.getWorldHeight() - 40);
-        //   font.draw(batch, "1 ",getWorldCoord().x,getWorldCoord().y);
         batch.end();
-
-//        shape.setProjectionMatrix(camera.projection);
-//        shape.setTransformMatrix(camera.view);
-        //  shape.setAutoShapeType(true);
-//        shape.begin(ShapeRenderer.ShapeType.Filled);
-
-//        menu.render(shape);
-
-//        shape.end();
     }
 
     private void renderHUD() {
+
+        if (state == GameState.Pause || state == GameState.End)
+            batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.9f);
+        else batch.setColor(1, 1, 1, 1);
+
+        // полоса здоровья
+        renderLiveLine(shipControl.getEnergy(),shipControl.getMAX_ENERGY(),0);
+        // полоса здоровья
+
+        if (bossMode) {
+
+            font.setColor(Color.YELLOW);
+            font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20-1, viewport.getWorldHeight() - 75 - 1);
+            font.setColor(Color.RED);
+            font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20, viewport.getWorldHeight() - 75 );
+            renderLiveLine(bossControl.getBoss().live,bossControl.getMAX_ENERGY(),55);
+        }
+
+
+
+
         font.setColor(Color.RED);
         font.draw(batch, "Energy: " + shipControl.getEnergy(), viewport.getWorldWidth() - 200 - 1, viewport.getWorldHeight() - 10 - 1);
 
@@ -362,6 +390,23 @@ public class R_Type extends ApplicationAdapter {
 
             }
         }
+    }
+
+    private void renderLiveLine(int value, float maxValue,float shiftY) {
+
+        batch.setColor(1, 1, 1, 0.6f);
+        batch.draw(imgRect, 20, viewport.getWorldHeight() - 70-shiftY, viewport.getWorldWidth() - 40, 20);
+        batch.setColor(0, 0, 0, 0.6f);
+        batch.draw(imgRect, 22, viewport.getWorldHeight() - 68-shiftY, viewport.getWorldWidth() - 44, 16);
+        if ((value/maxValue*100) >= 75f) batch.setColor(0, 1, 0, 0.6f);
+        else if ((value/maxValue*100) <= 25f) batch.setColor(1, 0, 0, 0.6f);
+        else batch.setColor(1, 1, 0, 0.6f);
+
+        tempEnergy = (viewport.getWorldWidth() - 44) / 100 * (value/maxValue*100);
+        if (tempEnergy < 0) tempEnergy = 0;
+        batch.draw(imgRect, 22, viewport.getWorldHeight() - 68-shiftY, tempEnergy, 16);
+        //  batch.draw(imgRect, rectangle1.x, rectangle1.y, rectangle1.width, rectangle1.height);
+        batch.setColor(1, 1, 1, 1);
     }
 
     public void update(float dt) {
@@ -428,9 +473,11 @@ public class R_Type extends ApplicationAdapter {
             }
 
             fonGround.update(dt);
+            bossControl.update(dt);
             asteroids.update(dt);
             enemies.update(dt);
             shipControl.update(dt);
+
             bullets.update(dt);
             messages.update(dt);
         }
@@ -454,67 +501,42 @@ public class R_Type extends ApplicationAdapter {
                     isCollision = false;
                     collisionable1 = collObjects.get(i);
                     collisionable2 = collObjects.get(j);
+                    if (collisionable1.isCollisinable() && collisionable2.isCollisinable()) {
 
-                    // круги
-                    if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                        if (collisionable1.getHitAreaCircle().overlaps(collisionable2.getHitAreaCircle()))
-                            isCollision = true;
-                    // прямоугольники
-                    if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle)
-                        if (collisionable1.getHitAreaRectangle().overlaps(collisionable2.getHitAreaRectangle()))
-                            isCollision = true;
-                    // прямоугольник и круг
-                    if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                        if (Intersector.overlaps(collisionable2.getHitAreaCircle(), collisionable1.getHitAreaRectangle()))
-                            isCollision = true;
-                    //  круг и прямоугольник
-                    if (collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                        if (Intersector.overlaps(collisionable1.getHitAreaCircle(), collisionable2.getHitAreaRectangle()))
-                            isCollision = true;
-                    // столкнулись
-                    if (isCollision) {
-                        // этот в помойку
-                        if (collisionable1.hitIsRemove(this, collisionable2)) {
-                            collObjects.removeIndex(i);
-                        }
-                        // этот не активный и потом в помойку
-                        if (collisionable2.hitIsRemove(this, collisionable1)) {
-                            collisionable2.setNoActive();
-                        }
+                        // круги
+                        if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
+                            if (collisionable1.getHitAreaCircle().overlaps(collisionable2.getHitAreaCircle()))
+                                isCollision = true;
+                        // прямоугольники
+                        if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle)
+                            if (collisionable1.getHitAreaRectangle().overlaps(collisionable2.getHitAreaRectangle()))
+                                isCollision = true;
+                        // прямоугольник и круг
+                        if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
+                            if (Intersector.overlaps(collisionable2.getHitAreaCircle(), collisionable1.getHitAreaRectangle()))
+                                isCollision = true;
+                        //  круг и прямоугольник
+                        if (collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle)
+                            if (Intersector.overlaps(collisionable1.getHitAreaCircle(), collisionable2.getHitAreaRectangle()))
+                                isCollision = true;
+                        // столкнулись
+                        if (isCollision) {
+                            // этот в помойку
+                            if (collisionable1.hitIsRemove(this, collisionable2)) {
+                                collObjects.removeIndex(i);
+                            }
+                            // этот не активный и потом в помойку
+                            if (collisionable2.hitIsRemove(this, collisionable1)) {
+                                collisionable2.setNoActive();
+                            }
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
         }
 
-
-        /*
-            // проверяем столкновения астероида и астероидом
-            for (int i = 0; i < asteroids.getActiveObject().size - 1; i++)
-                for (int j = i + 1; j < asteroids.getActiveObject().size; j++) {
-                    // если столкнулись
-                    if (asteroids.getActiveObject().get(i).position.cpy().sub(asteroids.getActiveObject().get(j).position).len() < asteroids.getActiveObject().get(j).originSpriteSize.x - asteroids.getActiveObject().get(j).originSpriteSize.x / 3) {
-                        // разбегаем их в разные стороны
-                        asteroids.getActiveObject().get(i).velocity.sub(asteroids.getActiveObject().get(i).position.cpy().sub(asteroids.getActiveObject().get(j).position));
-                        asteroids.getActiveObject().get(j).velocity.sub(asteroids.getActiveObject().get(j).position.cpy().sub(asteroids.getActiveObject().get(i).position));
-
-                    }
-                }
-        */
-//        // проверяем столкновения астероида и фона
-//        if (fonGround.isActive()) {
-//            for (int i = 0; i < asteroids.obgetAsteroid_count(); i++) {
-//                circle.set(asteroids.getActiveObject().[i].position.x, asteroids.getActiveObject()[i].position.y, asteroids.asteroids[i].getTEXTURE_SIZE() / 4);
-//                // если столкнулись
-//                if (fonGround.checkCollision(circle) != null) {
-//                    rectangle1 = fonGround.checkCollision(circle);
-//                    explosions.addExplosion(asteroids.getActiveObject()[i].getPosition().x, asteroids.getActiveObject()[i].getPosition().y);
-//                    asteroids.init(asteroids.getActiveObject()[i]);
-//                }
-//
-//            }
-//        }
 
         if (shipControl.getEnergy() <= 0 && shipControl.getLive() == 0) {
             state = GameState.End;
@@ -532,92 +554,6 @@ public class R_Type extends ApplicationAdapter {
             explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
         }
 
-//        // проверяем столкновения коробля с астероидами
-//        rectangle1 = shipControl.getPosition();
-//        for (int i = 0; i < asteroids.getAsteroid_count(); i++) {
-//            circle.set(asteroids.getActiveObject()[i].position, asteroids.asteroids[i].getTEXTURE_SIZE() / 2);
-//            // если попадание
-//            if (Intersector.overlaps(circle, rectangle1)) {
-//                // уменьшаем энергию
-//                shipControl.setEnergy(shipControl.getEnergy() - asteroids.asteroids[i].getDAMAGE());
-//                messages.addMessage("-" + asteroids.asteroids[i].getSCOPE() + "HP",
-//                        asteroids.getActiveObject()[i].position.x, asteroids.getActiveObject()[i].position.y, 2f, Color.RED);
-//                // признак отрисовки попадения
-//                shipControl.setDamaging(true);
-//                // проверяем жив ли корабль и если нет, то есть ли жизни
-//                if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
-//                    // уменьшаем жизни
-//                    shipControl.setLive(shipControl.getLive() - 1);
-//                    messages.addMessage("-1 Life", shipControl.getPosition().x, shipControl.getPosition().y, 3f, Color.RED);
-//                    // state = GameState.Pause;
-//                    // восстанавливаем энергию
-//                    shipControl.setEnergy(shipControl.getMAX_ENERGY());
-//                    explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 1.0f);
-//                }
-//
-//                // разбрасывание корабля и астероида
-//                vector2.set(shipControl.getPosition().x + shipControl.getPosition().getWidth() / 2, shipControl.getPosition().y + shipControl.getPosition().getHeight() / 2);
-//                shipControl.getVelocity().add(asteroids.getActiveObject()[i].position.cpy().sub(vector2));
-//                asteroids.getActiveObject()[i].velocity.add(vector2.sub(asteroids.getActiveObject()[i].position));
-//
-//                if (asteroids.getActiveObject()[i].reversive)
-//                    asteroids.getActiveObject()[i].position.x = asteroids.getActiveObject()[i].position.x - shipControl.getPosition().getWidth() / 2;
-//                    else asteroids.getActiveObject()[i].position.x = asteroids.getActiveObject()[i].position.x + shipControl.getPosition().getWidth() / 2;
-//            }
-//        }
-
-//
-//        // проверяем столкновения коробля с врагами
-//        rectangle1 = shipControl.getPosition();
-//        for (int i = 0; i < enemies.getEnemys_count(); i++) {
-//            circle.set(enemies.getEnemys()[i].position, enemies.getEnemys()[i].getTEXTURE_SIZE() / 2);
-//            // если попадание
-//            if (Intersector.overlaps(circle, rectangle1)) {
-//                // уменьшаем энергию
-//                shipControl.setEnergy(shipControl.getEnergy() - enemies.getEnemys()[i].getDAMAGE());
-//                messages.addMessage("-" + enemies.getEnemys()[i].getSCOPE() + "HP",
-//                        enemies.enemies[i].position.x, enemies.enemies[i].position.y, 2f, Color.RED);
-//                // признак отрисовки попадения
-//                shipControl.setDamaging(true);
-//                // проверяем жив ли корабль и если нет, то есть ли жизни
-//                if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
-//                    // уменьшаем жизни
-//                    shipControl.setLive(shipControl.getLive() - 1);
-//                    messages.addMessage("-1 Life ", shipControl.getPosition().x, shipControl.getPosition().y, 3f, Color.RED);
-//
-//                    // восстанавливаем энергию
-//                    shipControl.setEnergy(shipControl.getMAX_ENERGY());
-//                    explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 1.0f);
-//                }
-//
-//                // разбрасывание корабля и врага
-//                vector2.set(shipControl.getPosition().x + shipControl.getPosition().getWidth() / 2, shipControl.getPosition().y + shipControl.getPosition().getHeight() / 2);
-//                shipControl.getVelocity().add(enemies.enemies[i].position.cpy().sub(vector2));
-//                enemies.enemies[i].velocity.add(vector2.sub(enemies.enemies[i].position));
-//                enemies.enemies[i].position.x = enemies.enemies[i].position.x + shipControl.getPosition().getWidth() / 2;
-//            }
-//        }
-
-//
-//        // проверяем столкновение с фоном
-//        if (fonGround.isActive()) {
-//            if (fonGround.checkCollision(rectangle1)) {
-//
-//                // проверяем жив ли корабль и если нет, то есть ли жизни
-//                if (shipControl.getLive() > 0) {
-//                    // уменьшаем жизни
-//                    shipControl.setLive(shipControl.getLive() - 1);
-//                    messages.addMessage("-1 Life", shipControl.getPosition().x, shipControl.getPosition().y, 3f, Color.RED);
-//                    // восстанавливаем энергию
-//                    shipControl.setEnergy(shipControl.getMAX_ENERGY());
-//                    shipControl.setPosition(shipControl.defaultPosition);
-//                    explosions.addExplosion(shipControl.getPosition().x + 64, shipControl.getPosition().y, 2.0f);
-//                } else {
-//
-//                    shipControl.setEnergy(-10);
-//                }
-//            }
-//        }
 
     }
 
@@ -665,7 +601,7 @@ public class R_Type extends ApplicationAdapter {
         enemies.reset();
         bullets.reset();
         setBossMode(false);
-
+        bossControl.reset();
 
 
     }

@@ -23,6 +23,7 @@ public class Asteroid extends GameInnerObject {
         damage = DAMAGE;
     }
 
+
     @Override
     public int getScope() {
         return super.getScope() * ((int) ((scale - 0.5f) / 0.5f) + 1);

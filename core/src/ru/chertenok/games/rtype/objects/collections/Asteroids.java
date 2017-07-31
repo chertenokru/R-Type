@@ -34,6 +34,18 @@ public class Asteroids extends ObjectCollector {
     }
 
 
+    public void addAsteroid(float x,float y,float velocityX, float velocityY,float scl){
+      asteroid = (Asteroid) objectPool.obtain();
+      init(asteroid,spriteSizeX,spriteSizeY);
+      asteroid.position.x = x;
+      asteroid.position.y = y;
+      asteroid.velocity.x = velocityX;
+      asteroid.velocity.y = velocityY;
+      asteroid.scale = scl;
+      activeObject.add(asteroid);
+      game.collObjects.add(asteroid);
+    }
+
     public boolean isReversiveEnabled() {
         return isReversiveEnabled;
     }
@@ -87,7 +99,7 @@ public class Asteroids extends ObjectCollector {
         asteroid.angle = Global.rnd.nextInt(360);
         asteroid.angleInc = Global.rnd.nextInt(Asteroid.MAX_ANGLE_INC);
 
-         asteroid.fixOnScreen = fixOnScreen;
+         asteroid.isFixOnScreen = fixOnScreen;
 
         asteroid.live = (int) asteroid.scale * 2;
         if (width == 0)
@@ -107,13 +119,12 @@ public class Asteroids extends ObjectCollector {
         this.maxScale = maxScale;
     }
 
-
     public void render(SpriteBatch batch) {
         for (int i = 0; i < activeObject.size; i++) {
 
             if (activeObject.get(i).isActive) {
                 //          System.out.printf("draw %d, x = %f, y = %f,scale = %f", i,activeObject.get(i).position.x ,activeObject.get(i).position.y,activeObject.get(i).scale );
-                batch.draw(texture[textureCount - 1], activeObject.get(i).position.x - activeObject.get(i).originSpriteSize.x * activeObject.get(i).scale / 2,
+                batch.draw(texture[currentTextureNo], activeObject.get(i).position.x - activeObject.get(i).originSpriteSize.x * activeObject.get(i).scale / 2,
                         activeObject.get(i).position.y - activeObject.get(i).originSpriteSize.y * activeObject.get(i).scale / 2,
                         activeObject.get(i).originSpriteSize.x * activeObject.get(i).scale / 2, activeObject.get(i).originSpriteSize.y * activeObject.get(i).scale / 2,
                         activeObject.get(i).originSpriteSize.x * activeObject.get(i).scale, activeObject.get(i).originSpriteSize.y * activeObject.get(i).scale, 1, 1,
@@ -121,4 +132,6 @@ public class Asteroids extends ObjectCollector {
             }
         }
     }
+
+
 }

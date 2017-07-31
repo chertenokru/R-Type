@@ -21,7 +21,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     public float angle;
     public float angleInc;
     public boolean isActive = true;
-    public boolean fixOnScreen = false;
+    public boolean isFixOnScreen = false;
     protected Rectangle rectangle = new Rectangle();
     protected Circle circle;
     protected int scope = 0;
@@ -72,7 +72,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         position.mulAdd(velocity, -dt);
         //  System.out.printf("upd %f,%f",velocity.x,velocity.y);
 
-        if (fixOnScreen){
+        if (isFixOnScreen){
             // отражаем
             if (worldWidth != -1 && (position.x <= 0))
             {
@@ -124,6 +124,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         angle = 0;
         angleInc = 0;
         isActive = false;
+        isFixOnScreen = false;
     }
 
 

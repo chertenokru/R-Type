@@ -28,8 +28,13 @@ public class Boss extends GameInnerObject {
 
     @Override
     public Circle getHitAreaCircle() {
-        //  circle.set(position.x,position.y, )
-
+          circle.set(position.x,position.y, originSpriteSize.y/2);
         return circle;
+    }
+
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
     }
 }

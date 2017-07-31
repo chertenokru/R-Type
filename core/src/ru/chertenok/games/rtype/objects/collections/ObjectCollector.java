@@ -1,5 +1,6 @@
 package ru.chertenok.games.rtype.objects.collections;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.R_Type;
@@ -15,6 +16,7 @@ public abstract class ObjectCollector extends Sprites {
     protected  float createWaitDTCounter = 1;
     protected float maxSpeed = -1;
     protected  float minSpeed = -1;
+    protected int  currentTextureNo = 0;
     final protected  Class _class;
     private Object obj;
     private GameInnerObject gameInnerObject;
@@ -107,5 +109,6 @@ public abstract class ObjectCollector extends Sprites {
 
         }
     }
+
 
 }

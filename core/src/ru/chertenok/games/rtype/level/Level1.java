@@ -47,9 +47,10 @@ public class Level1 {
                 break;
             }
             case 1: {
-                game.asteroids.setObjectCount(7);
+                game.asteroids.setObjectCount(0);
                 game.asteroids.setReversiveEnabled(true);
                 game.asteroids.setFixOnScreen(true);
+                game.enemies.setActiveObject_count(0);
                 game.setBossMode(true);
                 break;
             }

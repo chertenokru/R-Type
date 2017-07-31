@@ -19,8 +19,8 @@ public abstract  class Sprites {
     // оригинальный размер спрайта
     protected  int spriteOriginSize;
     // если не квадратный спрайт
-    protected  int spriteSizeX;
-    protected  int spriteSizeY;
+    public   int spriteSizeX;
+    public   int spriteSizeY;
     protected R_Type game;
 
     public Sprites(R_Type game, String textureName, int textureCount) {

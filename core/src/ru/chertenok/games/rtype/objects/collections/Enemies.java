@@ -168,9 +168,10 @@ public class Enemies extends ObjectCollector {
             fixMaxScale = false;
             isReversiveEnabled = false;
         }
-        ((Enemy) activeObject.get(0)).textureNo = 1;
-        ((Enemy) activeObject.get(0)).type = EnemyType.Type2;
-
+        if (activeObject.size>0) {
+            ((Enemy) activeObject.get(0)).textureNo = 1;
+            ((Enemy) activeObject.get(0)).type = EnemyType.Type2;
+        }
 
     }
 

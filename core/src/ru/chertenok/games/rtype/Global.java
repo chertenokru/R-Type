@@ -26,9 +26,12 @@ public class Global {
         currentLevel = new AssetDescriptor<TextureAtlas>(packName, TextureAtlas.class);
         assestManager.load(currentLevel);
         assestManager.load("through_space.mp3", Music.class);
+        assestManager.load("xeon6.mp3", Music.class);
         assestManager.load("slimeball.mp3", Sound.class);
         assestManager.load("foom_0.mp3", Sound.class);
         assestManager.load("acid6.mp3", Sound.class);
+        assestManager.load("rlaunch.mp3", Sound.class);
+
 
 
 
