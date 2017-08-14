@@ -63,7 +63,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -124,8 +127,8 @@ public class R_Type extends ApplicationAdapter {
     private float tempEnergy =0;
 
     // config
-    public boolean isMusicOn = true;
-    public boolean isSoundcOn = true;
+    public boolean isMusicOn = false;
+    public boolean isSoundcOn = false;
     private boolean isDebugDraw = false;
     private boolean bossMode = false;
 
@@ -167,15 +170,22 @@ public class R_Type extends ApplicationAdapter {
         fonStars.setStop(bossMode);
         bossControl.setActive();
         if (bossMode) {
-            music.stop();
-            musicBoss.play();
-            musicBoss.setVolume(0.7f);
-            musicBoss.setLooping(true);
+            if (isMusicOn) {
+                music.stop();
+                musicBoss.play();
+                musicBoss.setVolume(0.7f);
+                musicBoss.setLooping(true);
+            }
         } else
         {
-            musicBoss.stop();
-            music.play();
-            music.setLooping(true);
+            if (isMusicOn) {
+                {
+                    musicBoss.stop();
+                    music.play();
+                    music.setLooping(true);
+                }
+            }
+
 
         }
     }
