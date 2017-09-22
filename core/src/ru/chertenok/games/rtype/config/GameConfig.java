@@ -26,14 +26,14 @@ public class GameConfig {
     private static boolean music = false;
     private static boolean isDebugDraw = false;
 
-    {
+    static {
         init();
     }
 
     private GameConfig() {
     }
 
-    private void init() {
+    private static void init() {
         fileHandle = Gdx.files.internal(FILE_PATH);
         if (fileHandle.exists()) {
             load();
@@ -55,7 +55,7 @@ public class GameConfig {
         return isDebugDraw;
     }
 
-    private void load() {
+    private static void load() {
         try {
 
             JsonReader reader = new JsonReader();
@@ -72,7 +72,7 @@ public class GameConfig {
 
     }
 
-    private void setupDefaults() {
+    private static void setupDefaults() {
         sound = DEFAULT_SOUND;
         music = DEFAULT_MUSIC;
         isDebugDraw = DEFAULT_IS_DEBUG_DRAW;

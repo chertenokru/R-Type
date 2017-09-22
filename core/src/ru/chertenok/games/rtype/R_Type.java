@@ -1,7 +1,13 @@
-
-
-
-/***
+/**
+ *
+ * see Udemy lesson
+ * ----------------
+ *
+ * 23.09
+ *   add GameConfig class
+ *   add GameConfig.json
+ *
+ *
  * К уроку 6
  *  1. альфа версия в гугл-маркете  https://play.google.com/apps/testing/ru.chertenok.games.rtype
  *  2. взрывы при столкновении пуль
@@ -72,13 +78,13 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level1;
 import ru.chertenok.games.rtype.menu.Menu;
 import ru.chertenok.games.rtype.objects.BossControl;
@@ -92,74 +98,59 @@ import ru.chertenok.games.rtype.objects.collections.Explosions;
 
 public class R_Type extends ApplicationAdapter {
 
-    public enum GameState {Run, Pause, End, Demo}
-
-    SpriteBatch batch;
-    ShapeRenderer shape;
+    private static final float WORLD_WIDTH = 1024;
+    private static final float WORLD_HEIGHT = 720;
     //    Texture img;
-    final String font_chars = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
-    BitmapFont font;
-    BitmapFont fontBig;
-
-    Rectangle rectangle1 = new Rectangle();
-    //    Rectangle rectangle2 = new Rectangle();
-//    Circle circle1 = new Circle();
-//    Circle circle2 = new Circle();
-    Collisionable collisionable1;
-    Collisionable collisionable2;
-
-    Vector2 vector2 = new Vector2();
-    float dtLevelCounter;
-    TextureAtlas.AtlasRegion imgPause;
-    TextureAtlas.AtlasRegion imgShield;
-    TextureAtlas.AtlasRegion imgRect;
-    TextureAtlas.AtlasRegion imgEnergy;
-
+    private final String font_chars = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
     public Viewport viewport;
-    public Camera camera;
-    GlyphLayout layout = new GlyphLayout();
-    boolean lastMouseTouch = false;
-    boolean lastMouseTouch1 = false;
     public boolean isAndroid = false;
-    Music music;
-    Music musicBoss;
-    private boolean isCollision = false;
-    private float tempEnergy =0;
-
-    // config
-    public boolean isMusicOn = false;
-    public boolean isSoundcOn = false;
-    private boolean isDebugDraw = false;
-    private boolean bossMode = false;
-
-
     //хар-ки
     public int scope = 0;
     public GameState state = GameState.Run;
-    // таймер  отсчёта для изменения игрового процесса
-    float dtLevel1 = 0;
-    float dtBtn = 0;
-    int reChargeCost = 5;
-    private static final float WORLD_WIDTH = 1024;
-    private static final float WORLD_HEIGHT = 720;
-
-
-    // игровые объекты
-    FonStars fonStars;
-    FonGround fonGround;
     public Bullets bullets;
-    Menu menu;
     public ShipControl shipControl;
     public Asteroids asteroids;
     public Enemies enemies;
     //public Asteroids asteroids_big;
     public Explosions explosions;
     public Messages messages;
-    public Level1 level1 = new Level1(this);
-    public BossControl bossControl;
     // список объектов для обработки коллизий
     public Array<Collisionable> collObjects = new Array<Collisionable>();
-
+    private Camera camera;
+    private Level1 level1 = new Level1(this);
+    private BossControl bossControl;
+    private Rectangle rectangle1 = new Rectangle();
+    //    Rectangle rectangle2 = new Rectangle();
+//    Circle circle1 = new Circle();
+//    Circle circle2 = new Circle();
+    private Collisionable collisionable1;
+    private Collisionable collisionable2;
+    private Vector2 vector2 = new Vector2();
+    private float dtLevelCounter;
+    private TextureAtlas.AtlasRegion imgPause;
+    private TextureAtlas.AtlasRegion imgShield;
+    private TextureAtlas.AtlasRegion imgRect;
+    private TextureAtlas.AtlasRegion imgEnergy;
+    private GlyphLayout layout = new GlyphLayout();
+    private boolean lastMouseTouch = false;
+    private boolean lastMouseTouch1 = false;
+    private Music music;
+    private Music musicBoss;
+    // таймер  отсчёта для изменения игрового процесса
+    private float dtLevel1 = 0;
+    private float dtBtn = 0;
+    private int reChargeCost = 5;
+    // игровые объекты
+    private FonStars fonStars;
+    private FonGround fonGround;
+    private Menu menu;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private BitmapFont fontBig;
+    private boolean isCollision = false;
+    private float tempEnergy = 0;
+    // config
+    private boolean bossMode = false;
 
     public boolean isBossMode() {
         return bossMode;
@@ -170,15 +161,14 @@ public class R_Type extends ApplicationAdapter {
         fonStars.setStop(bossMode);
         bossControl.setActive();
         if (bossMode) {
-            if (isMusicOn) {
+            if (GameConfig.isMusic()) {
                 music.stop();
                 musicBoss.play();
                 musicBoss.setVolume(0.7f);
                 musicBoss.setLooping(true);
             }
-        } else
-        {
-            if (isMusicOn) {
+        } else {
+            if (GameConfig.isMusic()) {
                 {
                     musicBoss.stop();
                     music.play();
@@ -205,7 +195,6 @@ public class R_Type extends ApplicationAdapter {
         imgShield = Global.assestManager.get(Global.currentLevel).findRegion("shield");
         imgRect = Global.assestManager.get(Global.currentLevel).findRegion("rect");
         batch = new SpriteBatch();
-        shape = new ShapeRenderer();
 
 
         // menu = new Menu(this);
@@ -221,7 +210,7 @@ public class R_Type extends ApplicationAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (isMusicOn) {
+        if (GameConfig.isMusic()) {
             music = Global.assestManager.get("sound/through_space.mp3", Music.class);
             musicBoss = Global.assestManager.get("sound/xeon6.mp3", Music.class);
             music.play();
@@ -294,18 +283,17 @@ public class R_Type extends ApplicationAdapter {
         explosions.render(batch);
 
 
-
-
         messages.render(batch);
 
         // отрисовка зон столкновений
-        if (isDebugDraw) {
+        if (GameConfig.isIsDebugDraw()) {
             for (int i = collObjects.size - 1; i >= 0; i--) {
                 // если не активен, то просто  выкидываем и чешем дальше
-                if (collObjects.get(i).isActive() ) {
+                if (collObjects.get(i).isActive()) {
 
                     rectangle1.set(collObjects.get(i).getHitAreaRectangle());
-                    if (collObjects.get(i).isCollisinable()) batch.setColor(1, 0, 0, 0.6f); else  batch.setColor(0, 1, 0, 0.6f);
+                    if (collObjects.get(i).isCollisinable()) batch.setColor(1, 0, 0, 0.6f);
+                    else batch.setColor(0, 1, 0, 0.6f);
                     batch.draw(imgRect, rectangle1.x, rectangle1.y, rectangle1.width, rectangle1.height);
                     batch.setColor(1, 1, 1, 1);
                 }
@@ -322,19 +310,17 @@ public class R_Type extends ApplicationAdapter {
         else batch.setColor(1, 1, 1, 1);
 
         // полоса здоровья
-        renderLiveLine(shipControl.getEnergy(),shipControl.getMAX_ENERGY(),0);
+        renderLiveLine(shipControl.getEnergy(), shipControl.getMAX_ENERGY(), 0);
         // полоса здоровья
 
         if (bossMode) {
 
             font.setColor(Color.YELLOW);
-            font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20-1, viewport.getWorldHeight() - 75 - 1);
+            font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20 - 1, viewport.getWorldHeight() - 75 - 1);
             font.setColor(Color.RED);
-            font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20, viewport.getWorldHeight() - 75 );
-            renderLiveLine(bossControl.getBoss().live,bossControl.getMAX_ENERGY(),55);
+            font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20, viewport.getWorldHeight() - 75);
+            renderLiveLine(bossControl.getBoss().live, bossControl.getMAX_ENERGY(), 55);
         }
-
-
 
 
         font.setColor(Color.RED);
@@ -402,19 +388,19 @@ public class R_Type extends ApplicationAdapter {
         }
     }
 
-    private void renderLiveLine(int value, float maxValue,float shiftY) {
+    private void renderLiveLine(int value, float maxValue, float shiftY) {
 
         batch.setColor(1, 1, 1, 0.6f);
-        batch.draw(imgRect, 20, viewport.getWorldHeight() - 70-shiftY, viewport.getWorldWidth() - 40, 20);
+        batch.draw(imgRect, 20, viewport.getWorldHeight() - 70 - shiftY, viewport.getWorldWidth() - 40, 20);
         batch.setColor(0, 0, 0, 0.6f);
-        batch.draw(imgRect, 22, viewport.getWorldHeight() - 68-shiftY, viewport.getWorldWidth() - 44, 16);
-        if ((value/maxValue*100) >= 75f) batch.setColor(0, 1, 0, 0.6f);
-        else if ((value/maxValue*100) <= 25f) batch.setColor(1, 0, 0, 0.6f);
+        batch.draw(imgRect, 22, viewport.getWorldHeight() - 68 - shiftY, viewport.getWorldWidth() - 44, 16);
+        if ((value / maxValue * 100) >= 75f) batch.setColor(0, 1, 0, 0.6f);
+        else if ((value / maxValue * 100) <= 25f) batch.setColor(1, 0, 0, 0.6f);
         else batch.setColor(1, 1, 0, 0.6f);
 
-        tempEnergy = (viewport.getWorldWidth() - 44) / 100 * (value/maxValue*100);
+        tempEnergy = (viewport.getWorldWidth() - 44) / 100 * (value / maxValue * 100);
         if (tempEnergy < 0) tempEnergy = 0;
-        batch.draw(imgRect, 22, viewport.getWorldHeight() - 68-shiftY, tempEnergy, 16);
+        batch.draw(imgRect, 22, viewport.getWorldHeight() - 68 - shiftY, tempEnergy, 16);
         //  batch.draw(imgRect, rectangle1.x, rectangle1.y, rectangle1.width, rectangle1.height);
         batch.setColor(1, 1, 1, 1);
     }
@@ -575,7 +561,6 @@ public class R_Type extends ApplicationAdapter {
                 && (vector2.y < (imgPause.getRegionHeight()) + 20) && vector2.x < viewport.getWorldWidth();
     }
 
-
     private boolean isShieldCoord(int pointerNum) {
         vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
         vector2.set(viewport.unproject(vector2));
@@ -584,13 +569,11 @@ public class R_Type extends ApplicationAdapter {
                 && (vector2.y < imgShield.getRegionHeight()) && vector2.x < viewport.getWorldWidth() - imgShield.getRegionWidth() * 2;
     }
 
-
     private Vector2 getWorldCoord(int pointerNum) {
         vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
         vector2.set(viewport.unproject(vector2));
         return vector2;
     }
-
 
     private void restart() {
         dtLevelCounter = level1.getDtLevetInit();
@@ -625,4 +608,6 @@ public class R_Type extends ApplicationAdapter {
         fontBig.dispose();
         Global.dispose();
     }
+
+    public enum GameState {Run, Pause, End, Demo}
 }

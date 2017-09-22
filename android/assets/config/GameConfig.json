@@ -1,5 +1,8 @@
 {
   "sound": "true",
   "music": "true",
-  "isDebugDraw": "true"
+  "isDebugDraw": "false",
+  "keyPause": "P"
+
+
 }

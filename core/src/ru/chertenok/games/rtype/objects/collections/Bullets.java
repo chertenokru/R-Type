@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.ObjectOwner;
 import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.objects.Bullet;
 import ru.chertenok.games.rtype.objects.GameInnerObject;
 
@@ -18,8 +19,6 @@ public class Bullets extends ObjectCollector {
 
     public enum BulletsType {Type1, Type2, Type3}
 
-    ;
-
 
     private Asteroids asteroids;
     private Explosions explosions;
@@ -27,13 +26,13 @@ public class Bullets extends ObjectCollector {
     private Rectangle rectangle1 = new Rectangle();
     private Circle circle = new Circle();
     private boolean isRemoved = false;
-    static int BULLET_SPEED = 300;
+    private static int BULLET_SPEED = 300;
     private Bullet bullet;
     private Sound soundFirePlayer;
     private Sound soundFireType1;
     private Sound soundFireType2;
 
-    int BULLET_DISTANCE = (int) game.viewport.getWorldWidth() - (int) game.viewport.getWorldWidth() / 5;
+    private int BULLET_DISTANCE = (int) game.viewport.getWorldWidth() - (int) game.viewport.getWorldWidth() / 5;
 
 
     public Bullets(R_Type game) throws Exception {
@@ -197,27 +196,27 @@ public class Bullets extends ObjectCollector {
         b.activate(x, y,- BULLET_SPEED, 0, ObjectOwner.Gamer, BulletsType.Type1);
         activeObject.add(b);
         super.init(b,texture[b.textureNo].getRegionWidth(),texture[b.textureNo].getRegionHeight());
-        if (game.isSoundcOn)  soundFirePlayer.play(0.3f);
+        if (GameConfig.isSound()) soundFirePlayer.play(0.3f);
 
     }
 
-    public void addBotBullet(float x, float y) {
+    void addBotBullet(float x, float y) {
         Bullet b = (Bullet) objectPool.obtain();
 
         b.activate(x, y, BULLET_SPEED, 0, ObjectOwner.AI, BulletsType.Type2);
         activeObject.add(b);
         super.init(b,texture[b.textureNo].getRegionWidth(),texture[b.textureNo].getRegionHeight());
-        if (game.isSoundcOn) soundFireType1.play(0.2f);
+        if (GameConfig.isSound()) soundFireType1.play(0.2f);
     }
 
-    public void addBotBulletVector(float x, float y, float dx, float dy, float angle) {
+    void addBotBulletVector(float x, float y, float dx, float dy, float angle) {
         Bullet b = (Bullet) objectPool.obtain();
 
         b.activate(x, y, -dx, -dy, ObjectOwner.AI, BulletsType.Type3);
         b.angle = angle;
         activeObject.add(b);
         super.init(b,texture[b.textureNo].getRegionWidth(),texture[b.textureNo].getRegionHeight());
-        if (game.isSoundcOn)  soundFireType2.play(1f);
+        if (GameConfig.isSound()) soundFireType2.play(1f);
 
     }
 

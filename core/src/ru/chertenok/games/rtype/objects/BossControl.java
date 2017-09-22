@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
+import ru.chertenok.games.rtype.config.GameConfig;
 
 public class BossControl extends Sprites {
 
@@ -58,7 +59,7 @@ public class BossControl extends Sprites {
             game.asteroids.addAsteroid(boss.position.x + game.asteroids.spriteSizeX * (float) Math.sin(angle), boss.position.y + game.asteroids.spriteSizeY * (float) Math.cos(angle), 250 * (float) Math.cos(angle - 0.79) * -1, 250 * (float) Math.sin(angle - 0.79) * -1, 0.5f);
             angle = Global.getAngle(boss.position.x, boss.position.y - game.asteroids.spriteSizeY, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
             game.asteroids.addAsteroid(boss.position.x - game.asteroids.spriteSizeX * (float) Math.sin(angle), boss.position.y - game.asteroids.spriteSizeY * (float) Math.cos(angle), 250 * (float) Math.cos(angle + 0.79) * -1, 250 * (float) Math.sin(angle + 0.79) * -1, 0.5f);
-            if (game.isSoundcOn) soundFire.play();
+            if (GameConfig.isSound()) soundFire.play();
             colorBoss.g = 1;
             colorBoss.b = 1;
         }
