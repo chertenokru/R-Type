@@ -3,7 +3,6 @@ package ru.chertenok.games.rtype.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.R_Type;
@@ -98,12 +97,23 @@ public class ShipControl extends Sprites {
 
 
     public void render(SpriteBatch batch) {
-        if (ship.isDamaging())
+        if (ship.isDamaging()) {
+            //game.camera.zoom -= 0.5 * Gdx.graphics.getDeltaTime();
+            //game.camera.update();
+
             batch.draw(texture[1], ship.position.x - ship.originSpriteSize.x / 2, ship.position.y - ship.originSpriteSize.y / 2);
-        else if (isFired)
-            batch.draw(texture[2], ship.position.x - ship.originSpriteSize.x / 2, ship.position.y - ship.originSpriteSize.y / 2);
-        else
-            batch.draw(texture[0], ship.position.x - ship.originSpriteSize.x / 2, ship.position.y - ship.originSpriteSize.y / 2);
+        } else {
+            //if (game.camera.zoom != 1) {
+//                game.camera.zoom = 1;
+//                game.camera.update();
+//}
+
+            if (isFired)
+                batch.draw(texture[2], ship.position.x - ship.originSpriteSize.x / 2, ship.position.y - ship.originSpriteSize.y / 2);
+            else
+                batch.draw(texture[0], ship.position.x - ship.originSpriteSize.x / 2, ship.position.y - ship.originSpriteSize.y / 2);
+        }
+
     }
 
 
@@ -170,7 +180,7 @@ public class ShipControl extends Sprites {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
                 ship.position.x += CONST_DX * dt;
             if ((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isTouched()) && (fireSpeed <= dtCounter2) && isEnableFire) {
-                bullets.addBullet(ship.position.x + ship.originSpriteSize.x/2, ship.position.y );
+                bullets.addBullet(ship.position.x + ship.originSpriteSize.x / 2, ship.position.y);
                 dtCounter2 = 0;
             }
         }

@@ -194,8 +194,8 @@ public class R_Type extends ApplicationAdapter {
     public void create() {
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
-        camera.update();
+        //camera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
+        //camera.update();
 
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
@@ -571,10 +571,8 @@ public class R_Type extends ApplicationAdapter {
         vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
         vector2.set(viewport.unproject(vector2));
 
-        if (vector2.x > (viewport.getWorldWidth() - imgPause.getRegionWidth() - 20)
-                && (vector2.y < (imgPause.getRegionHeight()) + 20) && vector2.x < viewport.getWorldWidth())
-            return true;
-        else return false;
+        return vector2.x > (viewport.getWorldWidth() - imgPause.getRegionWidth() - 20)
+                && (vector2.y < (imgPause.getRegionHeight()) + 20) && vector2.x < viewport.getWorldWidth();
     }
 
 
@@ -582,10 +580,8 @@ public class R_Type extends ApplicationAdapter {
         vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
         vector2.set(viewport.unproject(vector2));
 
-        if (vector2.x > (viewport.getWorldWidth() - imgShield.getRegionWidth() * 3)
-                && (vector2.y < imgShield.getRegionHeight()) && vector2.x < viewport.getWorldWidth() - imgShield.getRegionWidth() * 2)
-            return true;
-        else return false;
+        return vector2.x > (viewport.getWorldWidth() - imgShield.getRegionWidth() * 3)
+                && (vector2.y < imgShield.getRegionHeight()) && vector2.x < viewport.getWorldWidth() - imgShield.getRegionWidth() * 2;
     }
 
 
@@ -618,8 +614,8 @@ public class R_Type extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
-        viewport.update(width, height);
+
+        viewport.update(width, height, true);
     }
 
     @Override
