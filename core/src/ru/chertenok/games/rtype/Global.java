@@ -5,15 +5,16 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Logger;
 
 import java.util.Random;
+
 
 /**
  * Created by 13th on 08.07.2017.
  */
 
 public class Global {
-
 
 
     final public static AssetManager assestManager = new AssetManager();
@@ -25,12 +26,12 @@ public class Global {
     public static void load(String packName) {
         currentLevel = new AssetDescriptor<TextureAtlas>(packName, TextureAtlas.class);
         assestManager.load(currentLevel);
-        assestManager.load("through_space.mp3", Music.class);
-        assestManager.load("xeon6.mp3", Music.class);
-        assestManager.load("slimeball.mp3", Sound.class);
-        assestManager.load("foom_0.mp3", Sound.class);
-        assestManager.load("acid6.mp3", Sound.class);
-        assestManager.load("rlaunch.mp3", Sound.class);
+        assestManager.load("sound/through_space.mp3", Music.class);
+        assestManager.load("sound/xeon6.mp3", Music.class);
+        assestManager.load("sound/slimeball.mp3", Sound.class);
+        assestManager.load("sound/foom_0.mp3", Sound.class);
+        assestManager.load("sound/acid6.mp3", Sound.class);
+        assestManager.load("sound/rlaunch.mp3", Sound.class);
 
 
 
@@ -64,6 +65,10 @@ public class Global {
             }
         }
         return from;
+    }
+
+    public static Logger getLogger(Class clazz) {
+        return new Logger(clazz.getSimpleName());
     }
 
 }

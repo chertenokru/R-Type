@@ -8,8 +8,6 @@ import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
 
-import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.exit;
-
 public class BossControl extends Sprites {
 
     private Boss boss;
@@ -33,7 +31,7 @@ public class BossControl extends Sprites {
     public BossControl(R_Type game) {
         super(game, "boss", 1);
         boss = new Boss();
-        soundFire = Global.assestManager.get("rlaunch.mp3", Sound.class);
+        soundFire = Global.assestManager.get("sound/rlaunch.mp3", Sound.class);
         reset();
     }
 

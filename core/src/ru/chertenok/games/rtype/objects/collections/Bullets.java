@@ -1,13 +1,9 @@
 package ru.chertenok.games.rtype.objects.collections;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.ObjectOwner;
 import ru.chertenok.games.rtype.R_Type;
@@ -45,10 +41,10 @@ public class Bullets extends ObjectCollector {
         this.asteroids = game.asteroids;
         this.explosions = game.explosions;
 
-        soundFireType1 = Global.assestManager.get("slimeball.mp3", Sound.class);
+        soundFireType1 = Global.assestManager.get("sound/slimeball.mp3", Sound.class);
 
-        soundFirePlayer = Global.assestManager.get("foom_0.mp3", Sound.class);
-        soundFireType2 = Global.assestManager.get("acid6.mp3", Sound.class);
+        soundFirePlayer = Global.assestManager.get("sound/foom_0.mp3", Sound.class);
+        soundFireType2 = Global.assestManager.get("sound/acid6.mp3", Sound.class);
     }
 
 

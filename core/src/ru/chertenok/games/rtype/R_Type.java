@@ -200,7 +200,7 @@ public class R_Type extends ApplicationAdapter {
         viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
 
-        Global.load("level1.pack");
+        Global.load("levels/level1.pack");
         imgPause = Global.assestManager.get(Global.currentLevel).findRegion("pause");
         imgShield = Global.assestManager.get(Global.currentLevel).findRegion("shield");
         imgRect = Global.assestManager.get(Global.currentLevel).findRegion("rect");
@@ -222,8 +222,8 @@ public class R_Type extends ApplicationAdapter {
             e.printStackTrace();
         }
         if (isMusicOn) {
-            music = Global.assestManager.get("through_space.mp3", Music.class);
-            musicBoss = Global.assestManager.get("xeon6.mp3", Music.class);
+            music = Global.assestManager.get("sound/through_space.mp3", Music.class);
+            musicBoss = Global.assestManager.get("sound/xeon6.mp3", Music.class);
             music.play();
             music.setLooping(true);
         }
@@ -238,7 +238,7 @@ public class R_Type extends ApplicationAdapter {
         collObjects.add(shipControl.ship);
 
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("alt.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/alt.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters = font_chars;
         parameter.size = 35;
