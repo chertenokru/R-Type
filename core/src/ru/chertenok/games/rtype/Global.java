@@ -1,12 +1,17 @@
 package ru.chertenok.games.rtype;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Logger;
 
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -16,33 +21,47 @@ import java.util.Random;
 
 public class Global {
 
-
-    final public static AssetManager assestManager = new AssetManager();
+    final public static AssetManager assetManager = new AssetManager();
     public static AssetDescriptor<TextureAtlas> currentLevel;
-
     public static Random rnd = new Random();
+    public static Locale locale;
+    public static I18NBundle myBundle;
+    private static Logger log = Global.getLogger(Global.class);
 
+    private Global() {
+    }
 
     public static void load(String packName) {
+        locale = Locale.getDefault();
         currentLevel = new AssetDescriptor<TextureAtlas>(packName, TextureAtlas.class);
-        assestManager.load(currentLevel);
-        assestManager.load("sound/through_space.mp3", Music.class);
-        assestManager.load("sound/xeon6.mp3", Music.class);
-        assestManager.load("sound/slimeball.mp3", Sound.class);
-        assestManager.load("sound/foom_0.mp3", Sound.class);
-        assestManager.load("sound/acid6.mp3", Sound.class);
-        assestManager.load("sound/rlaunch.mp3", Sound.class);
+        assetManager.load(currentLevel);
+        assetManager.load("sound/through_space.mp3", Music.class);
+        assetManager.load("sound/xeon6.mp3", Music.class);
+        assetManager.load("sound/slimeball.mp3", Sound.class);
+        assetManager.load("sound/foom_0.mp3", Sound.class);
+        assetManager.load("sound/acid6.mp3", Sound.class);
+        assetManager.load("sound/rlaunch.mp3", Sound.class);
+        assetManager.load("localization/MyBundle", I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+        assetManager.finishLoading();
+        myBundle = assetManager.get("localization/MyBundle", I18NBundle.class);
 
+        log.error(myBundle.getLocale().getDisplayName());
 
+    }
 
-
-
-        assestManager.finishLoading();
+    public static void setMessageLanguage(Locale locale) {
+        if (Global.locale.getLanguage().equals(locale.getLanguage())) return;
+        assetManager.unload("localization/MyBundle");
+        Global.locale = locale;
+        assetManager.load("localization/MyBundle", I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+        assetManager.finishLoading();
+        myBundle = assetManager.get("localization/MyBundle", I18NBundle.class);
+        log.error("Language changed to  " + myBundle.getLocale().getDisplayName());
     }
 
     public static void dispose() {
 
-        assestManager.dispose();
+        assetManager.dispose();
     }
 
     public static float getAngle(float x1, float y1, float x2, float y2) {
@@ -54,14 +73,14 @@ public class Global {
             if (from - to < Math.PI) {
                 from -= rotateSpeed * dt;
             } else {
-                from +=rotateSpeed * dt;
+                from += rotateSpeed * dt;
             }
         }
-        if (from < to){
-            if (to - from < Math.PI){
-                from +=rotateSpeed * dt;
+        if (from < to) {
+            if (to - from < Math.PI) {
+                from += rotateSpeed * dt;
             } else {
-                from -=rotateSpeed *dt;
+                from -= rotateSpeed * dt;
             }
         }
         return from;
@@ -71,4 +90,7 @@ public class Global {
         return new Logger(clazz.getSimpleName());
     }
 
+    public static boolean isAndroid() {
+        return Gdx.app.getType() == Application.ApplicationType.Android;
+    }
 }

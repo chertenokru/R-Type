@@ -1,8 +1,6 @@
 package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Created by 13th on 08.07.2017.
@@ -34,7 +32,7 @@ public abstract  class Sprites {
 
         // заполняем  ссылки на спрайты
         for (int i = 0; i < texture.length; i++) {
-            texture[i]= Global.assestManager.get(Global.currentLevel).findRegion(textureName,i);
+            texture[i] = Global.assetManager.get(Global.currentLevel).findRegion(textureName, i);
         }
 
         // размер спрайта

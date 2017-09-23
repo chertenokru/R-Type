@@ -1,6 +1,7 @@
 package ru.chertenok.games.rtype.level;
 
 import com.badlogic.gdx.graphics.Color;
+import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class Level1 {
                 game.shipControl.setRechargeEnabled(true);
                 game.messages.addMessage("        Но есть и хорошая новость ! ИИ научился ", 150, 540, 1, Color.WHITE,Color.GRAY);
                 game.messages.addMessage("перезаряжать щиты корабля собранной от взрывов энергией", 100, 500, 1, Color.WHITE,Color.GRAY);
-                if (game.isAndroid)
+                if (Global.isAndroid())
                     game.messages.addMessage("            Для перезарядки щитов нажмите на иконку шита ", 150, 460, 1, Color.WHITE,Color.GRAY);
                 else
                     game.messages.addMessage("            Для автоперезарядки щитов нажмите 1 ", 150, 460, 1, Color.WHITE,Color.GRAY);

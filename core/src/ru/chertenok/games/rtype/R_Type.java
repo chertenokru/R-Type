@@ -1,20 +1,32 @@
 /**
- *
  * see Udemy lesson
- * ----------------
- *
+ * =====================
+ * 24.09
+ * add localization ru + default (eng)
+ * <p>
+ * <p>
  * 23.09
- *   add GameConfig class
- *   add GameConfig.json
- *
- *
+ * add GameConfig class
+ * add GameConfig.json
+ * <p>
+ * <p>
+ * geekbrains.ru
+ * =======================
+ * <p>
+ * <p>
+ * К уроку 7
+ * ---------------
+ * черновая реализация босса
+ * <p>
+ * <p>
  * К уроку 6
- *  1. альфа версия в гугл-маркете  https://play.google.com/apps/testing/ru.chertenok.games.rtype
- *  2. взрывы при столкновении пуль
- *
- *
- *
- *
+ * ---------------
+ * 1. альфа версия в гугл-маркете  https://play.google.com/apps/testing/ru.chertenok.games.rtype
+ * 2. взрывы при столкновении пуль
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * К уроку 5
  * --------------
  * 1. камера и фитпортвиев, заменил везде Gdx.graphics. на viewport. размер
@@ -23,7 +35,7 @@
  * 4. замена кнопок 1, пауза на сенсорные экранные
  * 5. игровые объъекты наследуются от gameInnerObject, пока кроме ShipControl игрока
  * 6. интерфейс Collisionable для сталкиваемых объектов, для дальнейшей реализации общего просчёта столкновений
- *
+ * <p>
  * К уроку 4
  * -------------------
  * 1. Багофиксы - при перезапуске
@@ -35,13 +47,13 @@
  * 7. Иконки щита и паузы на экране - адаптация для андроида
  * 8. Класс врагов с 2-мя разновидностями
  * 9. 3 вида пуль с разными текстурами
- *
- *
- *
- *
+ * <p>
+ * <p>
+ * <p>
+ * <p>
  * К уроку 3
  * ------------
- *
+ * <p>
  * 1. Добавлены жизни в объект Chip,Enemy
  * 2. Добавлены очки в R_Type
  * 3. добавлены состояния игрового мира - Run,Pause,End
@@ -55,7 +67,6 @@
  * 11. Добавлен таймер уровня и попытка менять настройки среды по таймеру, по окончанию таймера должен быть биг босс, но его нет :)
  * 12. Убрал коробки снизу для следующего уровня
  * 13. Добавил реверсивное движение аастероидов
- *
  **/
 
 // todo полный сброс при перезапуске
@@ -69,7 +80,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -97,12 +107,10 @@ import ru.chertenok.games.rtype.menu.Menu;
 
 public class R_Type extends ApplicationAdapter {
 
-    private static final float WORLD_WIDTH = 1024;
-    private static final float WORLD_HEIGHT = 720;
     //    Texture img;
     private final String font_chars = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
     public Viewport viewport;
-    public boolean isAndroid = false;
+
     //хар-ки
     public int scope = 0;
     public GameState state = GameState.Run;
@@ -115,7 +123,7 @@ public class R_Type extends ApplicationAdapter {
     public Messages messages;
     // список объектов для обработки коллизий
     public Array<Collisionable> collObjects = new Array<Collisionable>();
-    private Camera camera;
+    private OrthographicCamera camera;
     private Level1 level1 = new Level1(this);
     private BossControl bossControl;
     private Rectangle rectangle1 = new Rectangle();
@@ -186,13 +194,15 @@ public class R_Type extends ApplicationAdapter {
         //camera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
         //camera.update();
 
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        viewport = new FitViewport(GameConfig.getWorldWidth(), GameConfig.getWorldHeight(), camera);
 
 
         Global.load("levels/level1.pack");
-        imgPause = Global.assestManager.get(Global.currentLevel).findRegion("pause");
-        imgShield = Global.assestManager.get(Global.currentLevel).findRegion("shield");
-        imgRect = Global.assestManager.get(Global.currentLevel).findRegion("rect");
+        // Global.setMessageLanguage(new Locale("ru"));
+        // Global.setMessageLanguage(new Locale("en"));
+        imgPause = Global.assetManager.get(Global.currentLevel).findRegion("pause");
+        imgShield = Global.assetManager.get(Global.currentLevel).findRegion("shield");
+        imgRect = Global.assetManager.get(Global.currentLevel).findRegion("rect");
         batch = new SpriteBatch();
 
 
@@ -210,8 +220,8 @@ public class R_Type extends ApplicationAdapter {
             e.printStackTrace();
         }
         if (GameConfig.isMusic()) {
-            music = Global.assestManager.get("sound/through_space.mp3", Music.class);
-            musicBoss = Global.assestManager.get("sound/xeon6.mp3", Music.class);
+            music = Global.assetManager.get("sound/through_space.mp3", Music.class);
+            musicBoss = Global.assetManager.get("sound/xeon6.mp3", Music.class);
             music.play();
             music.setLooping(true);
         }
@@ -239,21 +249,21 @@ public class R_Type extends ApplicationAdapter {
 
 
         messages = new Messages(font);
-        messages.addMessage("Командир, мы приветствуем Вас на борту корабля!", 150, 540, 2, Color.WHITE, Color.LIGHT_GRAY);
-        messages.addMessage("Получена информация из командного центра:", 150, 500, 2, Color.WHITE, Color.LIGHT_GRAY);
-        messages.addMessage("- Вам нужно пробиться через поле астероидов.", 150, 460, 2, Color.WHITE, Color.LIGHT_GRAY);
+        messages.addMessage(Global.myBundle.get("start_1"), 150, 540, 2, Color.WHITE, Color.LIGHT_GRAY);
+        messages.addMessage(Global.myBundle.get("start_2"), 150, 500, 2, Color.WHITE, Color.LIGHT_GRAY);
+        messages.addMessage(Global.myBundle.get("start_3"), 150, 460, 2, Color.WHITE, Color.LIGHT_GRAY);
         state = GameState.Pause;
-        if (isAndroid) {
-            messages.addMessage("Клавиши управления: пауза - кнопка пауза", 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage("движение - двигайте палец по экрану", 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage("стрельба - прикоснитесь к экрану", 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage("нажмите кнопку паузы когда будете готовы", 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
+        if (Global.isAndroid()) {
+            messages.addMessage(Global.myBundle.get("conf_touch_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_touch_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_touch_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_touch_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
 
         } else {
-            messages.addMessage("Клавиши управления: пауза - P или ESC", 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage("движение - ADSW или стрелки", 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage("стрельба - пробел или кнопка мыши", 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage("нажмите P когда будете готовы...", 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_key_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_key_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_key_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.myBundle.get("conf_key_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
         }
         dtLevelCounter = level1.getDtLevetInit();
 
@@ -368,7 +378,7 @@ public class R_Type extends ApplicationAdapter {
         if (state == GameState.End) {
             GlyphLayout layout = new GlyphLayout(fontBig, "GAME OVER", Color.RED, 300, 1, false);
             GlyphLayout layout1 = new GlyphLayout(fontBig, "GAME OVER", Color.WHITE, 300, 1, false);
-            if (isAndroid) {
+            if (Global.isAndroid()) {
                 GlyphLayout layout2 = new GlyphLayout(font, "нажмите паузу для перезапуска", Color.WHITE, 300, 1, false);
                 GlyphLayout layout3 = new GlyphLayout(font, "нажмите паузу для перезапуска", Color.GRAY, 300, 1, false);
                 fontBig.draw(batch, layout1, viewport.getWorldWidth() / 2 - layout.width / 2 - 1, viewport.getWorldHeight() / 2 + layout.height / 2 - 1);

@@ -40,10 +40,10 @@ public class Bullets extends ru.chertenok.games.rtype.entity.collections.ObjectC
         this.asteroids = game.asteroids;
         this.explosions = game.explosions;
 
-        soundFireType1 = Global.assestManager.get("sound/slimeball.mp3", Sound.class);
+        soundFireType1 = Global.assetManager.get("sound/slimeball.mp3", Sound.class);
 
-        soundFirePlayer = Global.assestManager.get("sound/foom_0.mp3", Sound.class);
-        soundFireType2 = Global.assestManager.get("sound/acid6.mp3", Sound.class);
+        soundFirePlayer = Global.assetManager.get("sound/foom_0.mp3", Sound.class);
+        soundFireType2 = Global.assetManager.get("sound/acid6.mp3", Sound.class);
     }
 
 

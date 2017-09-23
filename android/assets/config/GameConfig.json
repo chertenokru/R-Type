@@ -2,6 +2,8 @@
   "sound": "true",
   "music": "true",
   "isDebugDraw": "false",
+  "WORLD_WIDTH": "1024",
+  "WORLD_HEIGHT": "720",
   "keyPause": "P"
 
 
