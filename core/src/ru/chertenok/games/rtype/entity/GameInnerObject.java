@@ -1,9 +1,10 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.ObjectOwner;
 
 /**
@@ -62,8 +63,6 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         update(dt, -1, -1, -1);
     }
 
-    ;
-
     public void update(float dt, float worldWidth, float worldHeight, float maxSpeed) {
         // ограничиваем скорость
         if (velocity.x > maxSpeed && maxSpeed != -1) velocity.x = maxSpeed;
@@ -110,8 +109,6 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         // крутим
         angle += angleInc * dt;
     }
-
-    ;
 
     @Override
     public void reset() {

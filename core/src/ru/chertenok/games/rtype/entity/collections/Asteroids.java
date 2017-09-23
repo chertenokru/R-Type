@@ -1,10 +1,8 @@
-package ru.chertenok.games.rtype.objects.collections;
+package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
-import ru.chertenok.games.rtype.objects.Asteroid;
-import ru.chertenok.games.rtype.objects.GameInnerObject;
 
 /**
  * Created by 13th on 02.07.2017.
@@ -16,7 +14,7 @@ public class Asteroids extends ObjectCollector {
     private boolean fixMaxScale = false;
     private boolean isReversiveEnabled = false;
     private float maxScale = 0.5f;
-    private Asteroid asteroid;
+    private ru.chertenok.games.rtype.entity.Asteroid asteroid;
     private boolean fixOnScreen = false;
 
     public boolean isFixOnScreen() {
@@ -28,14 +26,14 @@ public class Asteroids extends ObjectCollector {
     }
 
     public Asteroids(R_Type game) throws Exception {
-        super(Asteroid.class, game, "asteroid", 1);
+        super(ru.chertenok.games.rtype.entity.Asteroid.class, game, "asteroid", 1);
         maxSpeed = 120;
         minSpeed = 30;
     }
 
 
     public void addAsteroid(float x,float y,float velocityX, float velocityY,float scl){
-      asteroid = (Asteroid) objectPool.obtain();
+        asteroid = (ru.chertenok.games.rtype.entity.Asteroid) objectPool.obtain();
       init(asteroid,spriteSizeX,spriteSizeY);
       asteroid.position.x = x;
       asteroid.position.y = y;
@@ -74,12 +72,13 @@ public class Asteroids extends ObjectCollector {
 
 
     @Override
-    protected void init(GameInnerObject gameInnerObject,float width,float height) {
+    protected void init(ru.chertenok.games.rtype.entity.GameInnerObject gameInnerObject, float width, float height) {
 
-        asteroid = (Asteroid) gameInnerObject;
+        asteroid = (ru.chertenok.games.rtype.entity.Asteroid) gameInnerObject;
         asteroid.reversive = false;
         if (fixMaxScale) asteroid.scale = 0.5f + 0.5f * maxScale;
-        else asteroid.scale = 0.5f + (0.5f * (Global.rnd.nextInt((int) Asteroid.getMaxScale() + 1)));
+        else
+            asteroid.scale = 0.5f + (0.5f * (Global.rnd.nextInt((int) ru.chertenok.games.rtype.entity.Asteroid.getMaxScale() + 1)));
         if (isReversiveEnabled) {
             if (Global.rnd.nextBoolean())
                 asteroid.reversive = Global.rnd.nextBoolean();
@@ -97,7 +96,7 @@ public class Asteroids extends ObjectCollector {
             asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int)(maxSpeed - minSpeed)), 0);
         }
         asteroid.angle = Global.rnd.nextInt(360);
-        asteroid.angleInc = Global.rnd.nextInt(Asteroid.MAX_ANGLE_INC);
+        asteroid.angleInc = Global.rnd.nextInt(ru.chertenok.games.rtype.entity.Asteroid.MAX_ANGLE_INC);
 
          asteroid.isFixOnScreen = fixOnScreen;
 

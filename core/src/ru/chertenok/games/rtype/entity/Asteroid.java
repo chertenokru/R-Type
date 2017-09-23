@@ -1,22 +1,20 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Pool;
+import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.R_Type;
 
 /**
  * Created by 13th on 18-Jul-17.
  */
 public class Asteroid extends GameInnerObject {
-    final static int DAMAGE = 20;
-    final static int SCOPE = 20;
-    final static int MAX_LIVE = 20;
-    final static float SCALE = 0.5f;
-    public static int MAX_ANGLE_INC = 20;
-    public static float maxScale = 0.5f;
+    public final static int MAX_ANGLE_INC = 20;
+    private final static int DAMAGE = 20;
+    private final static int SCOPE = 20;
+    private final static int MAX_LIVE = 20;
+    private final static float SCALE = 0.5f;
+    private static float maxScale = 0.5f;
 
     public Asteroid() {
         scope = SCOPE;
@@ -82,8 +80,6 @@ public class Asteroid extends GameInnerObject {
         rectangle.setPosition(0, 0);
         position.set(0, 0);
         velocity.set(0, 0);
-        this.originSpriteSize = originSpriteSize;
-        this.scale = scale;
         scope = DAMAGE;
         damage = DAMAGE;
         scale = SCALE;

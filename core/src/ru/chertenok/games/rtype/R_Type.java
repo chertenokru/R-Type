@@ -85,15 +85,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.entity.BossControl;
+import ru.chertenok.games.rtype.entity.ShipControl;
+import ru.chertenok.games.rtype.entity.collections.Asteroids;
+import ru.chertenok.games.rtype.entity.collections.Bullets;
+import ru.chertenok.games.rtype.entity.collections.Enemies;
+import ru.chertenok.games.rtype.entity.collections.Explosions;
 import ru.chertenok.games.rtype.level.Level1;
 import ru.chertenok.games.rtype.menu.Menu;
-import ru.chertenok.games.rtype.objects.BossControl;
-import ru.chertenok.games.rtype.objects.Collisionable;
-import ru.chertenok.games.rtype.objects.ShipControl;
-import ru.chertenok.games.rtype.objects.collections.Asteroids;
-import ru.chertenok.games.rtype.objects.collections.Bullets;
-import ru.chertenok.games.rtype.objects.collections.Enemies;
-import ru.chertenok.games.rtype.objects.collections.Explosions;
 
 
 public class R_Type extends ApplicationAdapter {

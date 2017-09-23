@@ -1,4 +1,4 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -11,7 +11,7 @@ import ru.chertenok.games.rtype.config.GameConfig;
 
 public class BossControl extends Sprites {
 
-    private Boss boss;
+    private ru.chertenok.games.rtype.entity.Boss boss;
     private float counterFireDt = 0;
     private float dtScale = 0;
 
@@ -31,13 +31,13 @@ public class BossControl extends Sprites {
 
     public BossControl(R_Type game) {
         super(game, "boss", 1);
-        boss = new Boss();
+        boss = new ru.chertenok.games.rtype.entity.Boss();
         soundFire = Global.assestManager.get("sound/rlaunch.mp3", Sound.class);
         reset();
     }
 
 
-    public Boss getBoss() {
+    public ru.chertenok.games.rtype.entity.Boss getBoss() {
         return boss;
     }
 

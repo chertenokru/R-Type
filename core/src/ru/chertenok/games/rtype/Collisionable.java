@@ -1,19 +1,17 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import ru.chertenok.games.rtype.R_Type;
 
 
 /**
  * Created by 13th on 14-Jul-17.
  */
 public interface Collisionable {
-    enum HitAreaType {Rectangle,Circle};
+    enum HitAreaType {Rectangle, Circle}
 
     enum ObjectType {Enemy, Ship, BulletAI, BulletPlayer, Box, Explosion, Asteroid, Boss}
 
-    ;
     // вид области объекта
     HitAreaType getHitAreaType();
     // круглая область

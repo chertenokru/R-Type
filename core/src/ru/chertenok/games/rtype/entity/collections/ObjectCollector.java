@@ -1,11 +1,9 @@
-package ru.chertenok.games.rtype.objects.collections;
+package ru.chertenok.games.rtype.entity.collections;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
-import ru.chertenok.games.rtype.objects.GameInnerObject;
 
 /**
  * Created by 13th on 18-Jul-17.
@@ -17,12 +15,11 @@ public abstract class ObjectCollector extends Sprites {
     protected float maxSpeed = -1;
     protected  float minSpeed = -1;
     protected int  currentTextureNo = 0;
-    final protected  Class _class;
+    private final Class _class;
     private Object obj;
-    private GameInnerObject gameInnerObject;
-
-    protected  Array<ru.chertenok.games.rtype.objects.GameInnerObject> activeObject;
-    protected Pool<GameInnerObject> objectPool;
+    protected Array<ru.chertenok.games.rtype.entity.GameInnerObject> activeObject;
+    protected Pool<ru.chertenok.games.rtype.entity.GameInnerObject> objectPool;
+    private ru.chertenok.games.rtype.entity.GameInnerObject gameInnerObject;
 
 
     public int getObjectCount() {
@@ -32,12 +29,12 @@ public abstract class ObjectCollector extends Sprites {
     public ObjectCollector(Class  newClass, R_Type game, String textureName, int textureCount) throws Exception {
         super(game, textureName, textureCount);
         // проверяем что нам подсовывают
-        if (!GameInnerObject.class.isAssignableFrom( newClass)) {
+        if (!ru.chertenok.games.rtype.entity.GameInnerObject.class.isAssignableFrom(newClass)) {
             // фу таким быть
-            throw new Exception("Класс подаваеммый в конструктор класса ObjectCollector должен быть наследником "+GameInnerObject.class.getName());
+            throw new Exception("Класс подаваеммый в конструктор класса ObjectCollector должен быть наследником " + ru.chertenok.games.rtype.entity.GameInnerObject.class.getName());
         }
 
-        activeObject = new Array<GameInnerObject>();
+        activeObject = new Array<ru.chertenok.games.rtype.entity.GameInnerObject>();
         this._class = newClass;
         objectPool =
                 new Pool() {
@@ -57,7 +54,7 @@ public abstract class ObjectCollector extends Sprites {
     }
 
 
-    public Array<GameInnerObject> getActiveObject() {
+    public Array<ru.chertenok.games.rtype.entity.GameInnerObject> getActiveObject() {
         return activeObject;
     }
 
@@ -89,13 +86,13 @@ public abstract class ObjectCollector extends Sprites {
         }
     }
 
-    protected  void init(GameInnerObject gameInnerObject,float spriteOriginSizeX,float spriteOriginSizeY){
+    protected void init(ru.chertenok.games.rtype.entity.GameInnerObject gameInnerObject, float spriteOriginSizeX, float spriteOriginSizeY) {
         gameInnerObject.originSpriteSize.y = spriteOriginSizeY;
         gameInnerObject.originSpriteSize.x = spriteOriginSizeX;
         gameInnerObject.isActive = true;
         // добавляем в список сталкиваемых объектов
         if (gameInnerObject.isCollisinable()) game.collObjects.add(gameInnerObject);
-    };
+    }
 
 
     public void reset() {

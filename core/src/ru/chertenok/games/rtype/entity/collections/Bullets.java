@@ -1,4 +1,4 @@
-package ru.chertenok.games.rtype.objects.collections;
+package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,20 +8,20 @@ import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.ObjectOwner;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.config.GameConfig;
-import ru.chertenok.games.rtype.objects.Bullet;
-import ru.chertenok.games.rtype.objects.GameInnerObject;
+import ru.chertenok.games.rtype.entity.Bullet;
+import ru.chertenok.games.rtype.entity.GameInnerObject;
 
 
 /**
  * Created by 13th on 04-Jul-17.
  */
-public class Bullets extends ObjectCollector {
+public class Bullets extends ru.chertenok.games.rtype.entity.collections.ObjectCollector {
 
     public enum BulletsType {Type1, Type2, Type3}
 
 
-    private Asteroids asteroids;
-    private Explosions explosions;
+    private ru.chertenok.games.rtype.entity.collections.Asteroids asteroids;
+    private ru.chertenok.games.rtype.entity.collections.Explosions explosions;
     private Rectangle rectangle = new Rectangle();
     private Rectangle rectangle1 = new Rectangle();
     private Circle circle = new Circle();

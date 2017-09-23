@@ -1,13 +1,21 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Rectangle;
+import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.R_Type;
 
-public class Ship extends GameInnerObject {
+public class Ship extends ru.chertenok.games.rtype.entity.GameInnerObject {
 
-    public int energy;
+    private int energy;
     private boolean isDamaging = false;
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
 
     public Ship() {
         damage = 21;
@@ -30,7 +38,7 @@ public class Ship extends GameInnerObject {
             energy -= collisionObject.getDamage();
             setDamaging(true);
             if  (collisionObject.getObjectType() != ObjectType.BulletAI )
-                collisionsObject(this,(GameInnerObject) collisionObject,true);
+                collisionsObject(this, (ru.chertenok.games.rtype.entity.GameInnerObject) collisionObject, true);
 
         }
         return false;

@@ -1,14 +1,14 @@
-package ru.chertenok.games.rtype.objects.collections;
+package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ru.chertenok.games.rtype.R_Type;
-import ru.chertenok.games.rtype.objects.GameInnerObject;
-import ru.chertenok.games.rtype.objects.Explosion;
+import ru.chertenok.games.rtype.entity.Explosion;
+import ru.chertenok.games.rtype.entity.GameInnerObject;
 
 /**
  * Created by 13th on 04-Jul-17.
  */
-public class Explosions extends ObjectCollector {
+public class Explosions extends ru.chertenok.games.rtype.entity.collections.ObjectCollector {
 
     private static final float dtWait = 0.08f;
     private static final int All_STAGE = 8;

@@ -1,6 +1,7 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Circle;
+import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.R_Type;
 
 public class Boss extends GameInnerObject {

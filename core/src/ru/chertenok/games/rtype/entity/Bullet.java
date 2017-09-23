@@ -1,18 +1,13 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Pool;
+import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.ObjectOwner;
 import ru.chertenok.games.rtype.R_Type;
-import ru.chertenok.games.rtype.objects.Collisionable;
-import ru.chertenok.games.rtype.objects.GameInnerObject;
-import ru.chertenok.games.rtype.objects.collections.Bullets;
 
 public class Bullet extends GameInnerObject {
     public Vector2 startPosition;
-    public Bullets.BulletsType type = Bullets.BulletsType.Type1;
+    public ru.chertenok.games.rtype.entity.collections.Bullets.BulletsType type = ru.chertenok.games.rtype.entity.collections.Bullets.BulletsType.Type1;
     public int textureNo;
 
     public float dtWait = 0.1f;
@@ -22,14 +17,14 @@ public class Bullet extends GameInnerObject {
         this.position = new Vector2(0, 0);
         this.startPosition = new Vector2(0, 0);
         velocity = new Vector2(0, 0);
-        type = Bullets.BulletsType.Type1;
+        type = ru.chertenok.games.rtype.entity.collections.Bullets.BulletsType.Type1;
         setDamage(21);
         setScope(0);
 
 
     }
 
-    public void activate(float x, float y, float dx, float dy, ObjectOwner owner, Bullets.BulletsType type) {
+    public void activate(float x, float y, float dx, float dy, ObjectOwner owner, ru.chertenok.games.rtype.entity.collections.Bullets.BulletsType type) {
         position.set(x, y);
         startPosition.set(x, y);
         velocity.set(dx, dy);

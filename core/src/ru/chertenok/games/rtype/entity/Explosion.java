@@ -1,14 +1,11 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
-import ru.chertenok.games.rtype.objects.Collisionable;
-import ru.chertenok.games.rtype.objects.GameInnerObject;
 
-public class Explosion extends GameInnerObject {
+public class Explosion extends ru.chertenok.games.rtype.entity.GameInnerObject {
     public int stage;
     public float counterDT = 0;
 

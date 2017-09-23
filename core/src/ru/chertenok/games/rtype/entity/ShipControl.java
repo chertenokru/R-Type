@@ -1,13 +1,13 @@
-package ru.chertenok.games.rtype.objects;
+package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
-import ru.chertenok.games.rtype.objects.collections.Bullets;
 
 /**
  * Created by 13th on 02.07.2017.
@@ -27,14 +27,14 @@ public class ShipControl extends Sprites {
     private float dtCounter1 = 0f;
     private float dtCounter2 = 0f;
     private boolean isFired = false;
-    private Bullets bullets;
+    private ru.chertenok.games.rtype.entity.collections.Bullets bullets;
     private boolean isEnableFire = true;
     private float fireSpeed = 0.3f;
     private boolean isRecharge = false;
     private boolean isRechargeEnabled = false;
     private float oldx = -1;
     private float oldy = -1;
-    public Vector2 defaultPosition = new Vector2(70, 300);
+    private Vector2 defaultPosition = new Vector2(70, 300);
     public Ship ship = new Ship();
 
 
@@ -76,15 +76,6 @@ public class ShipControl extends Sprites {
         isEnableFire = enableFire;
     }
 
-    public int getEnergy() {
-        return ship.energy;
-    }
-
-    public void setEnergy(int energy) {
-        this.ship.energy = energy;
-    }
-
-
     public ShipControl(R_Type game) {
         super(game, "ship", 3);
         this.bullets = game.bullets;
@@ -92,7 +83,15 @@ public class ShipControl extends Sprites {
         ship.velocity = new Vector2(0, 0);
         ship.originSpriteSize.x = spriteSizeX;
         ship.originSpriteSize.y = spriteSizeY;
-        ship.energy = MAX_ENERGY;
+        ship.setEnergy(MAX_ENERGY);
+    }
+
+    public int getEnergy() {
+        return ship.getEnergy();
+    }
+
+    public void setEnergy(int energy) {
+        this.ship.setEnergy(energy);
     }
 
 
@@ -116,10 +115,9 @@ public class ShipControl extends Sprites {
 
     }
 
-
     public void reset() {
         live = MAX_LIVE;
-        ship.energy = MAX_ENERGY;
+        ship.setEnergy(MAX_ENERGY);
         isFired = false;
         ship.position.set(defaultPosition);
         isEnableFire = true;
@@ -139,7 +137,7 @@ public class ShipControl extends Sprites {
             Gdx.input.vibrate(500);
         }
 
-        if (ship.energy <= 0 && !isFired) {
+        if (ship.getEnergy() <= 0 && !isFired) {
             isFired = true;
             ship.setDamaging(false);
         }
@@ -186,21 +184,15 @@ public class ShipControl extends Sprites {
         }
 
 
-        if (ship.position.y > (game.viewport.getWorldHeight() - ship.getHitAreaRectangle().height / 2))
-            ship.position.y = (game.viewport.getWorldHeight() - ship.getHitAreaRectangle().height / 2);
+        // check position on screen
+        ship.position.y = MathUtils.clamp(ship.position.y, ship.getHitAreaRectangle().height / 2, game.viewport.getWorldHeight() - ship.getHitAreaRectangle().height / 2);
+        ship.position.x = MathUtils.clamp(ship.position.x, ship.getHitAreaRectangle().width / 2, game.viewport.getWorldWidth() - ship.getHitAreaRectangle().width / 2);
 
-        if (ship.position.y < ship.getHitAreaRectangle().height / 2)
-            ship.position.y = ship.getHitAreaRectangle().height / 2;
 
-        if (ship.position.x < ship.getHitAreaRectangle().width / 2)
-            ship.position.x = ship.getHitAreaRectangle().width / 2;
-
-        if (ship.position.x > (game.viewport.getWorldWidth() - ship.getHitAreaRectangle().width / 2))
-            ship.position.x = (game.viewport.getWorldWidth() - ship.getHitAreaRectangle().width / 2);
-
-        //if (dtWait1 < dtCounter1) {
+        // затухание скорости
+        //rate decay
         ship.velocity.scl(0.97f);
-        // }
+
     }
 
 
