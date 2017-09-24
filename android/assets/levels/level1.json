@@ -1,0 +1,251 @@
+{
+  "startTime": "7",
+  "stepVector": "-1",
+  "events": [
+    {
+      "time": "7",
+      "Name": "Asteroids_setObjectCount",
+      "param": [
+        "5"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Asteroids_setReversiveEnabled",
+      "param": [
+        "false"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Asteroids_setMaxScale",
+      "param": [
+        "0.5"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Asteroids_setFixMaxScale",
+      "param": [
+        "false"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Enemies_setActiveObjectCount",
+      "param": [
+        "5"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Ship_setShieldEnable",
+      "param": [
+        "false"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Ship_setEnableFire",
+      "param": [
+        "true"
+      ]
+    },
+    {
+      "time": "6.7",
+      "Name": "Asteroids_setObjectCount",
+      "param": [
+        "0"
+      ]
+    },
+    {
+      "time": "6.7",
+      "Name": "Asteroids_setReversiveEnabled",
+      "param": [
+        "false"
+      ]
+    },
+    {
+      "time": "6.7",
+      "Name": "Asteroids_setFixOnScreen",
+      "param": [
+        "true"
+      ]
+    },
+    {
+      "time": "6.7",
+      "Name": "Enemies_setActiveObjectCount",
+      "param": [
+        "0"
+      ]
+    },
+    {
+      "time": "6.7",
+      "Name": "Boss_modeOn",
+      "param": [
+        "true"
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Asteroids_setObjectCount",
+      "param": [
+        "10"
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Ship_setEnableFire",
+      "param": [
+        "false"
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Message_add",
+      "param": [
+        "0.05",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "540",
+        "             Командир, плохая новость."
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Message_add",
+      "param": [
+        "0.05",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "500",
+        "Астероид повредил пушку,нужно время на ремонт."
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Message_add",
+      "param": [
+        "0.05",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "460",
+        "             Уклоняйтесь от астероидов ..."
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Game_setStatus",
+      "param": [
+        "pause"
+      ]
+    },
+    {
+      "time": "4.51",
+      "Name": "Ship_setShieldEnable",
+      "param": [
+        "true"
+      ]
+    },
+    {
+      "time": "4.51",
+      "Name": "Message_add",
+      "param": [
+        "1",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "540",
+        "        Но есть и хорошая новость ! ИИ научился "
+      ]
+    },
+    {
+      "time": "4.51",
+      "Name": "Message_add",
+      "param": [
+        "1",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "500",
+        "перезаряжать щиты корабля собранной от взрывов энергией"
+      ]
+    },
+    {
+      "time": "4.51",
+      "Name": "Message_add",
+      "param": [
+        "1",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "460",
+        "            Для перезарядки щитов нажмите на иконку щита "
+      ]
+    },
+    {
+      "time": "4.5",
+      "Name": "Game_setStatus",
+      "param": [
+        "pause"
+      ]
+    },
+    {
+      "time": "4",
+      "Name": "Asteroids_setObjectCount",
+      "param": [
+        "20"
+      ]
+    },
+    {
+      "time": "3",
+      "Name": "Asteroids_setMaxScale",
+      "param": [
+        "1"
+      ]
+    },
+    {
+      "time": "2.8",
+      "Name": "Ship_setEnableFire",
+      "param": [
+        "true"
+      ]
+    },
+    {
+      "time": "2.8",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "200",
+        "540",
+        "Командир, орудие исправно !"
+      ]
+    },
+    {
+      "time": "2.8",
+      "Name": "Game_setStatus",
+      "param": [
+        "pause"
+      ]
+    },
+    {
+      "time": "2",
+      "Name": "Asteroids_setFixMaxScale",
+      "param": [
+        "true"
+      ]
+    },
+    {
+      "time": "2",
+      "Name": "Asteroids_setObjectCount",
+      "param": [
+        "30"
+      ]
+    }
+  ]
+}

@@ -1,31 +1,40 @@
 package ru.chertenok.games.rtype.level;
 
-import com.badlogic.gdx.graphics.Color;
-import ru.chertenok.games.rtype.Global;
-import ru.chertenok.games.rtype.R_Type;
+import com.badlogic.gdx.utils.Logger;
+import ru.chertenok.games.rtype.config.GameConfig;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by 13th on 07.07.2017.
  */
 public class Level1 {
-    class Data {
-        float time = 0;
-        boolean isActive = true;
 
-        public Data(float time) {
-            this.time = time;
-        }
-    }
-
-    private R_Type game;
+    private static Logger log = new Logger(Level1.class.getSimpleName(), Logger.DEBUG);
+    // массив событий
+    LevelEvents levelEvents;
+    // private R_Type game;
+    private Map<String, ILevelEvent> eventMap;
     //начальный счётчик
     private float dtLevetInit = 7 * 60;
     // куда будет меняться
     private float stepVector = -1;
-    // массив событий
-    ArrayList<Data> actions = new ArrayList<Data>();
+
+    public Level1(Map<String, ILevelEvent> eventMap) {
+        this.eventMap = eventMap;
+
+        levelEvents = new LevelEvents();
+        try {
+            levelEvents.loadLevel(GameConfig.LEVEL1_FILE_PATH);
+            stepVector = levelEvents.getStepVector();
+            dtLevetInit = levelEvents.getDtLevetInitTime();
+        } catch (IOException e) {
+            log.error(" LevelEvents " + GameConfig.LEVEL1_FILE_PATH + " not load.", e);
+            e.printStackTrace();
+        }
+    }
+
 
 
     public float getDtLevetInit() {
@@ -36,11 +45,15 @@ public class Level1 {
         return stepVector;
     }
 
+    private void execAction(LevelEvents.LevelEvent event) {
 
-    private void execAction(int index) {
-        switch (index) {
-            case 0: {
-                game.asteroids.setObjectCount(5);
+        if (eventMap.containsKey(event.Name)) {
+            ILevelEvent le = eventMap.get(event.Name);
+            if (le != null) le.event(event);
+        }
+
+
+/*                                game.asteroids.setObjectCount(5);
                 game.asteroids.setReversiveEnabled(false);
                 game.enemies.setActiveObject_count(5);
                 game.asteroids.setMaxScale(1f);
@@ -98,30 +111,18 @@ public class Level1 {
                 break;
             }
 
-        }
-    }
-
-    public Level1(R_Type game) {
-        this.game = game;
-
-        actions.add(new Data(7.0f)); // 0
-        actions.add(new Data(6.7f)); // 1
-        actions.add(new Data(4.5f)); // 2
-        actions.add(new Data(4.45f)); // 3
-        actions.add(new Data(4f)); // 4
-        actions.add(new Data(3f)); // 5
-        actions.add(new Data(2.8f)); // 6
-        actions.add(new Data(2.0f)); // 7
+*/
 
     }
 
     public void update(float counter) {
 
-        for (int i = 0; i < actions.size(); i++) {
-            if ((actions.get(i).isActive && actions.get(i).time > counter && stepVector==-1)||(actions.get(i).isActive && actions.get(i).time < counter && stepVector==1 ))
+        for (int i = 0; i < levelEvents.getLevelEventList().size(); i++) {
+            if ((levelEvents.getLevelEventList().get(i).isActive && levelEvents.getLevelEventList().get(i).time > counter && stepVector == -1)
+                    || (levelEvents.getLevelEventList().get(i).isActive && levelEvents.getLevelEventList().get(i).time < counter && stepVector == 1))
             {
-                execAction(i);
-                actions.get(i).isActive = false;
+                execAction(levelEvents.getLevelEventList().get(i));
+                levelEvents.getLevelEventList().get(i).isActive = false;
                 break;
             }
 
@@ -129,13 +130,16 @@ public class Level1 {
 
     }
 
-
     public void reset(){
-        for (int i = 0; i < actions.size(); i++) {
-                actions.get(i).isActive = true;
-            }
-
+        for (int i = 0; i < levelEvents.getLevelEventList().size(); i++) {
+            levelEvents.getLevelEventList().get(i).isActive = true;
         }
+    }
+
+
+    public interface ILevelEvent {
+        void event(LevelEvents.LevelEvent event);
+    }
 
 
 }

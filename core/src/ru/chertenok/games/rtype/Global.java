@@ -26,7 +26,7 @@ public class Global {
     public static Random rnd = new Random();
     public static Locale locale;
     public static I18NBundle myBundle;
-    private static Logger log = Global.getLogger(Global.class);
+    private static Logger log = new Logger(Global.class.getSimpleName(), Logger.DEBUG);
 
     private Global() {
     }
@@ -86,9 +86,6 @@ public class Global {
         return from;
     }
 
-    public static Logger getLogger(Class clazz) {
-        return new Logger(clazz.getSimpleName());
-    }
 
     public static boolean isAndroid() {
         return Gdx.app.getType() == Application.ApplicationType.Android;

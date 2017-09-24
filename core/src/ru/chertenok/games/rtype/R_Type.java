@@ -104,8 +104,12 @@ import ru.chertenok.games.rtype.entity.collections.Explosions;
 import ru.chertenok.games.rtype.level.Level1;
 import ru.chertenok.games.rtype.menu.Menu;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class R_Type extends ApplicationAdapter {
+
 
     //    Texture img;
     private final String font_chars = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
@@ -124,8 +128,12 @@ public class R_Type extends ApplicationAdapter {
     // список объектов для обработки коллизий
     public Array<Collisionable> collObjects = new Array<Collisionable>();
     private OrthographicCamera camera;
-    private Level1 level1 = new Level1(this);
+    private Level1 level1;
     private BossControl bossControl;
+    // list of registred LevelEvents handlers
+    private Map<String, Level1.ILevelEvent> eventMap = new HashMap<String, Level1.ILevelEvent>();
+
+
     private Rectangle rectangle1 = new Rectangle();
     //    Rectangle rectangle2 = new Rectangle();
 //    Circle circle1 = new Circle();
@@ -161,6 +169,10 @@ public class R_Type extends ApplicationAdapter {
 
     public boolean isBossMode() {
         return bossMode;
+    }
+
+    public Map<String, Level1.ILevelEvent> getEventMap() {
+        return eventMap;
     }
 
     public void setBossMode(boolean bossMode) {
@@ -225,6 +237,9 @@ public class R_Type extends ApplicationAdapter {
             music.play();
             music.setLooping(true);
         }
+
+        level1 = new Level1(eventMap);
+
         enemies.setEnemys_count(5);
         enemies.setReversiveEnabled(false);
         asteroids.setObjectCount(5);
@@ -265,7 +280,7 @@ public class R_Type extends ApplicationAdapter {
             messages.addMessage(Global.myBundle.get("conf_key_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
             messages.addMessage(Global.myBundle.get("conf_key_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
         }
-        dtLevelCounter = level1.getDtLevetInit();
+        dtLevelCounter = level1.getDtLevetInit() * 60;
 
     }
 
