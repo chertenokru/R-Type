@@ -56,7 +56,7 @@ public class Global {
         assetManager.load("localization/MyBundle", I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
         assetManager.finishLoading();
         myBundle = assetManager.get("localization/MyBundle", I18NBundle.class);
-        log.error("Language changed to  " + myBundle.getLocale().getDisplayName());
+        log.debug("Language changed to  " + myBundle.getLocale().getDisplayName());
     }
 
     public static void dispose() {

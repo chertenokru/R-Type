@@ -2,17 +2,22 @@ package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.level.Level;
+import ru.chertenok.games.rtype.level.LevelEvents;
+
+import java.util.Map;
 
 
 /**
  * Created by 13th on 02.07.2017.
  */
-public class Enemies extends ObjectCollector {
+public class Enemies extends ObjectCollector implements Level.ILevelEvent {
 
-
-
+    private static Logger log = new Logger(Enemies.class.getSimpleName(), Logger.DEBUG);
     private final int MAX_ANGLE_INC = 0;
     private final int SCOPE = 20;
     private final int DAMAGE = 20;
@@ -183,5 +188,19 @@ public class Enemies extends ObjectCollector {
 
     public void setEnemys_count(int i) {
         setActiveObject_count(i);
+    }
+
+    @Override
+    public void event(LevelEvents.LevelEvent event) {
+        log.debug("Enemies:event - " + event.toString());
+        if (event.Name.equals(GameConfig.ENEMIES_SET_OBJECT_COUNT)) {
+            if (event.param.length > 0) setActiveObject_count(Integer.valueOf(event.param[0]));
+            return;
+        }
+    }
+
+    @Override
+    public void registerLevelEvents(Map<String, Level.ILevelEvent> eventMap) {
+        eventMap.put(GameConfig.ENEMIES_SET_OBJECT_COUNT, this);
     }
 }

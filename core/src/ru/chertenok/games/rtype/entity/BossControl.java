@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
@@ -11,6 +12,7 @@ import ru.chertenok.games.rtype.config.GameConfig;
 
 public class BossControl extends Sprites {
 
+    private static Logger log = new Logger(BossControl.class.getSimpleName(), Logger.DEBUG);
     private ru.chertenok.games.rtype.entity.Boss boss;
     private float counterFireDt = 0;
     private float dtScale = 0;
@@ -102,5 +104,6 @@ public class BossControl extends Sprites {
     public void setActive() {
         boss.setActive(true);
     }
+
 
 }

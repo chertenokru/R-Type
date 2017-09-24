@@ -1,13 +1,21 @@
 package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.level.Level;
+import ru.chertenok.games.rtype.level.LevelEvents;
+
+import java.util.Map;
 
 /**
  * Created by 13th on 02.07.2017.
  */
-public class Asteroids extends ObjectCollector {
+public class Asteroids extends ObjectCollector implements Level.ILevelEvent {
+
+    private static Logger log = new Logger(Asteroids.class.getSimpleName(), Logger.DEBUG);
 
     private float waitTime = 10f;
     private float waitCounter = 0f;
@@ -17,6 +25,12 @@ public class Asteroids extends ObjectCollector {
     private ru.chertenok.games.rtype.entity.Asteroid asteroid;
     private boolean fixOnScreen = false;
 
+    public Asteroids(R_Type game) throws Exception {
+        super(ru.chertenok.games.rtype.entity.Asteroid.class, game, "asteroid", 1);
+        maxSpeed = 120;
+        minSpeed = 30;
+    }
+
     public boolean isFixOnScreen() {
         return fixOnScreen;
     }
@@ -25,23 +39,16 @@ public class Asteroids extends ObjectCollector {
         this.fixOnScreen = fixOnScreen;
     }
 
-    public Asteroids(R_Type game) throws Exception {
-        super(ru.chertenok.games.rtype.entity.Asteroid.class, game, "asteroid", 1);
-        maxSpeed = 120;
-        minSpeed = 30;
-    }
-
-
-    public void addAsteroid(float x,float y,float velocityX, float velocityY,float scl){
+    public void addAsteroid(float x, float y, float velocityX, float velocityY, float scl) {
         asteroid = (ru.chertenok.games.rtype.entity.Asteroid) objectPool.obtain();
-      init(asteroid,spriteSizeX,spriteSizeY);
-      asteroid.position.x = x;
-      asteroid.position.y = y;
-      asteroid.velocity.x = velocityX;
-      asteroid.velocity.y = velocityY;
-      asteroid.scale = scl;
-      activeObject.add(asteroid);
-      game.collObjects.add(asteroid);
+        init(asteroid, spriteSizeX, spriteSizeY);
+        asteroid.position.x = x;
+        asteroid.position.y = y;
+        asteroid.velocity.x = velocityX;
+        asteroid.velocity.y = velocityY;
+        asteroid.scale = scl;
+        activeObject.add(asteroid);
+        game.collObjects.add(asteroid);
     }
 
     public boolean isReversiveEnabled() {
@@ -86,28 +93,27 @@ public class Asteroids extends ObjectCollector {
 
         if (asteroid.reversive) {
             asteroid.position.set(
-                    -asteroid.originSpriteSize.x*asteroid.scale,
+                    -asteroid.originSpriteSize.x * asteroid.scale,
                     Global.rnd.nextInt((int) game.viewport.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
-            asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int)(maxSpeed - minSpeed)), 0).scl(-1);
+            asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int) (maxSpeed - minSpeed)), 0).scl(-1);
         } else {
             asteroid.position.set(
                     game.viewport.getWorldWidth() + spriteOriginSize,
                     Global.rnd.nextInt((int) game.viewport.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
-            asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int)(maxSpeed - minSpeed)), 0);
+            asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int) (maxSpeed - minSpeed)), 0);
         }
         asteroid.angle = Global.rnd.nextInt(360);
         asteroid.angleInc = Global.rnd.nextInt(ru.chertenok.games.rtype.entity.Asteroid.MAX_ANGLE_INC);
 
-         asteroid.isFixOnScreen = fixOnScreen;
+        asteroid.isFixOnScreen = fixOnScreen;
 
         asteroid.live = (int) asteroid.scale * 2;
-        if (width == 0)
-        {
+        if (width == 0) {
             width = spriteOriginSize;
             height = spriteOriginSize;
         }
         asteroid.maxSpeed = 200;
-        super.init(gameInnerObject,width,height);
+        super.init(gameInnerObject, width, height);
     }
 
     public float getMaxScale() {
@@ -133,4 +139,36 @@ public class Asteroids extends ObjectCollector {
     }
 
 
+    @Override
+    public void registerLevelEvents(Map<String, Level.ILevelEvent> eventMap) {
+        eventMap.put(GameConfig.ASTEROIDS_SET_OBJECT_COUNT, this);
+        eventMap.put(GameConfig.ASTEROIDS_SET_REVERSIVE, this);
+        eventMap.put(GameConfig.ASTEROIDS_SET_FIX_ON_SCREEN, this);
+        eventMap.put(GameConfig.ASTEROIDS_SET_FIX_MAX_SCALE, this);
+
+
+    }
+
+    @Override
+    public void event(LevelEvents.LevelEvent event) {
+        log.debug("Asteroid:event - " + event.toString());
+        if (event.Name.equals(GameConfig.ASTEROIDS_SET_OBJECT_COUNT)) {
+            if (event.param.length > 0) setObjectCount(Integer.valueOf(event.param[0]));
+            return;
+        } else if (event.Name.equals(GameConfig.ASTEROIDS_SET_REVERSIVE)) {
+            if (event.param.length > 0) setReversiveEnabled(Boolean.valueOf(event.param[0]));
+            return;
+        } else if (event.Name.equals(GameConfig.ASTEROIDS_SET_MAX_SCALE)) {
+            if (event.param.length > 0) setMaxScale(Float.valueOf(event.param[0]));
+            return;
+        } else if (event.Name.equals(GameConfig.ASTEROIDS_SET_FIX_MAX_SCALE)) {
+            if (event.param.length > 0) setFixMaxScale(Boolean.valueOf(event.param[0]));
+            return;
+        } else if (event.Name.equals(GameConfig.ASTEROIDS_SET_FIX_ON_SCREEN)) {
+            if (event.param.length > 0) setFixOnScreen(Boolean.valueOf(event.param[0]));
+            return;
+        }
+
+
+    }
 }

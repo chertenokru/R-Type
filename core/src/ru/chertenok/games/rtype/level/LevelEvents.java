@@ -59,15 +59,16 @@ public class LevelEvents {
 
             for (LevelEvent le : levelEventList) {
                 log.debug(le.toString());
+                if (le.param.length > 0) log.debug(le.param[0]);
             }
         }
     }
 
     public static class LevelEvent {
-        float time;
-        String Name;
-        String[] param;
-        boolean isActive = true;
+        public float time;
+        public String Name;
+        public String[] param;
+        transient public boolean isActive = true;
 
         @Override
         public String toString() {

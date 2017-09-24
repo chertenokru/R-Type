@@ -92,6 +92,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.chertenok.games.rtype.config.GameConfig;
@@ -101,16 +102,17 @@ import ru.chertenok.games.rtype.entity.collections.Asteroids;
 import ru.chertenok.games.rtype.entity.collections.Bullets;
 import ru.chertenok.games.rtype.entity.collections.Enemies;
 import ru.chertenok.games.rtype.entity.collections.Explosions;
-import ru.chertenok.games.rtype.level.Level1;
+import ru.chertenok.games.rtype.level.Level;
+import ru.chertenok.games.rtype.level.LevelEvents;
 import ru.chertenok.games.rtype.menu.Menu;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class R_Type extends ApplicationAdapter {
+public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
 
-
+    private static Logger log = new Logger(R_Type.class.getSimpleName(), Logger.DEBUG);
     //    Texture img;
     private final String font_chars = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
     public Viewport viewport;
@@ -128,10 +130,10 @@ public class R_Type extends ApplicationAdapter {
     // список объектов для обработки коллизий
     public Array<Collisionable> collObjects = new Array<Collisionable>();
     private OrthographicCamera camera;
-    private Level1 level1;
+    private Level level;
     private BossControl bossControl;
     // list of registred LevelEvents handlers
-    private Map<String, Level1.ILevelEvent> eventMap = new HashMap<String, Level1.ILevelEvent>();
+    private Map<String, Level.ILevelEvent> eventMap = new HashMap<String, Level.ILevelEvent>();
 
 
     private Rectangle rectangle1 = new Rectangle();
@@ -171,7 +173,7 @@ public class R_Type extends ApplicationAdapter {
         return bossMode;
     }
 
-    public Map<String, Level1.ILevelEvent> getEventMap() {
+    public Map<String, Level.ILevelEvent> getEventMap() {
         return eventMap;
     }
 
@@ -209,7 +211,8 @@ public class R_Type extends ApplicationAdapter {
         viewport = new FitViewport(GameConfig.getWorldWidth(), GameConfig.getWorldHeight(), camera);
 
 
-        Global.load("levels/level1.pack");
+        Global.load(GameConfig.LEVEL1_PACK_FILE_PATH);
+
         // Global.setMessageLanguage(new Locale("ru"));
         // Global.setMessageLanguage(new Locale("en"));
         imgPause = Global.assetManager.get(Global.currentLevel).findRegion("pause");
@@ -223,6 +226,7 @@ public class R_Type extends ApplicationAdapter {
         fonGround = new FonGround(this);
 
         try {
+
             enemies = new Enemies(this);
             explosions = new Explosions(this);
             asteroids = new Asteroids(this);
@@ -231,6 +235,22 @@ public class R_Type extends ApplicationAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        shipControl = new ShipControl(this);
+        bossControl = new BossControl(this);
+        initFonts();
+        messages = new Messages(font);
+
+        // регистрируем события уровня register LevelEvent handlers
+        this.registerLevelEvents(eventMap);
+        asteroids.registerLevelEvents(eventMap);
+        enemies.registerLevelEvents(eventMap);
+        messages.registerLevelEvents(eventMap);
+        shipControl.registerLevelEvents(eventMap);
+
+
+
         if (GameConfig.isMusic()) {
             music = Global.assetManager.get("sound/through_space.mp3", Music.class);
             musicBoss = Global.assetManager.get("sound/xeon6.mp3", Music.class);
@@ -238,32 +258,16 @@ public class R_Type extends ApplicationAdapter {
             music.setLooping(true);
         }
 
-        level1 = new Level1(eventMap);
+        level = new Level(eventMap);
 
         enemies.setEnemys_count(5);
         enemies.setReversiveEnabled(false);
         asteroids.setObjectCount(5);
 
-
-        shipControl = new ShipControl(this);
-        bossControl = new BossControl(this);
-
         collObjects.add(shipControl.ship);
 
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/alt.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = font_chars;
-        parameter.size = 35;
-        parameter.color = Color.WHITE;
-        font = generator.generateFont(parameter);
-        parameter.color = Color.WHITE;
-        parameter.size = 75;
-        fontBig = generator.generateFont(parameter);
-        generator.dispose();
 
-
-        messages = new Messages(font);
         messages.addMessage(Global.myBundle.get("start_1"), 150, 540, 2, Color.WHITE, Color.LIGHT_GRAY);
         messages.addMessage(Global.myBundle.get("start_2"), 150, 500, 2, Color.WHITE, Color.LIGHT_GRAY);
         messages.addMessage(Global.myBundle.get("start_3"), 150, 460, 2, Color.WHITE, Color.LIGHT_GRAY);
@@ -280,8 +284,21 @@ public class R_Type extends ApplicationAdapter {
             messages.addMessage(Global.myBundle.get("conf_key_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
             messages.addMessage(Global.myBundle.get("conf_key_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
         }
-        dtLevelCounter = level1.getDtLevetInit() * 60;
+        dtLevelCounter = level.getDtLevetInit() * 60;
 
+    }
+
+    private void initFonts() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/alt.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.characters = font_chars;
+        parameter.size = 35;
+        parameter.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+        parameter.color = Color.WHITE;
+        parameter.size = 75;
+        fontBig = generator.generateFont(parameter);
+        generator.dispose();
     }
 
     @Override
@@ -459,10 +476,10 @@ public class R_Type extends ApplicationAdapter {
         explosions.update(dt);
         if (state == GameState.Run) {
 
-            dtLevelCounter += dt * level1.getStepVector();
+            dtLevelCounter += dt * level.getStepVector();
 
             // меняем настройки по времени
-            level1.update(dtLevelCounter / 60);
+            level.update(dtLevelCounter / 60);
 
             dtBtn += dt;
             // вкл/выкл щита
@@ -600,7 +617,7 @@ public class R_Type extends ApplicationAdapter {
     }
 
     private void restart() {
-        dtLevelCounter = level1.getDtLevetInit();
+        dtLevelCounter = level.getDtLevetInit();
         scope = 0;
         messages.restart();
         asteroids.setFixMaxScale(false);
@@ -609,7 +626,7 @@ public class R_Type extends ApplicationAdapter {
         asteroids.setObjectCount(5);
         asteroids.setReversiveEnabled(false);
         shipControl.reset();
-        level1.reset();
+        level.reset();
         asteroids.reset();
         enemies.reset();
         bullets.reset();
@@ -631,6 +648,25 @@ public class R_Type extends ApplicationAdapter {
         font.dispose();
         fontBig.dispose();
         Global.dispose();
+    }
+
+    @Override
+    public void event(LevelEvents.LevelEvent event) {
+        log.debug("Game: event - " + event);
+        if (event.Name.equals(GameConfig.GAME_BOSS_MODE_ON)) {
+            if (event.param.length > 0) setBossMode(Boolean.valueOf(event.param[0]));
+            return;
+        } else if (event.Name.equals(GameConfig.GAME_SET_STATUS)) {
+            if (event.param.length > 0 && event.param[0].equals("pause")) state = GameState.Pause;
+            return;
+        }
+
+    }
+
+    @Override
+    public void registerLevelEvents(Map<String, Level.ILevelEvent> eventMap) {
+        eventMap.put(GameConfig.GAME_BOSS_MODE_ON, this);
+        eventMap.put(GameConfig.GAME_SET_STATUS, this);
     }
 
     public enum GameState {Run, Pause, End, Demo}

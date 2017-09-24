@@ -4,12 +4,5 @@
   "isDebugDraw": "false",
   "WORLD_WIDTH": "1024",
   "WORLD_HEIGHT": "720",
-  "keyPause": "P",
-  "test": {
-    "time": "5.12",
-    "name": "Asteroid_fixMaxAsteroid",
-    "count": "4"
-  }
-
-
+  "keyPause": "P"
 }

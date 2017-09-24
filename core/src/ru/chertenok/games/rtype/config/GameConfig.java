@@ -18,6 +18,7 @@ public class GameConfig {
     public static final int DEFAULT_WORLD_WIDTH = 1024;
     public static final int DEFAULT_WORLD_HEIGHT = 720;
     public static final String LEVEL1_FILE_PATH = "levels/level1.json";
+    public static final String LEVEL1_PACK_FILE_PATH = "levels/level1.pack";
 
     // ====== TAG ====================
     // Level
@@ -30,6 +31,25 @@ public class GameConfig {
     public static final String EVENTS_TAG = "events";
     // GameConfig
     private static final String SOUND_TAG = "sound";
+
+
+    // ========= LevelEventsName
+    //Asteroids
+    public static final String ASTEROIDS_SET_OBJECT_COUNT = "Asteroids_setObjectCount";
+    public static final String ASTEROIDS_SET_REVERSIVE = "Asteroids_setReversiveEnabled";
+    public static final String ASTEROIDS_SET_MAX_SCALE = "Asteroids_setMaxScale";
+    public static final String ASTEROIDS_SET_FIX_MAX_SCALE = "Asteroids_setFixMaxScale";
+    public static final String ASTEROIDS_SET_FIX_ON_SCREEN = "Asteroids_setFixOnScreen";
+    //ShipControl
+    public static final String SHIP_SET_SHIELD = "Ship_setShieldEnable";
+    public static final String SHIP_SET_FIRE = "Ship_setEnableFire";
+    //Enemies
+    public static final String ENEMIES_SET_OBJECT_COUNT = "Enemies_setObjectCount";
+    //Game
+    public static final String GAME_BOSS_MODE_ON = "Game_Boss_modeOn";
+    public static final String GAME_SET_STATUS = "Game_setStatus";
+    //Messages
+    public static final String MESSAGE_ADD = "Message_add";
 
 
     private static FileHandle fileHandle;

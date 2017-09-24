@@ -3,16 +3,40 @@ package ru.chertenok.games.rtype;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Logger;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.level.Level;
+import ru.chertenok.games.rtype.level.LevelEvents;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 13th on 06-Jul-17.
  */
-public class Messages {
-       class Message{
+public class Messages implements Level.ILevelEvent {
+    private static Logger log = new Logger(Messages.class.getSimpleName(), Logger.DEBUG);
+
+    @Override
+    public void event(LevelEvents.LevelEvent event) {
+        log.debug("Messages: event - " + event);
+        if (event.Name.equals(GameConfig.MESSAGE_ADD)) {
+            if (event.param.length > 5)
+                addMessageAndWait(event.param[5], Float.valueOf(event.param[3]), Float.valueOf(event.param[4]),
+                        Float.valueOf(event.param[0]), Color.valueOf(event.param[1]), Color.valueOf(event.param[2]));
+            return;
+        }
+
+    }
+
+    @Override
+    public void registerLevelEvents(Map<String, Level.ILevelEvent> eventMap) {
+        eventMap.put(GameConfig.MESSAGE_ADD, this);
+    }
+
+    class Message {
        String text;
        float x,y;
        float dtTime;

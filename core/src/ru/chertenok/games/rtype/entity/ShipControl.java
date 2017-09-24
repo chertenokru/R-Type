@@ -6,14 +6,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.level.Level;
+import ru.chertenok.games.rtype.level.LevelEvents;
+
+import java.util.Map;
 
 /**
  * Created by 13th on 02.07.2017.
  */
-public class ShipControl extends Sprites {
+public class ShipControl extends Sprites implements Level.ILevelEvent {
 
+    private static Logger log = new Logger(ShipControl.class.getSimpleName(), Logger.DEBUG);
     private final int MAX_ENERGY = 100;
     private final int MAX_LIVE = 1;
     private final int CONST_DX = 170;
@@ -196,4 +203,22 @@ public class ShipControl extends Sprites {
     }
 
 
+    @Override
+    public void event(LevelEvents.LevelEvent event) {
+        log.debug("ShipControl:event - " + event);
+        if (event.Name.equals(GameConfig.SHIP_SET_SHIELD)) {
+            if (event.param.length > 0) setRechargeEnabled(Boolean.valueOf(event.param[0]));
+            return;
+        } else if (event.Name.equals(GameConfig.SHIP_SET_FIRE)) {
+            if (event.param.length > 0) setEnableFire(Boolean.valueOf(event.param[0]));
+            return;
+        }
+    }
+
+    @Override
+    public void registerLevelEvents(Map<String, Level.ILevelEvent> eventMap) {
+        eventMap.put(GameConfig.SHIP_SET_SHIELD, this);
+        eventMap.put(GameConfig.SHIP_SET_FIRE, this);
+
+    }
 }
