@@ -17,7 +17,8 @@ public class BossControl extends Sprites {
     private float counterFireDt = 0;
     private float dtScale = 0;
 
-    private float fireDt = 3f;
+
+    private float fireDt = 5f;
 
     private float dtColor = 0f;
     private float angle;
@@ -27,6 +28,9 @@ public class BossControl extends Sprites {
     private Sound soundFire;
 
 
+    public boolean isHitting() {
+        return counterFireDt > 3;
+    }
     public int getMAX_ENERGY() {
         return MAX_ENERGY;
     }
@@ -70,7 +74,7 @@ public class BossControl extends Sprites {
             dtColor = 0;
         }
 
-        if (boss.position.x > game.viewport.getWorldWidth() - boss.originSpriteSize.x * 1.5) {
+        if (boss.position.x > game.viewport.getWorldWidth() - boss.originSpriteSize.x * 1.50) {
             boss.position.x -= 50 * dt;
         }
         boss.update(dt);
@@ -81,10 +85,14 @@ public class BossControl extends Sprites {
 
         if (!boss.isActive) return;
         batch.setColor(colorBoss);
+        float koef;
+        if (isHitting()) koef = 0.5f;
+        else koef = 1;
+
         //System.out.printf("x %f, y %f",boss.position.x,boss.position.y);
-        batch.draw(texture[textureCount - 1], boss.position.x - spriteSizeX / 2, boss.position.y - spriteSizeY / 2, spriteSizeX / 2, spriteSizeY / 2, spriteSizeX, spriteSizeY, 0.9f, 0.9f, boss.angle, false);
-        batch.draw(texture[textureCount - 1], boss.position.x - spriteSizeX / 2, boss.position.y - spriteSizeY / 2, spriteSizeX / 2, spriteSizeY / 2, spriteSizeX, spriteSizeY, 0.5f, 0.5f, boss.angle + 90, false);
-        batch.draw(texture[textureCount - 1], boss.position.x - spriteSizeX / 2, boss.position.y - spriteSizeY / 2, spriteSizeX / 2, spriteSizeY / 2, spriteSizeX, spriteSizeY, 0.3f, 0.3f, boss.angle + 270, false);
+        batch.draw(texture[textureCount - 1], boss.position.x - spriteSizeX / 2, boss.position.y - spriteSizeY / 2, spriteSizeX / 2, spriteSizeY / 2, spriteSizeX, spriteSizeY, 0.9f * koef, 0.9f * koef, boss.angle, false);
+        batch.draw(texture[textureCount - 1], boss.position.x - spriteSizeX / 2, boss.position.y - spriteSizeY / 2, spriteSizeX / 2, spriteSizeY / 2, spriteSizeX, spriteSizeY, 0.5f * koef, 0.5f * koef, boss.angle + 90, false);
+        batch.draw(texture[textureCount - 1], boss.position.x - spriteSizeX / 2, boss.position.y - spriteSizeY / 2, spriteSizeX / 2, spriteSizeY / 2, spriteSizeX, spriteSizeY, 0.3f * koef, 0.3f * koef, boss.angle + 270, false);
         batch.setColor(1, 1, 1, 1);
         // batch.draw(t,500,300,514/2,324/2,514,324,scaleT,scaleT,dtT,0,0,514,324,false,false);
     }

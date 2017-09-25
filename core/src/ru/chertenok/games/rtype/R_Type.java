@@ -3,6 +3,8 @@
  * =====================
  * 24.09
  * add localization ru + default (eng)
+ * moving Level event to json
+ * moving level event handler to object controller
  * <p>
  * <p>
  * 23.09
@@ -351,7 +353,7 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
         else batch.setColor(1, 1, 1, 1);
 
         // полоса здоровья
-        renderLiveLine(shipControl.getEnergy(), shipControl.getMAX_ENERGY(), 0);
+        renderLiveLine(shipControl.getEnergy(), shipControl.getMAX_ENERGY(), 0, false);
         // полоса здоровья
 
         if (bossMode) {
@@ -360,7 +362,7 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
             font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20 - 1, viewport.getWorldHeight() - 75 - 1);
             font.setColor(Color.RED);
             font.draw(batch, "Boss Energy: " + bossControl.getBoss().live, 20, viewport.getWorldHeight() - 75);
-            renderLiveLine(bossControl.getBoss().live, bossControl.getMAX_ENERGY(), 55);
+            renderLiveLine(bossControl.getBoss().live, bossControl.getMAX_ENERGY(), 55, true);
         }
 
 
@@ -429,15 +431,17 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
         }
     }
 
-    private void renderLiveLine(int value, float maxValue, float shiftY) {
+    private void renderLiveLine(int value, float maxValue, float shiftY, boolean isBoss) {
 
         batch.setColor(1, 1, 1, 0.6f);
         batch.draw(imgRect, 20, viewport.getWorldHeight() - 70 - shiftY, viewport.getWorldWidth() - 40, 20);
         batch.setColor(0, 0, 0, 0.6f);
         batch.draw(imgRect, 22, viewport.getWorldHeight() - 68 - shiftY, viewport.getWorldWidth() - 44, 16);
-        if ((value / maxValue * 100) >= 75f) batch.setColor(0, 1, 0, 0.6f);
-        else if ((value / maxValue * 100) <= 25f) batch.setColor(1, 0, 0, 0.6f);
-        else batch.setColor(1, 1, 0, 0.6f);
+        if ((isBoss && bossControl.isHitting()) || (!isBoss)) {
+            if ((value / maxValue * 100) >= 75f) batch.setColor(0, 1, 0, 0.6f);
+            else if ((value / maxValue * 100) <= 25f) batch.setColor(1, 0, 0, 0.6f);
+            else batch.setColor(1, 1, 0, 0.6f);
+        } else font.setColor(Color.GRAY);
 
         tempEnergy = (viewport.getWorldWidth() - 44) / 100 * (value / maxValue * 100);
         if (tempEnergy < 0) tempEnergy = 0;
