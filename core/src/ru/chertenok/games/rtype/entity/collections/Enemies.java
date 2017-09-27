@@ -139,11 +139,11 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
         enemy.scale = 1;
         if (enemy.type == ru.chertenok.games.rtype.entity.EnemyType.Type1) {
             enemy.live = 50;
-            enemy.setScope(50);
+            enemy.setScore(50);
         }
         else {
             enemy.live = 20;
-            enemy.setScope(20);
+            enemy.setScore(20);
         }
         enemy.setDamage(40);
        super.init(gameInnerObject,width,height);

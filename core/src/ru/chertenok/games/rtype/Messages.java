@@ -24,7 +24,7 @@ public class Messages implements Level.ILevelEvent {
         log.debug("Messages: event - " + event);
         if (event.Name.equals(GameConfig.MESSAGE_ADD)) {
             if (event.param.length > 5)
-                addMessageAndWait(event.param[5], Float.valueOf(event.param[3]), Float.valueOf(event.param[4]),
+                addMessageAndWait(Global.levelBundle.get(event.param[5]), Float.valueOf(event.param[3]), Float.valueOf(event.param[4]),
                         Float.valueOf(event.param[0]), Color.valueOf(event.param[1]), Color.valueOf(event.param[2]));
             return;
         }
@@ -93,11 +93,11 @@ public class Messages implements Level.ILevelEvent {
 
         public void render (SpriteBatch batch){
             for (Message m:messages) {
-                //тень
-                if (m.colorShadow != null){
-                    font.setColor(m.colorShadow.r,m.colorShadow.g,m.colorShadow.b,1.00f-1.00f/(m.dtTime/m.dtCounter));
-                    font.draw(batch,m.text,m.x-1,m.y-1);
-                }
+//                //тень
+//                if (m.colorShadow != null){
+//                    font.setColor(m.colorShadow.r,m.colorShadow.g,m.colorShadow.b,1.00f-1.00f/(m.dtTime/m.dtCounter));
+//                    font.draw(batch,m.text,m.x-1,m.y-1);
+//                }
                 font.setColor(m.color.r,m.color.g,m.color.b,1.00f-1.00f/(m.dtTime/m.dtCounter));
                 font.draw(batch,m.text,m.x,m.y);
             }

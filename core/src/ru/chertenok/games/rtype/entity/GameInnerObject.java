@@ -25,7 +25,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     public boolean isFixOnScreen = false;
     protected Rectangle rectangle = new Rectangle();
     protected Circle circle;
-    protected int scope = 0;
+    protected int score = 0;
     protected int damage = 0;
     public float maxSpeed = 200;
 
@@ -43,12 +43,12 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         isActive = active;
     }
 
-    public int getScope() {
-        return scope;
+    public int getScore() {
+        return score;
     }
 
-    public void setScope(int scope) {
-        this.scope = scope;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public int getDamage() {

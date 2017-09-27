@@ -113,7 +113,7 @@ public class Bullets extends ru.chertenok.games.rtype.entity.collections.ObjectC
                             if (asteroids.asteroids[j].live == 0) {
                                 // если пуля игрока, то очки начисляем
                                 if (b.owner == ObjectOwner.Gamer) {
-                                    game.scope += asteroids.asteroids[j].getSCOPE();
+                                    game.score += asteroids.asteroids[j].getSCOPE();
                                     game.messages.addMessage("+" + asteroids.asteroids[j].getSCOPE(), b.position.x + spriteSizeX, b.position.y + spriteSizeY, 1f, Color.GRAY);
                                 }
                                 explosions.addExplosion(asteroids.asteroids[j].position.x, asteroids.asteroids[j].position.y, asteroids.asteroids[j].scale);
@@ -166,7 +166,7 @@ public class Bullets extends ru.chertenok.games.rtype.entity.collections.ObjectC
 
                             if (game.enemies.enemies[j].live == 0) {
                                 // если пуля игрока, то очки начисляем
-                                if (b.owner == ObjectOwner.Gamer) game.scope += game.enemies.enemies[j].getSCOPE();
+                                if (b.owner == ObjectOwner.Gamer) game.score += game.enemies.enemies[j].getSCOPE();
 
                                 explosions.addExplosion(game.enemies.enemies[j].position.x, game.enemies.enemies[j].position.y, 1);
                                 game.messages.addMessage("+" + game.enemies.enemies[j].getSCOPE(), b.position.x + spriteSizeX, b.position.y + spriteSizeY, 1f, Color.GRAY);

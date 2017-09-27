@@ -27,8 +27,8 @@ public class Enemy extends ru.chertenok.games.rtype.entity.GameInnerObject {
             if (live < 0) {
                 setActive(false);
                 // если пуля игрока, то очки начисляем
-                    game.scope += getScope();
-                    game.messages.addMessage("+" + getScope(), position.x + originSpriteSize.x * scale, position.y + originSpriteSize.y * scale,
+                game.setScore(game.getScore() + getScore());
+                game.messages.addMessage("+" + getScore(), position.x + originSpriteSize.x * scale, position.y + originSpriteSize.y * scale,
                             1f, Color.GRAY);
                 return true;
                 }

@@ -1,6 +1,10 @@
 /**
  * see Udemy lesson
  * =====================
+ *
+ * 27.09
+ * add score animation
+ *
  * 24.09
  * add localization ru + default (eng)
  * moving Level event to json
@@ -120,7 +124,8 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
     public Viewport viewport;
 
     //хар-ки
-    public int scope = 0;
+    private int score = 0;
+    private int displayScore = 0;
     public GameState state = GameState.Run;
     public Bullets bullets;
     public ShipControl shipControl;
@@ -177,6 +182,14 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
 
     public Map<String, Level.ILevelEvent> getEventMap() {
         return eventMap;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setBossMode(boolean bossMode) {
@@ -269,22 +282,21 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
         collObjects.add(shipControl.ship);
 
 
-
-        messages.addMessage(Global.myBundle.get("start_1"), 150, 540, 2, Color.WHITE, Color.LIGHT_GRAY);
-        messages.addMessage(Global.myBundle.get("start_2"), 150, 500, 2, Color.WHITE, Color.LIGHT_GRAY);
-        messages.addMessage(Global.myBundle.get("start_3"), 150, 460, 2, Color.WHITE, Color.LIGHT_GRAY);
+        messages.addMessage(Global.gameBundle.get("start_1"), 150, 540, 2, Color.WHITE, Color.LIGHT_GRAY);
+        messages.addMessage(Global.gameBundle.get("start_2"), 150, 500, 2, Color.WHITE, Color.LIGHT_GRAY);
+        messages.addMessage(Global.gameBundle.get("start_3"), 150, 460, 2, Color.WHITE, Color.LIGHT_GRAY);
         state = GameState.Pause;
         if (Global.isAndroid()) {
-            messages.addMessage(Global.myBundle.get("conf_touch_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.myBundle.get("conf_touch_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.myBundle.get("conf_touch_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.myBundle.get("conf_touch_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_touch_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_touch_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_touch_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_touch_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
 
         } else {
-            messages.addMessage(Global.myBundle.get("conf_key_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.myBundle.get("conf_key_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.myBundle.get("conf_key_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.myBundle.get("conf_key_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_key_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_key_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_key_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
+            messages.addMessage(Global.gameBundle.get("conf_key_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
         }
         dtLevelCounter = level.getDtLevetInit() * 60;
 
@@ -298,8 +310,14 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
         parameter.color = Color.WHITE;
+        parameter.shadowColor = Color.GRAY;
+        parameter.shadowOffsetX = 3;
+        parameter.shadowOffsetY = 3;
+        parameter.borderStraight = true;
         parameter.size = 75;
+
         fontBig = generator.generateFont(parameter);
+        //  fontBig.getData().markupEnabled
         generator.dispose();
     }
 
@@ -378,9 +396,9 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
         font.draw(batch, "Live: " + shipControl.getLive(), viewport.getWorldWidth() - 400, viewport.getWorldHeight() - 10);
 
         font.setColor(Color.RED);
-        font.draw(batch, "Scope: " + scope, viewport.getWorldWidth() - 700 - 1, viewport.getWorldHeight() - 10 - 1);
+        font.draw(batch, "Score: " + displayScore, viewport.getWorldWidth() - 700 - 1, viewport.getWorldHeight() - 10 - 1);
         font.setColor(Color.GOLD);
-        font.draw(batch, "Scope: " + scope, viewport.getWorldWidth() - 700, viewport.getWorldHeight() - 10);
+        font.draw(batch, "Score: " + displayScore, viewport.getWorldWidth() - 700, viewport.getWorldHeight() - 10);
 
 
         font.setColor(Color.GOLD);
@@ -497,19 +515,19 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
             }
 
             // работа щита
-            if (shipControl.isRecharge() && scope / reChargeCost > 0 && shipControl.getMAX_ENERGY() > shipControl.getEnergy()) {
-                int scopeNeed = (shipControl.getMAX_ENERGY() - shipControl.getEnergy()) * reChargeCost;
-                if (scopeNeed >= scope) {
-                    messages.addMessage("+" + shipControl.getEnergy() + scope / reChargeCost + "HP  -" + (scope - scope % reChargeCost) + "XM",
+            if (shipControl.isRecharge() && score / reChargeCost > 0 && shipControl.getMAX_ENERGY() > shipControl.getEnergy()) {
+                int scoreNeed = (shipControl.getMAX_ENERGY() - shipControl.getEnergy()) * reChargeCost;
+                if (scoreNeed >= score) {
+                    messages.addMessage("+" + shipControl.getEnergy() + score / reChargeCost + "HP  -" + (score - score % reChargeCost) + "XM",
                             shipControl.ship.position.x, shipControl.ship.position.y, 2f, Color.ORANGE);
-                    shipControl.setEnergy(shipControl.getEnergy() + scope / reChargeCost);
-                    scope = (scope % reChargeCost);
+                    shipControl.setEnergy(shipControl.getEnergy() + score / reChargeCost);
+                    score = (score % reChargeCost);
                 } else {
                     messages.addMessage("+" + (shipControl.getMAX_ENERGY() - shipControl.getEnergy()) + " HP  -" + ((shipControl.getMAX_ENERGY() - shipControl.getEnergy()) * reChargeCost) + "XM",
                             shipControl.ship.position.x, shipControl.ship.position.y, 2f, Color.ORANGE);
 
                     shipControl.setEnergy(shipControl.getMAX_ENERGY());
-                    scope -= scopeNeed;
+                    score -= scoreNeed;
                 }
             }
 
@@ -521,6 +539,7 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
 
             bullets.update(dt);
             messages.update(dt);
+            displayScoreUpdate(dt);
         }
         lastMouseTouch = Gdx.input.isTouched(0);
         lastMouseTouch1 = Gdx.input.isTouched(1);
@@ -598,6 +617,15 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
 
     }
 
+    private void displayScoreUpdate(float dt) {
+        if (displayScore < score) {
+            displayScore = Math.min(score, displayScore + (int) (60 * dt));
+        } else if (displayScore > score) {
+            displayScore = Math.max(score, displayScore - (int) (60 * dt));
+        }
+
+    }
+
     private boolean isPauseCoord(int pointerNum) {
         vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
         vector2.set(viewport.unproject(vector2));
@@ -622,7 +650,7 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
 
     private void restart() {
         dtLevelCounter = level.getDtLevetInit();
-        scope = 0;
+        score = 0;
         messages.restart();
         asteroids.setFixMaxScale(false);
         asteroids.setMaxScale(0);

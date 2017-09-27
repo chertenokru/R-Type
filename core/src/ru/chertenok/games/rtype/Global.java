@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Logger;
+import ru.chertenok.games.rtype.config.GameConfig;
 
 import java.util.Locale;
 import java.util.Random;
@@ -25,7 +26,8 @@ public class Global {
     public static AssetDescriptor<TextureAtlas> currentLevel;
     public static Random rnd = new Random();
     public static Locale locale;
-    public static I18NBundle myBundle;
+    public static I18NBundle gameBundle;
+    public static I18NBundle levelBundle;
     private static Logger log = new Logger(Global.class.getSimpleName(), Logger.DEBUG);
 
     private Global() {
@@ -41,22 +43,28 @@ public class Global {
         assetManager.load("sound/foom_0.mp3", Sound.class);
         assetManager.load("sound/acid6.mp3", Sound.class);
         assetManager.load("sound/rlaunch.mp3", Sound.class);
-        assetManager.load("localization/MyBundle", I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+        assetManager.load(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+        assetManager.load(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
         assetManager.finishLoading();
-        myBundle = assetManager.get("localization/MyBundle", I18NBundle.class);
-
-        log.error(myBundle.getLocale().getDisplayName());
+        gameBundle = assetManager.get(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class);
+        levelBundle = assetManager.get(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class);
+        log.debug(gameBundle.getLocale().getDisplayName());
+        log.debug(gameBundle.getLocale().getDisplayName());
 
     }
 
     public static void setMessageLanguage(Locale locale) {
         if (Global.locale.getLanguage().equals(locale.getLanguage())) return;
-        assetManager.unload("localization/MyBundle");
+        assetManager.unload(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH);
+        assetManager.unload(GameConfig.LOCALIZATION_LEVEL1_PATH);
         Global.locale = locale;
-        assetManager.load("localization/MyBundle", I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+        assetManager.load(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+        assetManager.load(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
+
         assetManager.finishLoading();
-        myBundle = assetManager.get("localization/MyBundle", I18NBundle.class);
-        log.debug("Language changed to  " + myBundle.getLocale().getDisplayName());
+        gameBundle = assetManager.get(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class);
+        levelBundle = assetManager.get(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class);
+        log.debug("Language changed to  " + gameBundle.getLocale().getDisplayName());
     }
 
     public static void dispose() {

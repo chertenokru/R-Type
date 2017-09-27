@@ -1,6 +1,6 @@
 {
-  "sound": "true",
-  "music": "true",
+  "sound": "false",
+  "music": "false",
   "isDebugDraw": "false",
   "WORLD_WIDTH": "1024",
   "WORLD_HEIGHT": "720",

@@ -6,9 +6,11 @@ import ru.chertenok.games.rtype.R_Type;
 
 public class Boss extends GameInnerObject {
     private Circle circle = new Circle();
+    public float koef = 1;
 
     @Override
     public boolean hitIsRemove(R_Type game, Collisionable collisionObject) {
+
         return false;
     }
 
@@ -29,7 +31,7 @@ public class Boss extends GameInnerObject {
 
     @Override
     public Circle getHitAreaCircle() {
-          circle.set(position.x,position.y, originSpriteSize.y/2);
+        circle.set(position.x, position.y, originSpriteSize.y / 2 * koef);
         return circle;
     }
 

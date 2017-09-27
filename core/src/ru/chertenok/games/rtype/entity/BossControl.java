@@ -100,7 +100,7 @@ public class BossControl extends Sprites {
     public void reset() {
         boss.angleInc = 60;
         boss.damage = 50;
-        boss.scope = 2000;
+        boss.score = 2000;
         boss.originSpriteSize.x = spriteSizeX;
         boss.originSpriteSize.y = spriteSizeY;
         boss.isActive = false;

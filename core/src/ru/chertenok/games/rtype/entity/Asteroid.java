@@ -17,14 +17,14 @@ public class Asteroid extends GameInnerObject {
     private static float maxScale = 0.5f;
 
     public Asteroid() {
-        scope = SCOPE;
+        score = SCOPE;
         damage = DAMAGE;
     }
 
 
     @Override
-    public int getScope() {
-        return super.getScope() * ((int) ((scale - 0.5f) / 0.5f) + 1);
+    public int getScore() {
+        return super.getScore() * ((int) ((scale - 0.5f) / 0.5f) + 1);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class Asteroid extends GameInnerObject {
                 game.explosions.addExplosion(position.x, position.y, scale);
                 // если пуля игрока, то очки начисляем
                 if (collisionObject.getObjectType() == ObjectType.BulletPlayer) {
-                    game.scope += getScope();
-                    game.messages.addMessage("+" + getScope(), position.x + originSpriteSize.x * scale, position.y + originSpriteSize.y * scale,
+                    game.setScore(game.getScore() + getScore());
+                    game.messages.addMessage("+" + getScore(), position.x + originSpriteSize.x * scale, position.y + originSpriteSize.y * scale,
                             1f, Color.GRAY);
                 }
 
@@ -80,7 +80,7 @@ public class Asteroid extends GameInnerObject {
         rectangle.setPosition(0, 0);
         position.set(0, 0);
         velocity.set(0, 0);
-        scope = DAMAGE;
+        score = DAMAGE;
         damage = DAMAGE;
         scale = SCALE;
         live = (int) (MAX_LIVE * scale);

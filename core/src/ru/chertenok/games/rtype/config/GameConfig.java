@@ -19,6 +19,8 @@ public class GameConfig {
     public static final int DEFAULT_WORLD_HEIGHT = 720;
     public static final String LEVEL1_FILE_PATH = "levels/level1.json";
     public static final String LEVEL1_PACK_FILE_PATH = "levels/level1.pack";
+    public static final String LOCALIZATION_GAMEBUNDLE_PATH = "localization/GameBundle";
+    public static final String LOCALIZATION_LEVEL1_PATH = "localization/level1";
 
     // ====== TAG ====================
     // Level

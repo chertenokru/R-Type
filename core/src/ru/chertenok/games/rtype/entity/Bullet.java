@@ -19,7 +19,7 @@ public class Bullet extends GameInnerObject {
         velocity = new Vector2(0, 0);
         type = ru.chertenok.games.rtype.entity.collections.Bullets.BulletsType.Type1;
         setDamage(21);
-        setScope(0);
+        setScore(0);
 
 
     }
