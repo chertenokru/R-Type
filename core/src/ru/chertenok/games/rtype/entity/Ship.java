@@ -33,18 +33,6 @@ public class Ship extends ru.chertenok.games.rtype.entity.GameInnerObject {
 
 
     @Override
-    public boolean hitIsRemove(R_Type game, Collisionable collisionObject) {
-        if (collisionObject.getObjectType() == ObjectType.BulletAI || collisionObject.getObjectType() == ObjectType.Asteroid || collisionObject.getObjectType() == ObjectType.Enemy) {
-            energy -= collisionObject.getDamage();
-            setDamaging(true);
-            if  (collisionObject.getObjectType() != ObjectType.BulletAI )
-                collisionsObject(this, (ru.chertenok.games.rtype.entity.GameInnerObject) collisionObject, true);
-
-        }
-        return false;
-    }
-
-    @Override
     public ObjectType getObjectType() {
         return ObjectType.Ship;
     }
@@ -55,5 +43,20 @@ public class Ship extends ru.chertenok.games.rtype.entity.GameInnerObject {
         rectangle.y += 15;
         rectangle.height -= 30;
         return rectangle;
+    }
+
+    @Override
+    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+        if (isHit != isCollision) setHit(isCollision);
+        if (!isCollision) return false;
+
+        if (!collisionObject.isHit() && collisionObject.getObjectType() == ObjectType.BulletAI || collisionObject.getObjectType() == ObjectType.Asteroid || collisionObject.getObjectType() == ObjectType.Enemy) {
+            energy -= collisionObject.getDamage();
+            setDamaging(true);
+            if (collisionObject.getObjectType() != ObjectType.BulletAI)
+                collisionsObject(this, (ru.chertenok.games.rtype.entity.GameInnerObject) collisionObject, true);
+
+        }
+        return false;
     }
 }

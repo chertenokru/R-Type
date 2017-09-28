@@ -8,11 +8,6 @@ public class Boss extends GameInnerObject {
     private Circle circle = new Circle();
     public float koef = 1;
 
-    @Override
-    public boolean hitIsRemove(R_Type game, Collisionable collisionObject) {
-
-        return false;
-    }
 
     @Override
     public ObjectType getObjectType() {
@@ -35,9 +30,17 @@ public class Boss extends GameInnerObject {
         return circle;
     }
 
+    @Override
+    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+        if (isHit != isCollision) setHit(isCollision);
+        if (!isCollision) return false;
+        return false;
+    }
+
 
     @Override
     public void update(float dt) {
         super.update(dt);
     }
+
 }

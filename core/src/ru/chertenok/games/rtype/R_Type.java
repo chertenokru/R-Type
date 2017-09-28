@@ -1,10 +1,14 @@
 /**
  * see Udemy lesson
  * =====================
- *
+ * 28.09
+ * fix error level localization
+ * add hit on GameInnerObject
+ * reneim  metod hit in Collisionable and add revoke in every
+ * <p>
  * 27.09
  * add score animation
- *
+ * <p>
  * 24.09
  * add localization ru + default (eng)
  * moving Level event to json
@@ -265,7 +269,6 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
         enemies.registerLevelEvents(eventMap);
         messages.registerLevelEvents(eventMap);
         shipControl.registerLevelEvents(eventMap);
-
 
 
         if (GameConfig.isMusic()) {
@@ -581,21 +584,19 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
                         if (collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle)
                             if (Intersector.overlaps(collisionable1.getHitAreaCircle(), collisionable2.getHitAreaRectangle()))
                                 isCollision = true;
-                        // столкнулись
-                        if (isCollision) {
-                            // этот в помойку
-                            if (collisionable1.hitIsRemove(this, collisionable2)) {
-                                collObjects.removeIndex(i);
-                            }
-                            // этот не активный и потом в помойку
-                            if (collisionable2.hitIsRemove(this, collisionable1)) {
-                                collisionable2.setNoActive();
-                            }
 
-                            break;
+                        // тот не активный и потом в помойку
+                        if (collisionable1.hitStatus_and_IsRemove(this, collisionable2, isCollision)) {
+                            collisionable1.setNoActive();
+                        }
+                        // этот не активный и потом в помойку
+                        if (collisionable2.hitStatus_and_IsRemove(this, collisionable1, isCollision)) {
+                            collisionable2.setNoActive();
                         }
                     }
                 }
+                if (!collisionable1.isActive()) collObjects.removeIndex(i);
+
             }
         }
 

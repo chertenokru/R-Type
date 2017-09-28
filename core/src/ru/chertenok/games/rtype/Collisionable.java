@@ -20,7 +20,7 @@ public interface Collisionable {
     Rectangle getHitAreaRectangle();
     // столкновение, нужно ли удалить объект, параметр - объект столкновения
     //  и кривизна в виде ссылки на главный класс для реализации реакции на столкновение
-    boolean hitIsRemove(R_Type game, Collisionable collisionObject);
+    boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision);
     // надо ли для объекта обрабатывать столкновения
     boolean isCollisinable();
     // тип объекта
@@ -29,4 +29,6 @@ public interface Collisionable {
     int getDamage( );
     boolean isActive();
     void setNoActive();
+
+    boolean isHit();
 }

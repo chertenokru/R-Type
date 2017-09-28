@@ -46,8 +46,11 @@ public class Bullet extends GameInnerObject {
     }
 
 
+
     @Override
-    public boolean hitIsRemove(R_Type game,Collisionable collisionObject) {
+    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+        if (isHit != isCollision) setHit(isCollision);
+        if (!isCollision) return false;
         if ((collisionObject.getObjectType() == ObjectType.BulletPlayer && owner == ObjectOwner.AI) ||
                 (collisionObject.getObjectType() == ObjectType.BulletAI && owner == ObjectOwner.Gamer)){
             setActive(false);
@@ -72,9 +75,7 @@ public class Bullet extends GameInnerObject {
         }
 
         return false;
-
     }
-
 
     @Override
     public ObjectType getObjectType() {

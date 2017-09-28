@@ -27,6 +27,7 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
     protected Circle circle;
     protected int score = 0;
     protected int damage = 0;
+    protected boolean isHit = false;
     public float maxSpeed = 200;
 
     public GameInnerObject() {
@@ -135,6 +136,14 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         return HitAreaType.Rectangle;
     }
 
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        isHit = hit;
+    }
+
     @Override
     public Circle getHitAreaCircle() {
         return null;
@@ -168,6 +177,5 @@ public abstract class GameInnerObject implements Collisionable, Pool.Poolable {
         if (velocity.x > maxSpeed) velocity.x = maxSpeed;
         if (velocity.y > maxSpeed) velocity.y = maxSpeed;
     }
-
 
 }

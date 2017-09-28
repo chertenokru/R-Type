@@ -43,7 +43,10 @@ public class Asteroid extends GameInnerObject {
     }
 
     @Override
-    public boolean hitIsRemove(R_Type game, Collisionable collisionObject) {
+    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+        if (isHit != isCollision) setHit(isCollision);
+        if (!isCollision) return false;
+
         if (collisionObject.getObjectType() == ObjectType.BulletAI || collisionObject.getObjectType() == ObjectType.BulletPlayer) {
             live -= collisionObject.getDamage();
             if (live < 0) {
@@ -65,6 +68,7 @@ public class Asteroid extends GameInnerObject {
             collisionsObject(this, (GameInnerObject) collisionObject,true);
         }
         return false;
+
     }
 
 
