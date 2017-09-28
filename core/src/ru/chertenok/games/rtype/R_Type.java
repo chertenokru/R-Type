@@ -113,6 +113,7 @@ import ru.chertenok.games.rtype.level.LevelEvents;
 import ru.chertenok.games.rtype.menu.Menu;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -228,7 +229,8 @@ public class R_Type extends ApplicationAdapter implements Level.ILevelEvent {
 
         Global.load(GameConfig.LEVEL1_PACK_FILE_PATH);
 
-        // Global.setMessageLanguage(new Locale("ru"));
+
+        Global.setMessageLanguage(new Locale("ru"));
         // Global.setMessageLanguage(new Locale("en"));
         imgPause = Global.assetManager.get(Global.currentLevel).findRegion("pause");
         imgShield = Global.assetManager.get(Global.currentLevel).findRegion("shield");

@@ -52,7 +52,25 @@
         "true"
       ]
     },
-
+    {
+      "time": "6.7",
+      "Name": "Message_add",
+      "param": [
+        "3.5",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "540",
+        "fire_disabled1"
+      ]
+    },
+    {
+      "time": "6.7",
+      "Name": "Game_setStatus",
+      "param": [
+        "pause"
+      ]
+    },
     {
       "time": "6.7",
       "Name": "Asteroids_setObjectCount",

@@ -47,7 +47,7 @@ public class Global {
         assetManager.load(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
         assetManager.finishLoading();
         gameBundle = assetManager.get(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class);
-        levelBundle = assetManager.get(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class);
+        levelBundle = assetManager.get(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class);
         log.debug(gameBundle.getLocale().getDisplayName());
         log.debug(gameBundle.getLocale().getDisplayName());
 
@@ -64,7 +64,7 @@ public class Global {
         assetManager.finishLoading();
         gameBundle = assetManager.get(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class);
         levelBundle = assetManager.get(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class);
-        log.debug("Language changed to  " + gameBundle.getLocale().getDisplayName());
+        log.debug("Language changed to  " + levelBundle.getLocale().getDisplayName());
     }
 
     public static void dispose() {
