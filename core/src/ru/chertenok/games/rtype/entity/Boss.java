@@ -2,7 +2,7 @@ package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Circle;
 import ru.chertenok.games.rtype.Collisionable;
-import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.GameScreen;
 
 public class Boss extends GameInnerObject {
     private Circle circle = new Circle();
@@ -31,7 +31,7 @@ public class Boss extends GameInnerObject {
     }
 
     @Override
-    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+    public boolean hitStatus_and_IsRemove(GameScreen game, Collisionable collisionObject, boolean isCollision) {
         if (isHit != isCollision) setHit(isCollision);
         if (!isCollision) return false;
         return false;

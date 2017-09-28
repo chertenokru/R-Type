@@ -2,7 +2,7 @@ package ru.chertenok.games.rtype.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.GameScreen;
 import ru.chertenok.games.rtype.config.GameConfig;
 
 
@@ -13,6 +13,6 @@ public class DesktopLauncher {
         config.width = GameConfig.DEFAULT_WORLD_WIDTH;
         config.title = "R-TYPE style demo";
         config.fullscreen = false;
-        new LwjglApplication(new R_Type(), config);
+        new LwjglApplication(new GameScreen(), config);
     }
 }

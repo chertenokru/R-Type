@@ -2,8 +2,9 @@ package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 /**
  * Created by 13th on 18-Jul-17.
@@ -26,7 +27,7 @@ public abstract class ObjectCollector extends Sprites {
         return objectCount;
     }
 
-    public ObjectCollector(Class  newClass, R_Type game, String textureName, int textureCount) throws Exception {
+    public ObjectCollector(Class newClass, GameScreen game, String textureName, int textureCount) throws Exception {
         super(game, textureName, textureCount);
         // проверяем что нам подсовывают
         if (!ru.chertenok.games.rtype.entity.GameInnerObject.class.isAssignableFrom(newClass)) {
@@ -63,7 +64,7 @@ public abstract class ObjectCollector extends Sprites {
         createWaitDTCounter += dt;
         for (int i = 0; i < activeObject.size; i++) {
             if (activeObject.get(i).isActive()) {
-                activeObject.get(i).update(dt, game.viewport.getWorldWidth(), game.viewport.getWorldHeight(),maxSpeed);
+                activeObject.get(i).update(dt, GameConfig.getWorldWidth(), GameConfig.getWorldHeight(), maxSpeed);
 
             }
             // если улетел, но обещал вернуться, то в пул его

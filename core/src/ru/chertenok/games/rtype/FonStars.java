@@ -2,6 +2,8 @@ package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 /**
  * Created by 13th on 02.07.2017.
@@ -40,7 +42,7 @@ public class FonStars extends Sprites{
         isStop = stop;
     }
 
-    public FonStars(R_Type game) {
+    public FonStars(GameScreen game) {
         super(game,"star",3);
         this.game = game;
 
@@ -56,7 +58,7 @@ public class FonStars extends Sprites{
 
 
     private void initStar(int i,boolean start) {
-        stars[i].position.set( (start)? Global.rnd.nextInt((int)game.viewport.getWorldWidth()):game.viewport.getWorldWidth(), Global.rnd.nextInt((int)game.viewport.getWorldHeight()));
+        stars[i].position.set((start) ? Global.rnd.nextInt((int) GameConfig.getWorldWidth()) : GameConfig.getWorldWidth(), Global.rnd.nextInt((int) GameConfig.getWorldHeight()));
         stars[i].alpha = Global.rnd.nextFloat();
         // Разные скорости для звезд разного размера
         switch (stars[i].textureNo){

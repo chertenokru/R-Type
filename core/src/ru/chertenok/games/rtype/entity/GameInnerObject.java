@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.Collisionable;
-import ru.chertenok.games.rtype.ObjectOwner;
+import ru.chertenok.games.rtype.config.ObjectOwner;
 
 /**
  * Created by 13th on 14-Jul-17.

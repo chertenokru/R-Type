@@ -4,10 +4,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import ru.chertenok.games.rtype.GameScreen;
 import ru.chertenok.games.rtype.Global;
-import ru.chertenok.games.rtype.ObjectOwner;
-import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.config.ObjectOwner;
 import ru.chertenok.games.rtype.entity.Bullet;
 import ru.chertenok.games.rtype.entity.GameInnerObject;
 
@@ -35,7 +35,7 @@ public class Bullets extends ru.chertenok.games.rtype.entity.collections.ObjectC
     private int BULLET_DISTANCE = (int) game.viewport.getWorldWidth() - (int) game.viewport.getWorldWidth() / 5;
 
 
-    public Bullets(R_Type game) throws Exception {
+    public Bullets(GameScreen game) throws Exception {
         super(Bullet.class, game, "bullet", 4);
         this.asteroids = game.asteroids;
         this.explosions = game.explosions;

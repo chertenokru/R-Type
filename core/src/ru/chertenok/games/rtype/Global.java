@@ -1,7 +1,5 @@
 package ru.chertenok.games.rtype;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
@@ -37,12 +35,12 @@ public class Global {
         locale = Locale.getDefault();
         currentLevel = new AssetDescriptor<TextureAtlas>(packName, TextureAtlas.class);
         assetManager.load(currentLevel);
-        assetManager.load("sound/through_space.mp3", Music.class);
-        assetManager.load("sound/xeon6.mp3", Music.class);
+        assetManager.load(GameConfig.FILE_MAIN_MUSIC_PATH, Music.class);
+        assetManager.load(GameConfig.FILE_BOSS_MUSIC_PATH, Music.class);
         assetManager.load("sound/slimeball.mp3", Sound.class);
         assetManager.load("sound/foom_0.mp3", Sound.class);
         assetManager.load("sound/acid6.mp3", Sound.class);
-        assetManager.load("sound/rlaunch.mp3", Sound.class);
+        assetManager.load(GameConfig.FILE_BOSS_SOUND_PATH, Sound.class);
         assetManager.load(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
         assetManager.load(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
         assetManager.finishLoading();
@@ -72,30 +70,7 @@ public class Global {
         assetManager.dispose();
     }
 
-    public static float getAngle(float x1, float y1, float x2, float y2) {
-        return (float) Math.atan2(y2 - y1, x2 - x1);
-    }
-
-    public static float rotateTo(float from, float to, float rotateSpeed, float dt) {
-        if (from > to) {
-            if (from - to < Math.PI) {
-                from -= rotateSpeed * dt;
-            } else {
-                from += rotateSpeed * dt;
-            }
-        }
-        if (from < to) {
-            if (to - from < Math.PI) {
-                from += rotateSpeed * dt;
-            } else {
-                from -= rotateSpeed * dt;
-            }
-        }
-        return from;
-    }
 
 
-    public static boolean isAndroid() {
-        return Gdx.app.getType() == Application.ApplicationType.Android;
-    }
+
 }

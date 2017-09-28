@@ -9,7 +9,7 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		R_Type r = new R_Type();
+		GameScreen r = new GameScreen();
 		initialize(r, config);
 
 	}

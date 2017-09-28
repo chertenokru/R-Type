@@ -2,8 +2,8 @@ package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.Collisionable;
-import ru.chertenok.games.rtype.ObjectOwner;
-import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.GameScreen;
+import ru.chertenok.games.rtype.config.ObjectOwner;
 
 public class Bullet extends GameInnerObject {
     public Vector2 startPosition;
@@ -48,7 +48,7 @@ public class Bullet extends GameInnerObject {
 
 
     @Override
-    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+    public boolean hitStatus_and_IsRemove(GameScreen game, Collisionable collisionObject, boolean isCollision) {
         if (isHit != isCollision) setHit(isCollision);
         if (!isCollision) return false;
         if ((collisionObject.getObjectType() == ObjectType.BulletPlayer && owner == ObjectOwner.AI) ||

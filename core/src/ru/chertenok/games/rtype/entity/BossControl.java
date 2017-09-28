@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
-import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.util.Util;
 
 public class BossControl extends Sprites {
 
@@ -35,10 +36,10 @@ public class BossControl extends Sprites {
         return MAX_ENERGY;
     }
 
-    public BossControl(R_Type game) {
+    public BossControl(GameScreen game) {
         super(game, "boss", 1);
         boss = new ru.chertenok.games.rtype.entity.Boss();
-        soundFire = Global.assetManager.get("sound/rlaunch.mp3", Sound.class);
+        soundFire = Global.assetManager.get(GameConfig.FILE_BOSS_SOUND_PATH, Sound.class);
         reset();
     }
 
@@ -59,11 +60,11 @@ public class BossControl extends Sprites {
         if (counterFireDt > fireDt) {
             counterFireDt = 0;
             boss.vector.set(boss.position);
-            angle = Global.getAngle(boss.position.x, boss.position.y, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
+            angle = Util.getAngle(boss.position.x, boss.position.y, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
             game.asteroids.addAsteroid(boss.position.x, boss.position.y, 150 * (float) Math.cos(angle) * -1, 150 * (float) Math.sin(angle) * -1, 0.5f);
-            angle = Global.getAngle(boss.position.x, boss.position.y + game.asteroids.spriteSizeY, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
+            angle = Util.getAngle(boss.position.x, boss.position.y + game.asteroids.spriteSizeY, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
             game.asteroids.addAsteroid(boss.position.x + game.asteroids.spriteSizeX * (float) Math.sin(angle), boss.position.y + game.asteroids.spriteSizeY * (float) Math.cos(angle), 250 * (float) Math.cos(angle - 0.79) * -1, 250 * (float) Math.sin(angle - 0.79) * -1, 0.5f);
-            angle = Global.getAngle(boss.position.x, boss.position.y - game.asteroids.spriteSizeY, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
+            angle = Util.getAngle(boss.position.x, boss.position.y - game.asteroids.spriteSizeY, game.shipControl.ship.position.x, game.shipControl.ship.position.y);
             game.asteroids.addAsteroid(boss.position.x - game.asteroids.spriteSizeX * (float) Math.sin(angle), boss.position.y - game.asteroids.spriteSizeY * (float) Math.cos(angle), 250 * (float) Math.cos(angle + 0.79) * -1, 250 * (float) Math.sin(angle + 0.79) * -1, 0.5f);
             if (GameConfig.isSound()) soundFire.play();
             colorBoss.g = 1;
@@ -74,7 +75,7 @@ public class BossControl extends Sprites {
             dtColor = 0;
         }
 
-        if (boss.position.x > game.viewport.getWorldWidth() - boss.originSpriteSize.x * 1.50) {
+        if (boss.position.x > GameConfig.getWorldWidth() - boss.originSpriteSize.x * 1.50) {
             boss.position.x -= 50 * dt;
         }
         boss.update(dt);
@@ -104,8 +105,8 @@ public class BossControl extends Sprites {
         boss.originSpriteSize.x = spriteSizeX;
         boss.originSpriteSize.y = spriteSizeY;
         boss.isActive = false;
-        boss.position.x = game.viewport.getWorldWidth() + spriteSizeY;
-        boss.position.y = game.viewport.getWorldHeight() / 2;
+        boss.position.x = GameConfig.getWorldWidth() + spriteSizeY;
+        boss.position.y = GameConfig.getWorldHeight() / 2;
         boss.live = getMAX_ENERGY();
     }
 

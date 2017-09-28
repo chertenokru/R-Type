@@ -1,9 +1,9 @@
 package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.entity.Explosion;
 import ru.chertenok.games.rtype.entity.GameInnerObject;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 /**
  * Created by 13th on 04-Jul-17.
@@ -14,7 +14,7 @@ public class Explosions extends ru.chertenok.games.rtype.entity.collections.Obje
     private static final int All_STAGE = 8;
     private Explosion explosion;
 
-    public Explosions(R_Type game) throws Exception {
+    public Explosions(GameScreen game) throws Exception {
         super(Explosion.class,game,"explosion",3);
     }
 

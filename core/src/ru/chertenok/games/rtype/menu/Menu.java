@@ -1,22 +1,17 @@
 package ru.chertenok.games.rtype.menu;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.GameScreen;
 
 /**
  * Created by 13th on 17-Jul-17.
  */
 public class Menu {
     private boolean isVisible = false;
-    private R_Type game;
+    private GameScreen game;
 
 
-
-
-
-    public Menu(R_Type game) {
+    public Menu(GameScreen game) {
         this.game = game;
     }
 

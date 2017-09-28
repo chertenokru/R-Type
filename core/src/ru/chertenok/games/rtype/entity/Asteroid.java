@@ -3,7 +3,7 @@ package ru.chertenok.games.rtype.entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import ru.chertenok.games.rtype.Collisionable;
-import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.GameScreen;
 
 /**
  * Created by 13th on 18-Jul-17.
@@ -43,7 +43,7 @@ public class Asteroid extends GameInnerObject {
     }
 
     @Override
-    public boolean hitStatus_and_IsRemove(R_Type game, Collisionable collisionObject, boolean isCollision) {
+    public boolean hitStatus_and_IsRemove(GameScreen game, Collisionable collisionObject, boolean isCollision) {
         if (isHit != isCollision) setHit(isCollision);
         if (!isCollision) return false;
 

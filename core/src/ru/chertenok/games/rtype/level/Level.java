@@ -14,7 +14,7 @@ public class Level {
     private static Logger log = new Logger(Level.class.getSimpleName(), Logger.DEBUG);
     // массив событий
     LevelEvents levelEvents;
-    // private R_Type game;
+    // private GameScreen game;
     private Map<String, ILevelEvent> eventMap;
     //начальный счётчик
     private float dtLevetInit = 7 * 60;

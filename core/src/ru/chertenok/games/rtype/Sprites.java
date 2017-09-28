@@ -1,6 +1,7 @@
 package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 /**
  * Created by 13th on 08.07.2017.
@@ -19,9 +20,9 @@ public abstract  class Sprites {
     // если не квадратный спрайт
     public   int spriteSizeX;
     public   int spriteSizeY;
-    protected R_Type game;
+    protected GameScreen game;
 
-    public Sprites(R_Type game, String textureName, int textureCount) {
+    public Sprites(GameScreen game, String textureName, int textureCount) {
 
         this.textureName = textureName;
         this.textureCount = textureCount;

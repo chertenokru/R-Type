@@ -1,14 +1,11 @@
 package ru.chertenok.games.rtype;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-
-import java.util.Random;
+import ru.chertenok.games.rtype.config.GameConfig;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 /**
  * Created by 13th on 02.07.2017.
@@ -30,10 +27,10 @@ public class FonGround extends Sprites{
         isActive = active;
     }
 
-    public FonGround(R_Type game) {
+    public FonGround(GameScreen game) {
         super(game,"block",1);
 
-        ground = new int[(((int)game.viewport.getWorldWidth() / spriteOriginSize) + 1)];
+        ground = new int[(((int) GameConfig.getWorldWidth() / spriteOriginSize) + 1)];
         for (int i = 0; i < ground.length; i++) {
             ground[i] = Global.rnd.nextInt(MAX_HEIGHT) + 1;
         }

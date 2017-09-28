@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
-import ru.chertenok.games.rtype.R_Type;
+import ru.chertenok.games.rtype.config.EnemyType;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
+import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.util.Util;
 
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
     private Vector2 vector = new Vector2(0, 0);
 
 
-    public Enemies(R_Type game) throws Exception {
+    public Enemies(GameScreen game) throws Exception {
         super(ru.chertenok.games.rtype.entity.Enemy.class, game, "alien1", 2);
         maxSpeed = 120;
         minSpeed = 30;
@@ -47,13 +49,13 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
         for (int i = 0; i < getActiveObject_count()-1; i++) {
             enemy = (ru.chertenok.games.rtype.entity.Enemy) objectPool.obtain();
             enemy.textureNo = 0;
-            enemy.type = ru.chertenok.games.rtype.entity.EnemyType.Type1;
+            enemy.type = EnemyType.Type1;
             init(enemy,texture[enemy.textureNo].getRegionWidth(),texture[enemy.textureNo].getRegionHeight());
             activeObject.add(enemy);
         }
         enemy = (ru.chertenok.games.rtype.entity.Enemy) objectPool.obtain();
         enemy.textureNo = 1;
-        enemy.type = ru.chertenok.games.rtype.entity.EnemyType.Type2;
+        enemy.type = EnemyType.Type2;
         init(enemy,texture[enemy.textureNo].getRegionWidth(),texture[enemy.textureNo].getRegionHeight());
         activeObject.add(enemy);
     }
@@ -92,7 +94,7 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
             if (waitCounter > waitTime) {
                 if (Global.rnd.nextBoolean()) {
                     // корабль тип 1 по прямой стреляем
-                    if (((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).type == ru.chertenok.games.rtype.entity.EnemyType.Type1)
+                    if (((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).type == EnemyType.Type1)
                         game.bullets.addBotBullet(activeObject.get(i).position.x - spriteSizeX, activeObject.get(i).position.y);
                     else {
                         // корабль тип 2 стреляем по углу разворота посудины
@@ -104,10 +106,10 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
             }
 
             // нацеливаем корабль типа 2 на игрока
-            if (((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).type == ru.chertenok.games.rtype.entity.EnemyType.Type2) {
+            if (((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).type == EnemyType.Type2) {
                 activeObject.get(i).angle = (float) Math.toDegrees(
-                        Global.rotateTo((float) Math.toRadians(activeObject.get(i).angle),
-                                Global.getAngle(activeObject.get(i).position.x, activeObject.get(i).position.y, game.shipControl.ship.position.x, game.shipControl.ship.position.y), (float) Math.toRadians(60), dt)
+                        Util.rotateTo((float) Math.toRadians(activeObject.get(i).angle),
+                                Util.getAngle(activeObject.get(i).position.x, activeObject.get(i).position.y, game.shipControl.ship.position.x, game.shipControl.ship.position.y), (float) Math.toRadians(60), dt)
                 );
             }
         }
@@ -128,8 +130,8 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
 
 
         enemy.position.set(
-                game.viewport.getWorldWidth() + spriteOriginSize,
-                Global.rnd.nextInt((int) game.viewport.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
+                GameConfig.getWorldWidth() + spriteOriginSize,
+                Global.rnd.nextInt((int) GameConfig.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
         enemy.velocity.set(minSpeed + Global.rnd.nextInt((int)(maxSpeed - minSpeed)), 0);
 
         enemy.angle = 0;
@@ -137,7 +139,7 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
         //  if (fixMaxScale) enemy.scale = 0.5f + 0.5f * maxScale;
         //  else enemy.scale = 0.5f + (0.5f * (Global.rnd.nextInt(maxScale + 1)));
         enemy.scale = 1;
-        if (enemy.type == ru.chertenok.games.rtype.entity.EnemyType.Type1) {
+        if (enemy.type == EnemyType.Type1) {
             enemy.live = 50;
             enemy.setScore(50);
         }
@@ -164,14 +166,14 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
             activeObject.get(i).isActive = false;
             activeObject.get(i).velocity.set(0, 0);
             activeObject.get(i).angle = 0;
-            ((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).type = ru.chertenok.games.rtype.entity.EnemyType.Type1;
+            ((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).type = EnemyType.Type1;
             ((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(i)).textureNo = 0;
             fixMaxScale = false;
             isReversiveEnabled = false;
         }
         if (activeObject.size>0) {
             ((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(0)).textureNo = 1;
-            ((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(0)).type = ru.chertenok.games.rtype.entity.EnemyType.Type2;
+            ((ru.chertenok.games.rtype.entity.Enemy) activeObject.get(0)).type = EnemyType.Type2;
         }
 
     }

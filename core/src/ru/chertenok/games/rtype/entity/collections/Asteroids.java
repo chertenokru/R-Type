@@ -3,10 +3,10 @@ package ru.chertenok.games.rtype.entity.collections;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
-import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class Asteroids extends ObjectCollector implements Level.ILevelEvent {
     private ru.chertenok.games.rtype.entity.Asteroid asteroid;
     private boolean fixOnScreen = false;
 
-    public Asteroids(R_Type game) throws Exception {
+    public Asteroids(GameScreen game) throws Exception {
         super(ru.chertenok.games.rtype.entity.Asteroid.class, game, "asteroid", 1);
         maxSpeed = 120;
         minSpeed = 30;
@@ -94,12 +94,12 @@ public class Asteroids extends ObjectCollector implements Level.ILevelEvent {
         if (asteroid.reversive) {
             asteroid.position.set(
                     -asteroid.originSpriteSize.x * asteroid.scale,
-                    Global.rnd.nextInt((int) game.viewport.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
+                    Global.rnd.nextInt((int) GameConfig.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
             asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int) (maxSpeed - minSpeed)), 0).scl(-1);
         } else {
             asteroid.position.set(
-                    game.viewport.getWorldWidth() + spriteOriginSize,
-                    Global.rnd.nextInt((int) game.viewport.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
+                    GameConfig.getWorldWidth() + spriteOriginSize,
+                    Global.rnd.nextInt((int) GameConfig.getWorldHeight() - spriteOriginSize) + spriteOriginSize / 2);
             asteroid.velocity.set(minSpeed + Global.rnd.nextInt((int) (maxSpeed - minSpeed)), 0);
         }
         asteroid.angle = Global.rnd.nextInt(360);

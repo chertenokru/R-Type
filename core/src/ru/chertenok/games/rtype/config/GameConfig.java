@@ -10,17 +10,31 @@ import com.badlogic.gdx.utils.Logger;
 public class GameConfig {
 
 
-    // --- const --
-    private static final String FILE_PATH = "config/GameConfig.json";
-    private final static boolean DEFAULT_SOUND = false;
-    private final static boolean DEFAULT_MUSIC = false;
-    private final static boolean DEFAULT_IS_DEBUG_DRAW = false;
-    public static final int DEFAULT_WORLD_WIDTH = 1024;
-    public static final int DEFAULT_WORLD_HEIGHT = 720;
+    public static final String FILE_FONT_PATH = "fonts/alt.ttf";
     public static final String LEVEL1_FILE_PATH = "levels/level1.json";
     public static final String LEVEL1_PACK_FILE_PATH = "levels/level1.pack";
     public static final String LOCALIZATION_GAMEBUNDLE_PATH = "localization/GameBundle";
     public static final String LOCALIZATION_LEVEL1_PATH = "localization/level1";
+    public static final String FILE_MAIN_MUSIC_PATH = "sound/through_space.mp3";
+    public static final String FILE_BOSS_MUSIC_PATH = "sound/xeon6.mp3";
+    public static final String FILE_BOSS_SOUND_PATH = "sound/rlaunch.mp3";
+    public static final String FONT_CHARS = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+    public static final String TEXTURE_REGION_BUTTON_PAUSE = "pause";
+    public static final String TEXTURE_REGION_BUTTON_SHIELD = "shield";
+    public static final String TEXTURE_REGION_BUTTON_RECT = "rect";
+    //--game--
+    public static final int SCORE_MOVE = 100;
+    // =========== const ============
+    private static final String FILE_PATH = "config/GameConfig.json";
+    private final static boolean DEFAULT_MUSIC = false;
+    private final static boolean DEFAULT_IS_DEBUG_DRAW = false;
+    public static final int DEFAULT_WORLD_WIDTH = 1024;
+    public static final int DEFAULT_WORLD_HEIGHT = 720;
+    //======= config =============
+    private final static boolean DEFAULT_SOUND = false;
+    public static GameState gameState;
+
+
 
     // ====== TAG ====================
     // Level
@@ -127,5 +141,9 @@ public class GameConfig {
 
     public static float getWorldHeight() {
         return WORLD_HEIGHT;
+    }
+
+    public static boolean isAndroid() {
+        return Gdx.app.getType() == Application.ApplicationType.Android;
     }
 }

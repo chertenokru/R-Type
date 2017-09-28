@@ -7,11 +7,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
-import ru.chertenok.games.rtype.R_Type;
 import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
+import ru.chertenok.games.rtype.screens.GameScreen;
 
 import java.util.Map;
 
@@ -83,7 +83,7 @@ public class ShipControl extends Sprites implements Level.ILevelEvent {
         isEnableFire = enableFire;
     }
 
-    public ShipControl(R_Type game) {
+    public ShipControl(GameScreen game) {
         super(game, "ship", 3);
         this.bullets = game.bullets;
         ship.position = new Vector2(defaultPosition);
@@ -192,8 +192,8 @@ public class ShipControl extends Sprites implements Level.ILevelEvent {
 
 
         // check position on screen
-        ship.position.y = MathUtils.clamp(ship.position.y, ship.getHitAreaRectangle().height / 2, game.viewport.getWorldHeight() - ship.getHitAreaRectangle().height / 2);
-        ship.position.x = MathUtils.clamp(ship.position.x, ship.getHitAreaRectangle().width / 2, game.viewport.getWorldWidth() - ship.getHitAreaRectangle().width / 2);
+        ship.position.y = MathUtils.clamp(ship.position.y, ship.getHitAreaRectangle().height / 2, GameConfig.getWorldHeight() - ship.getHitAreaRectangle().height / 2);
+        ship.position.x = MathUtils.clamp(ship.position.x, ship.getHitAreaRectangle().width / 2, GameConfig.getWorldWidth() - ship.getHitAreaRectangle().width / 2);
 
 
         // затухание скорости
