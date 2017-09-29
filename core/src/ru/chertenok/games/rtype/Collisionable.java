@@ -2,7 +2,7 @@ package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 
 
 /**
@@ -21,7 +21,7 @@ public interface Collisionable {
     Rectangle getHitAreaRectangle();
     // столкновение, нужно ли удалить объект, параметр - объект столкновения
     //  и кривизна в виде ссылки на главный класс для реализации реакции на столкновение
-    boolean hitStatus_and_IsRemove(GameScreen game, Collisionable collisionObject, boolean isCollision);
+    boolean hitStatus_and_IsRemove(GameScreenController game, Collisionable collisionObject, boolean isCollision);
     // надо ли для объекта обрабатывать столкновения
     boolean isCollisinable();
     // тип объекта

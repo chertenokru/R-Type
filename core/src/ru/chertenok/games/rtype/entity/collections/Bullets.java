@@ -4,12 +4,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import ru.chertenok.games.rtype.GameScreen;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.config.ObjectOwner;
 import ru.chertenok.games.rtype.entity.Bullet;
 import ru.chertenok.games.rtype.entity.GameInnerObject;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 
 
 /**
@@ -32,16 +32,15 @@ public class Bullets extends ru.chertenok.games.rtype.entity.collections.ObjectC
     private Sound soundFireType1;
     private Sound soundFireType2;
 
-    private int BULLET_DISTANCE = (int) game.viewport.getWorldWidth() - (int) game.viewport.getWorldWidth() / 5;
+    private int BULLET_DISTANCE = (int) GameConfig.getWorldWidth() - (int) GameConfig.getWorldWidth() / 5;
 
 
-    public Bullets(GameScreen game) throws Exception {
+    public Bullets(GameScreenController game) throws Exception {
         super(Bullet.class, game, "bullet", 4);
         this.asteroids = game.asteroids;
         this.explosions = game.explosions;
 
         soundFireType1 = Global.assetManager.get("sound/slimeball.mp3", Sound.class);
-
         soundFirePlayer = Global.assetManager.get("sound/foom_0.mp3", Sound.class);
         soundFireType2 = Global.assetManager.get("sound/acid6.mp3", Sound.class);
     }

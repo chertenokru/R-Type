@@ -2,8 +2,8 @@ package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.Collisionable;
-import ru.chertenok.games.rtype.GameScreen;
 import ru.chertenok.games.rtype.Global;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 
 public class Explosion extends ru.chertenok.games.rtype.entity.GameInnerObject {
     public int stage;
@@ -42,7 +42,7 @@ public class Explosion extends ru.chertenok.games.rtype.entity.GameInnerObject {
 
 
     @Override
-    public boolean hitStatus_and_IsRemove(GameScreen game, Collisionable collisionObject, boolean isCollision) {
+    public boolean hitStatus_and_IsRemove(GameScreenController game, Collisionable collisionObject, boolean isCollision) {
         if (isHit != isCollision) setHit(isCollision);
         if (!isCollision) return false;
         return false;

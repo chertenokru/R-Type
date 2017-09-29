@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 
 /**
  * Created by 13th on 18-Jul-17.
@@ -27,7 +27,7 @@ public abstract class ObjectCollector extends Sprites {
         return objectCount;
     }
 
-    public ObjectCollector(Class newClass, GameScreen game, String textureName, int textureCount) throws Exception {
+    public ObjectCollector(Class newClass, GameScreenController game, String textureName, int textureCount) throws Exception {
         super(game, textureName, textureCount);
         // проверяем что нам подсовывают
         if (!ru.chertenok.games.rtype.entity.GameInnerObject.class.isAssignableFrom(newClass)) {

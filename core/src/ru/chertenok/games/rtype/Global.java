@@ -1,11 +1,15 @@
 package ru.chertenok.games.rtype;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.config.GameConfig;
@@ -27,6 +31,8 @@ public class Global {
     public static I18NBundle gameBundle;
     public static I18NBundle levelBundle;
     private static Logger log = new Logger(Global.class.getSimpleName(), Logger.DEBUG);
+    public static BitmapFont fontBig;
+    public static BitmapFont font;
 
     private Global() {
     }
@@ -71,6 +77,16 @@ public class Global {
     }
 
 
-
-
+    public static void initFonts() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(GameConfig.FILE_FONT_PATH));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.characters = GameConfig.FONT_CHARS;
+        parameter.size = 35;
+        parameter.color = Color.WHITE;
+        font = generator.generateFont(parameter);
+        parameter.color = Color.WHITE;
+        parameter.size = 75;
+        fontBig = generator.generateFont(parameter);
+        generator.dispose();
+    }
 }

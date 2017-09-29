@@ -8,7 +8,7 @@ import ru.chertenok.games.rtype.config.EnemyType;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 import ru.chertenok.games.rtype.util.Util;
 
 import java.util.Map;
@@ -36,7 +36,7 @@ public class Enemies extends ObjectCollector implements Level.ILevelEvent {
     private Vector2 vector = new Vector2(0, 0);
 
 
-    public Enemies(GameScreen game) throws Exception {
+    public Enemies(GameScreenController game) throws Exception {
         super(ru.chertenok.games.rtype.entity.Enemy.class, game, "alien1", 2);
         maxSpeed = 120;
         minSpeed = 30;

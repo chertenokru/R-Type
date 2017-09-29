@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 import ru.chertenok.games.rtype.util.Util;
 
 public class BossControl extends Sprites {
@@ -36,7 +36,7 @@ public class BossControl extends Sprites {
         return MAX_ENERGY;
     }
 
-    public BossControl(GameScreen game) {
+    public BossControl(GameScreenController game) {
         super(game, "boss", 1);
         boss = new ru.chertenok.games.rtype.entity.Boss();
         soundFire = Global.assetManager.get(GameConfig.FILE_BOSS_SOUND_PATH, Sound.class);

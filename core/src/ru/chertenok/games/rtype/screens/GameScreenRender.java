@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -57,16 +56,8 @@ public class GameScreenRender implements Disposable {
     }
 
     private void initFonts() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(GameConfig.FILE_FONT_PATH));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.characters = GameConfig.FONT_CHARS;
-        parameter.size = 35;
-        parameter.color = Color.WHITE;
-        font = generator.generateFont(parameter);
-        parameter.color = Color.WHITE;
-        parameter.size = 75;
-        fontBig = generator.generateFont(parameter);
-        generator.dispose();
+        Global.initFonts();
+
     }
 
 

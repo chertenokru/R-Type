@@ -11,7 +11,7 @@ import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 
 import java.util.Map;
 
@@ -83,7 +83,7 @@ public class ShipControl extends Sprites implements Level.ILevelEvent {
         isEnableFire = enableFire;
     }
 
-    public ShipControl(GameScreen game) {
+    public ShipControl(GameScreenController game) {
         super(game, "ship", 3);
         this.bullets = game.bullets;
         ship.position = new Vector2(defaultPosition);

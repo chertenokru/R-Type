@@ -6,7 +6,7 @@ import ru.chertenok.games.rtype.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.GameScreenController;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class Asteroids extends ObjectCollector implements Level.ILevelEvent {
     private ru.chertenok.games.rtype.entity.Asteroid asteroid;
     private boolean fixOnScreen = false;
 
-    public Asteroids(GameScreen game) throws Exception {
+    public Asteroids(GameScreenController game) throws Exception {
         super(ru.chertenok.games.rtype.entity.Asteroid.class, game, "asteroid", 1);
         maxSpeed = 120;
         minSpeed = 30;
