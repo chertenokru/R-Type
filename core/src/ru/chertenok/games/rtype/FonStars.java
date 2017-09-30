@@ -3,7 +3,7 @@ package ru.chertenok.games.rtype;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.config.GameConfig;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**
  * Created by 13th on 02.07.2017.
@@ -42,7 +42,7 @@ public class FonStars extends Sprites{
         isStop = stop;
     }
 
-    public FonStars(GameScreen game) {
+    public FonStars(GameScreenController game) {
         super(game,"star",3);
         this.game = game;
 

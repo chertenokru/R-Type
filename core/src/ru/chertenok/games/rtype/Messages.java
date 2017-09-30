@@ -1,7 +1,6 @@
 package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.config.GameConfig;
@@ -64,7 +63,7 @@ public class Messages implements Level.ILevelEvent {
 
 
    List<Message> messages = new ArrayList<Message>();
-    BitmapFont font;
+
 
       public void addMessage(String text,float x, float y,float dtShowTime,Color color,Color colorShadow){
           messages.add(new Message(text,x,y,dtShowTime,color,colorShadow));
@@ -98,15 +97,12 @@ public class Messages implements Level.ILevelEvent {
 //                    font.setColor(m.colorShadow.r,m.colorShadow.g,m.colorShadow.b,1.00f-1.00f/(m.dtTime/m.dtCounter));
 //                    font.draw(batch,m.text,m.x-1,m.y-1);
 //                }
-                font.setColor(m.color.r,m.color.g,m.color.b,1.00f-1.00f/(m.dtTime/m.dtCounter));
-                font.draw(batch,m.text,m.x,m.y);
+                Global.font.setColor(m.color.r, m.color.g, m.color.b, 1.00f - 1.00f / (m.dtTime / m.dtCounter));
+                Global.font.draw(batch, m.text, m.x, m.y);
             }
 
 
     }
 
 
-    public Messages(BitmapFont font) {
-        this.font = font;
-    }
 }

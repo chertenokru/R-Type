@@ -1,4 +1,4 @@
-package ru.chertenok.games.rtype.screens;
+package ru.chertenok.games.rtype.screens.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.*;
@@ -51,7 +50,6 @@ public class GameScreenController implements Level.ILevelEvent {
     private Map<String, Level.ILevelEvent> eventMap = new HashMap<String, Level.ILevelEvent>();
     private Collisionable collisionable1;
     private Collisionable collisionable2;
-    private Vector2 vector2 = new Vector2();
     private boolean lastMouseTouch = false;
     private boolean lastMouseTouch1 = false;
     private Music music;
@@ -90,7 +88,7 @@ public class GameScreenController implements Level.ILevelEvent {
         shipControl = new ShipControl(this);
         bossControl = new BossControl(this);
 
-        messages = new Messages(Global.font);
+        messages = new Messages();
 
         // регистрируем события уровня register LevelEvent handlers
         this.registerLevelEvents(eventMap);
@@ -116,23 +114,8 @@ public class GameScreenController implements Level.ILevelEvent {
         collObjects.add(shipControl.ship);
 
 
-        messages.addMessage(Global.gameBundle.get("start_1"), 150, 540, 2, Color.WHITE, Color.LIGHT_GRAY);
-        messages.addMessage(Global.gameBundle.get("start_2"), 150, 500, 2, Color.WHITE, Color.LIGHT_GRAY);
-        messages.addMessage(Global.gameBundle.get("start_3"), 150, 460, 2, Color.WHITE, Color.LIGHT_GRAY);
-        GameConfig.gameState = GameState.Pause;
-        if (GameConfig.isAndroid()) {
-            messages.addMessage(Global.gameBundle.get("conf_touch_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.gameBundle.get("conf_touch_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.gameBundle.get("conf_touch_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.gameBundle.get("conf_touch_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
-
-        } else {
-            messages.addMessage(Global.gameBundle.get("conf_key_1"), 200, 230, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.gameBundle.get("conf_key_2"), 200, 190, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.gameBundle.get("conf_key_3"), 200, 150, 2, Color.GREEN, Color.LIGHT_GRAY);
-            messages.addMessage(Global.gameBundle.get("conf_key_4"), 200, 110, 2, Color.GREEN, Color.LIGHT_GRAY);
-        }
         dtLevelCounter = level.getDtLevetInit() * 60;
+        GameConfig.gameState = GameState.Run;
 
     }
 
@@ -167,8 +150,8 @@ public class GameScreenController implements Level.ILevelEvent {
 
         //перезапуск игры
         if (GameConfig.gameState == GameState.End && (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) ||
-                (!Gdx.input.isTouched(0) && lastMouseTouch && isPauseCoord(0)) ||
-                (!Gdx.input.isTouched(1) && lastMouseTouch1 && isPauseCoord(1))
+                (!Gdx.input.isTouched(0) && lastMouseTouch && GameConfig.isPauseCoord(0)) ||
+                (!Gdx.input.isTouched(1) && lastMouseTouch1 && GameConfig.isPauseCoord(1))
         )) {
 
             restart();
@@ -181,8 +164,8 @@ public class GameScreenController implements Level.ILevelEvent {
 
         // пауза
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.P) ||
-                ((!Gdx.input.isTouched(0)) && lastMouseTouch && isPauseCoord(0)) ||
-                ((!Gdx.input.isTouched(1)) && lastMouseTouch1 && isPauseCoord(1))
+                ((!Gdx.input.isTouched(0)) && lastMouseTouch && GameConfig.isPauseCoord(0)) ||
+                ((!Gdx.input.isTouched(1)) && lastMouseTouch1 && GameConfig.isPauseCoord(1))
                 ) {
             if (GameConfig.gameState == GameState.Run) GameConfig.gameState = GameState.Pause;
             else GameConfig.gameState = GameState.Run;
@@ -201,8 +184,8 @@ public class GameScreenController implements Level.ILevelEvent {
             dtBtn += dt;
             // вкл/выкл щита
             if ((Gdx.input.isKeyPressed(Input.Keys.NUM_1) ||
-                    (!Gdx.input.isTouched(0) && lastMouseTouch && isShieldCoord(0)) ||
-                    (!Gdx.input.isTouched(1) && lastMouseTouch1 && isShieldCoord(1))
+                    (!Gdx.input.isTouched(0) && lastMouseTouch && GameConfig.isShieldCoord(0)) ||
+                    (!Gdx.input.isTouched(1) && lastMouseTouch1 && GameConfig.isShieldCoord(1))
 
             ) && shipControl.isRechargeEnabled() && dtBtn > 0.3f) {
                 shipControl.setRecharge(!shipControl.isRecharge());
@@ -357,27 +340,7 @@ public class GameScreenController implements Level.ILevelEvent {
     }
 
 
-    private boolean isPauseCoord(int pointerNum) {
-        vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
-        vector2.set(viewport.unproject(vector2));
 
-        return vector2.x > (GameConfig.getWorldWidth() - imgPause.getRegionWidth() - 20)
-                && (vector2.y < (imgPause.getRegionHeight()) + 20) && vector2.x < viewport.getWorldWidth();
-    }
-
-    private boolean isShieldCoord(int pointerNum) {
-        vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
-        vector2.set(viewport.unproject(vector2));
-
-        return vector2.x > (GameConfig.getWorldWidth() - imgShield.getRegionWidth() * 3)
-                && (vector2.y < imgShield.getRegionHeight()) && vector2.x < GameConfig.getWorldWidth() - imgShield.getRegionWidth() * 2;
-    }
-
-    private Vector2 getWorldCoord(int pointerNum) {
-        vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
-        vector2.set(viewport.unproject(vector2));
-        return vector2;
-    }
 
     private void restart() {
         dtLevelCounter = level.getDtLevetInit();

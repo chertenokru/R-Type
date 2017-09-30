@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.config.EnemyType;
 import ru.chertenok.games.rtype.entity.collections.Enemies;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 public class Enemy extends ru.chertenok.games.rtype.entity.GameInnerObject {
     private Enemies enemies;
@@ -17,7 +17,7 @@ public class Enemy extends ru.chertenok.games.rtype.entity.GameInnerObject {
 
 
     @Override
-    public boolean hitStatus_and_IsRemove(GameScreen game, Collisionable collisionObject, boolean isCollision) {
+    public boolean hitStatus_and_IsRemove(GameScreenController game, Collisionable collisionObject, boolean isCollision) {
         if (isHit != isCollision) setHit(isCollision);
         if (!isCollision) return false;
         if ( collisionObject.getObjectType() == ObjectType.BulletPlayer) {

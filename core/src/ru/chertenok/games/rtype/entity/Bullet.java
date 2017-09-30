@@ -3,7 +3,7 @@ package ru.chertenok.games.rtype.entity;
 import com.badlogic.gdx.math.Vector2;
 import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.config.ObjectOwner;
-import ru.chertenok.games.rtype.screens.GameScreenController;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 public class Bullet extends GameInnerObject {
     public Vector2 startPosition;

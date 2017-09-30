@@ -3,7 +3,7 @@ package ru.chertenok.games.rtype.entity.collections;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import ru.chertenok.games.rtype.entity.Explosion;
 import ru.chertenok.games.rtype.entity.GameInnerObject;
-import ru.chertenok.games.rtype.screens.GameScreenController;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**
  * Created by 13th on 04-Jul-17.

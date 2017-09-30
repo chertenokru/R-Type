@@ -3,9 +3,11 @@ package ru.chertenok.games.rtype.config;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Logger;
+import ru.chertenok.games.rtype.screens.game.GameScreenRender;
 
 public class GameConfig {
 
@@ -33,6 +35,8 @@ public class GameConfig {
     //======= config =============
     private final static boolean DEFAULT_SOUND = false;
     public static GameState gameState;
+    public static GameScreenRender renderer;
+
 
 
 
@@ -77,6 +81,8 @@ public class GameConfig {
 
     private static float WORLD_WIDTH;
     private static float WORLD_HEIGHT;
+
+    private static Vector2 vector2 = new Vector2();
 
 
     static {
@@ -145,5 +151,28 @@ public class GameConfig {
 
     public static boolean isAndroid() {
         return Gdx.app.getType() == Application.ApplicationType.Android;
+    }
+
+
+    public static boolean isPauseCoord(int pointerNum) {
+        vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
+        vector2.set(renderer.viewport.unproject(vector2));
+
+        return vector2.x > (GameConfig.getWorldWidth() - renderer.imgPause.getRegionWidth() - 20)
+                && (vector2.y < (renderer.imgPause.getRegionHeight()) + 20) && vector2.x < renderer.viewport.getWorldWidth();
+    }
+
+    public static boolean isShieldCoord(int pointerNum) {
+        vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
+        vector2.set(renderer.viewport.unproject(vector2));
+
+        return vector2.x > (GameConfig.getWorldWidth() - renderer.imgShield.getRegionWidth() * 3)
+                && (vector2.y < renderer.imgShield.getRegionHeight()) && vector2.x < GameConfig.getWorldWidth() - renderer.imgShield.getRegionWidth() * 2;
+    }
+
+    public static Vector2 getWorldCoord(int pointerNum) {
+        vector2.set(Gdx.input.getX(pointerNum), Gdx.input.getY(pointerNum));
+        vector2.set(renderer.viewport.unproject(vector2));
+        return vector2;
     }
 }

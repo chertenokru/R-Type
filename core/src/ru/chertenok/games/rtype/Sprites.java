@@ -1,7 +1,7 @@
 package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import ru.chertenok.games.rtype.screens.GameScreenController;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**
  * Created by 13th on 08.07.2017.

@@ -53,19 +53,91 @@
       ]
     },
     {
-      "time": "6.7",
+      "time": "7",
       "Name": "Message_add",
       "param": [
-        "3.5",
+        "2",
         "FFFFFFFF",
         "7F7F7FFF",
         "150",
         "540",
-        "fire_disabled1"
+        "start_1"
       ]
     },
     {
-      "time": "6.7",
+      "time": "7",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "500",
+        "start_2"
+      ]
+    },
+    {
+      "time": "7",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "150",
+        "460",
+        "start_3"
+      ]
+    },
+    {
+      "time": "7.1",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "200",
+        "230",
+        "conf_touch_1"
+      ]
+    },
+    {
+      "time": "7.1",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "200",
+        "190",
+        "conf_touch_2"
+      ]
+    },
+    {
+      "time": "7.1",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "200",
+        "150",
+        "conf_touch_3"
+      ]
+    },
+    {
+      "time": "7.1",
+      "Name": "Message_add",
+      "param": [
+        "2",
+        "FFFFFFFF",
+        "7F7F7FFF",
+        "200",
+        "110",
+        "conf_touch_4"
+      ]
+    },
+    {
+      "time": "7",
       "Name": "Game_setStatus",
       "param": [
         "pause"

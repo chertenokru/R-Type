@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import ru.chertenok.games.rtype.config.GameConfig;
-import ru.chertenok.games.rtype.screens.GameScreen;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**
  * Created by 13th on 02.07.2017.
@@ -27,7 +27,7 @@ public class FonGround extends Sprites{
         isActive = active;
     }
 
-    public FonGround(GameScreen game) {
+    public FonGround(GameScreenController game) {
         super(game,"block",1);
 
         ground = new int[(((int) GameConfig.getWorldWidth() / spriteOriginSize) + 1)];

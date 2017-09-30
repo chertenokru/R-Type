@@ -9,7 +9,7 @@ import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.config.ObjectOwner;
 import ru.chertenok.games.rtype.entity.Bullet;
 import ru.chertenok.games.rtype.entity.GameInnerObject;
-import ru.chertenok.games.rtype.screens.GameScreenController;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 
 /**

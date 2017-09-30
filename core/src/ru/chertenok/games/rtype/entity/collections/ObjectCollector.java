@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
-import ru.chertenok.games.rtype.screens.GameScreenController;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**
  * Created by 13th on 18-Jul-17.

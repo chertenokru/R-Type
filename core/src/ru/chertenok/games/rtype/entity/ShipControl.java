@@ -11,7 +11,7 @@ import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
-import ru.chertenok.games.rtype.screens.GameScreenController;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 import java.util.Map;
 
