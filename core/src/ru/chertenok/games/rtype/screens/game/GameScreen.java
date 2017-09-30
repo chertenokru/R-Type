@@ -50,6 +50,7 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
         renderer.dispose();
+        controller.dispose();
         Global.dispose();
 
     }

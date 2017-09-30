@@ -61,9 +61,6 @@ public class GameScreenRender implements Disposable {
         batch.begin();
         batch.setColor(1, 1, 1, 1);
         controller.fonStars.render(batch);
-
-        renderHUD();
-
         controller.fonGround.render(batch);
         controller.bossControl.render(batch);
         controller.bullets.render(batch);
@@ -71,10 +68,14 @@ public class GameScreenRender implements Disposable {
         controller.asteroids.render(batch);
         controller.enemies.render(batch);
         controller.explosions.render(batch);
-
-
         controller.messages.render(batch);
+        renderDebugCollision();
+        renderHUD();
 
+        batch.end();
+    }
+
+    private void renderDebugCollision() {
         // отрисовка зон столкновений
         if (GameConfig.isIsDebugDraw()) {
             for (int i = controller.collObjects.size - 1; i >= 0; i--) {
@@ -89,12 +90,11 @@ public class GameScreenRender implements Disposable {
                 }
             }
         }
-
-        batch.end();
     }
 
 
     private void renderHUD() {
+
 
         if (GameConfig.gameState == GameState.Pause || GameConfig.gameState == GameState.End)
             batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.9f);
@@ -132,9 +132,9 @@ public class GameScreenRender implements Disposable {
 
 
         Global.font.setColor(Color.GOLD);
-        Global.font.draw(batch, "Time: " + String.format(" %02d:%02d ", (int) controller.dtLevelCounter / 60, (int) controller.dtLevelCounter % 60), viewport.getWorldWidth() - 900 - 1, viewport.getWorldHeight() - 10 - 1);
+        Global.font.draw(batch, "Time: " + String.format(" %02d:%02d ", (int) controller.level.getDtLevelCounter() / 60, (int) controller.level.getDtLevelCounter() % 60), viewport.getWorldWidth() - 900 - 1, viewport.getWorldHeight() - 10 - 1);
         Global.font.setColor(Color.RED);
-        Global.font.draw(batch, "Time: " + String.format(" %02d:%02d ", (int) controller.dtLevelCounter / 60, (int) controller.dtLevelCounter % 60), viewport.getWorldWidth() - 900, viewport.getWorldHeight() - 10);
+        Global.font.draw(batch, "Time: " + String.format(" %02d:%02d ", (int) controller.level.getDtLevelCounter() / 60, (int) controller.level.getDtLevelCounter() % 60), viewport.getWorldWidth() - 900, viewport.getWorldHeight() - 10);
 
 
         if (controller.shipControl.isRecharge()) {

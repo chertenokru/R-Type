@@ -17,9 +17,11 @@ public class Level {
     // private GameScreen game;
     private Map<String, ILevelEvent> eventMap;
     //начальный счётчик
-    private float dtLevetInit = 7 * 60;
+    private float dtLevelInit = 7 * 60;
     // куда будет меняться
     private float stepVector = -1;
+    // таймер  отсчёта для изменения игрового процесса
+    private float dtLevelCounter = 0;
 
     public Level(Map<String, ILevelEvent> eventMap) {
         this.eventMap = eventMap;
@@ -28,7 +30,7 @@ public class Level {
         try {
             levelEvents.loadLevel(GameConfig.LEVEL1_FILE_PATH);
             stepVector = levelEvents.getStepVector();
-            dtLevetInit = levelEvents.getDtLevetInitTime();
+            dtLevelInit = levelEvents.getDtLevetInitTime();
         } catch (IOException e) {
             log.error(" LevelEvents " + GameConfig.LEVEL1_FILE_PATH + " not load.", e);
             e.printStackTrace();
@@ -36,8 +38,8 @@ public class Level {
     }
 
 
-    public float getDtLevetInit() {
-        return dtLevetInit;
+    public float getDtLevelInit() {
+        return dtLevelInit;
     }
 
     public float getStepVector() {
@@ -56,11 +58,12 @@ public class Level {
 
     }
 
-    public void update(float counter) {
+    public void update(float dt) {
+        dtLevelCounter += dt * getStepVector();
         //log.debug("counter: "+counter);
         for (int i = 0; i < levelEvents.getLevelEventList().size(); i++) {
-            if ((levelEvents.getLevelEventList().get(i).isActive && levelEvents.getLevelEventList().get(i).time > counter && stepVector == -1)
-                    || (levelEvents.getLevelEventList().get(i).isActive && levelEvents.getLevelEventList().get(i).time < counter && stepVector == 1)) {
+            if ((levelEvents.getLevelEventList().get(i).isActive && levelEvents.getLevelEventList().get(i).time > dtLevelCounter / 60 && stepVector == -1)
+                    || (levelEvents.getLevelEventList().get(i).isActive && levelEvents.getLevelEventList().get(i).time < dtLevelCounter / 60 && stepVector == 1)) {
                 log.debug("event: " + levelEvents.getLevelEventList().get(i).Name);
                 execAction(levelEvents.getLevelEventList().get(i));
                 levelEvents.getLevelEventList().get(i).isActive = false;
@@ -75,6 +78,7 @@ public class Level {
         for (int i = 0; i < levelEvents.getLevelEventList().size(); i++) {
             levelEvents.getLevelEventList().get(i).isActive = true;
         }
+        dtLevelCounter = getDtLevelInit() * 60;
     }
 
 
@@ -84,5 +88,7 @@ public class Level {
         void registerLevelEvents(Map<String, ILevelEvent> eventMap);
     }
 
-
+    public float getDtLevelCounter() {
+        return dtLevelCounter;
+    }
 }

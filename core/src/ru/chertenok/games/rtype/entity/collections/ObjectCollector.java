@@ -1,7 +1,9 @@
 package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.ReflectionPool;
 import ru.chertenok.games.rtype.Sprites;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
@@ -9,17 +11,15 @@ import ru.chertenok.games.rtype.screens.game.GameScreenController;
 /**
  * Created by 13th on 18-Jul-17.
  */
-public abstract class ObjectCollector extends Sprites {
+public abstract class ObjectCollector extends Sprites implements Disposable {
     protected int objectCount = 0;
     protected  float createWaitDT = 1;
     protected  float createWaitDTCounter = 1;
     protected float maxSpeed = -1;
     protected  float minSpeed = -1;
     protected int  currentTextureNo = 0;
-    private final Class _class;
-    private Object obj;
     protected Array<ru.chertenok.games.rtype.entity.GameInnerObject> activeObject;
-    protected Pool<ru.chertenok.games.rtype.entity.GameInnerObject> objectPool;
+    protected final Pool<ru.chertenok.games.rtype.entity.GameInnerObject> objectPool;
     private ru.chertenok.games.rtype.entity.GameInnerObject gameInnerObject;
 
 
@@ -27,7 +27,7 @@ public abstract class ObjectCollector extends Sprites {
         return objectCount;
     }
 
-    public ObjectCollector(Class newClass, GameScreenController game, String textureName, int textureCount) throws Exception {
+    public ObjectCollector(final Class newClass, GameScreenController game, String textureName, int textureCount) throws Exception {
         super(game, textureName, textureCount);
         // проверяем что нам подсовывают
         if (!ru.chertenok.games.rtype.entity.GameInnerObject.class.isAssignableFrom(newClass)) {
@@ -36,22 +36,8 @@ public abstract class ObjectCollector extends Sprites {
         }
 
         activeObject = new Array<ru.chertenok.games.rtype.entity.GameInnerObject>();
-        this._class = newClass;
-        objectPool =
-                new Pool() {
-                    @Override
-                    protected Object newObject() {
-                        obj = null;
-                        try {
-                            obj = _class.newInstance();
-                        } catch (InstantiationException e) {
-                            e.printStackTrace();
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        return obj;
-                    }
-                };
+        objectPool = new ReflectionPool(newClass, 10);
+
     }
 
 
@@ -108,5 +94,10 @@ public abstract class ObjectCollector extends Sprites {
         }
     }
 
+    public void dispose() {
+        reset();
+        activeObject.clear();
+        objectPool.clear();
+    }
 
 }

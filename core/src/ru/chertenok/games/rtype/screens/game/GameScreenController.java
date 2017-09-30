@@ -38,7 +38,7 @@ public class GameScreenController implements Level.ILevelEvent {
     public Level level;
     // inner object
     public Rectangle rectangle1 = new Rectangle();
-    public float dtLevelCounter;
+
     // игровые объекты
     public FonStars fonStars;
     public FonGround fonGround;
@@ -54,8 +54,6 @@ public class GameScreenController implements Level.ILevelEvent {
     private boolean lastMouseTouch1 = false;
     private Music music;
     private Music musicBoss;
-    // таймер  отсчёта для изменения игрового процесса
-    private float dtLevel1 = 0;
     private float dtBtn = 0;
     private int reChargeCost = 5;
     private boolean isCollision = false;
@@ -114,7 +112,7 @@ public class GameScreenController implements Level.ILevelEvent {
         collObjects.add(shipControl.ship);
 
 
-        dtLevelCounter = level.getDtLevetInit() * 60;
+        level.reset();
         GameConfig.gameState = GameState.Run;
 
     }
@@ -176,10 +174,10 @@ public class GameScreenController implements Level.ILevelEvent {
         explosions.update(dt);
         if (GameConfig.gameState == GameState.Run) {
 
-            dtLevelCounter += dt * level.getStepVector();
+
 
             // меняем настройки по времени
-            level.update(dtLevelCounter / 60);
+            level.update(dt);
 
             dtBtn += dt;
             // вкл/выкл щита
@@ -214,7 +212,6 @@ public class GameScreenController implements Level.ILevelEvent {
             asteroids.update(dt);
             enemies.update(dt);
             shipControl.update(dt);
-
             bullets.update(dt);
             messages.update(dt);
             displayScoreUpdate(dt);
@@ -343,7 +340,7 @@ public class GameScreenController implements Level.ILevelEvent {
 
 
     private void restart() {
-        dtLevelCounter = level.getDtLevetInit();
+
         score = 0;
         messages.restart();
         asteroids.setFixMaxScale(false);
@@ -358,9 +355,12 @@ public class GameScreenController implements Level.ILevelEvent {
         bullets.reset();
         setBossMode(false);
         bossControl.reset();
-
-
     }
 
 
+    public void dispose() {
+        asteroids.dispose();
+        enemies.dispose();
+        bullets.dispose();
+    }
 }
