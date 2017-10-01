@@ -39,6 +39,7 @@ public class Global {
 
     public static void load(String packName) {
         locale = Locale.getDefault();
+        assetManager.getLogger().setLevel(Logger.DEBUG);
         currentLevel = new AssetDescriptor<TextureAtlas>(packName, TextureAtlas.class);
         assetManager.load(currentLevel);
         assetManager.load(GameConfig.FILE_MAIN_MUSIC_PATH, Music.class);
