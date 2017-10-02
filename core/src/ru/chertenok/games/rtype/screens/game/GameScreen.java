@@ -1,9 +1,11 @@
 package ru.chertenok.games.rtype.screens.game;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Logger;
-import ru.chertenok.games.rtype.Global;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 
 public class GameScreen implements Screen, InputProcessor {
@@ -18,6 +20,7 @@ public class GameScreen implements Screen, InputProcessor {
         controller = new GameScreenController();
         renderer = new GameScreenRender(controller);
         GameConfig.renderer = renderer;
+        Gdx.app.setLogLevel(Application.LOG_ERROR);
     }
 
     @Override

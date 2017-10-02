@@ -2,6 +2,7 @@ package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
 

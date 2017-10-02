@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
 

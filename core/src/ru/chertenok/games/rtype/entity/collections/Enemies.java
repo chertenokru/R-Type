@@ -3,7 +3,7 @@ package ru.chertenok.games.rtype.entity.collections;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
-import ru.chertenok.games.rtype.Global;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.config.EnemyType;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;

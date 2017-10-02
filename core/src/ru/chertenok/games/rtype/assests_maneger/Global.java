@@ -1,4 +1,4 @@
-package ru.chertenok.games.rtype;
+package ru.chertenok.games.rtype.assests_maneger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
@@ -39,7 +39,8 @@ public class Global {
 
     public static void load(String packName) {
         locale = Locale.getDefault();
-        assetManager.getLogger().setLevel(Logger.DEBUG);
+        //assetManager.getLogger().setLevel(Logger.DEBUG);
+        assetManager.setLogger(log);
         currentLevel = new AssetDescriptor<TextureAtlas>(packName, TextureAtlas.class);
         assetManager.load(currentLevel);
         assetManager.load(GameConfig.FILE_MAIN_MUSIC_PATH, Music.class);
@@ -75,6 +76,8 @@ public class Global {
     public static void dispose() {
 
         assetManager.dispose();
+        font.dispose();
+        fontBig.dispose();
     }
 
 

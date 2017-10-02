@@ -14,7 +14,7 @@ public class GameConfig {
 
     public static final String FILE_FONT_PATH = "fonts/alt.ttf";
     public static final String LEVEL1_FILE_PATH = "levels/level1.json";
-    public static final String LEVEL1_PACK_FILE_PATH = "levels/level1.pack";
+    public static final String LEVEL1_PACK_FILE_PATH = "levels/level1.atlas";
     public static final String LOCALIZATION_GAMEBUNDLE_PATH = "localization/GameBundle";
     public static final String LOCALIZATION_LEVEL1_PATH = "localization/level1";
     public static final String FILE_MAIN_MUSIC_PATH = "sound/through_space.mp3";

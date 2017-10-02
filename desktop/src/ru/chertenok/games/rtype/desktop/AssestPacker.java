@@ -12,13 +12,17 @@ public class AssestPacker {
         TexturePacker.Settings settings = new TexturePacker.Settings();
         settings.debug = DRAW_DEBUG_OUTLINE;
 
-        settings.maxWidth = 2048;
-        settings.maxHeight = 2048;
+        settings.maxWidth = 1024;
+        settings.maxHeight = 1024;
+        settings.fast = false;
+        settings.paddingX = 0;
+        settings.paddingY = 0;
+        //settings.
 
         TexturePacker.process(settings,
                 RAW_ASSETS_PATH + "/images",
-                ASSETS_PATH + "/images",
-                "level"
+                ASSETS_PATH,
+                "level1"
         );
     }
 }

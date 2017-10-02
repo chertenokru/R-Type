@@ -8,13 +8,16 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import ru.chertenok.games.rtype.Global;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.config.GameState;
 
 public class GameScreenRender implements Disposable {
+
+    private static Logger log = new Logger(GameScreenRender.class.getSimpleName(), Logger.DEBUG);
 
     public Viewport viewport;
     public TextureAtlas.AtlasRegion imgPause;
@@ -47,17 +50,20 @@ public class GameScreenRender implements Disposable {
     }
 
     private void initImages() {
-        imgPause = Global.assetManager.get(Global.currentLevel).findRegion(GameConfig.TEXTURE_REGION_BUTTON_PAUSE);
-        imgShield = Global.assetManager.get(Global.currentLevel).findRegion(GameConfig.TEXTURE_REGION_BUTTON_SHIELD);
-        imgRect = Global.assetManager.get(Global.currentLevel).findRegion(GameConfig.TEXTURE_REGION_BUTTON_RECT);
+        TextureAtlas ta = Global.assetManager.get(Global.currentLevel);
+        imgPause = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_PAUSE);
+        imgShield = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_SHIELD);
+        imgRect = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_RECT);
     }
 
 
     public void render(float delta) {
+        batch.totalRenderCalls = 0;
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.projection);
         batch.setTransformMatrix(camera.view);
+
         batch.begin();
         batch.setColor(1, 1, 1, 1);
         controller.fonStars.render(batch);
@@ -68,10 +74,11 @@ public class GameScreenRender implements Disposable {
         controller.asteroids.render(batch);
         controller.enemies.render(batch);
         controller.explosions.render(batch);
-        controller.messages.render(batch);
         renderDebugCollision();
         renderHUD();
+        controller.messages.render(batch);
 
+        log.debug("" + batch.totalRenderCalls);
         batch.end();
     }
 
@@ -105,12 +112,37 @@ public class GameScreenRender implements Disposable {
         // полоса здоровья
 
         if (controller.isBossMode()) {
+            renderLiveLine(controller.bossControl.getBoss().live, controller.bossControl.getMAX_ENERGY(), 55, true);
+        }
+
+        if (controller.shipControl.isRecharge()) {
+            batch.draw(imgShield, viewport.getWorldWidth() - imgShield.getRegionWidth() * 3, 0);
+        } else {
+            batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.6f);
+            batch.draw(imgShield, viewport.getWorldWidth() - imgShield.getRegionWidth() * 3, 0);
+            batch.setColor(1, 1, 1, 1);
+        }
+
+        if (GameConfig.gameState == GameState.Pause) {
+            //   GlyphLayout layout = new GlyphLayout(Global.fontBig, "PAUSE", Color.GOLD, 100, 1, false);
+            //   GlyphLayout layout1 = new GlyphLayout(Global.fontBig, "PAUSE", Color.GRAY, 100, 1, false);
+            //   Global.fontBig.draw(batch, layout1, viewport.getWorldWidth() / 2 - layout.width / 2 - 1, viewport.getWorldHeight() / 2 + layout.height / 2 - 1);
+            //    Global.fontBig.draw(batch, layout, viewport.getWorldWidth() / 2 - layout.width / 2, viewport.getWorldHeight() / 2 + layout.height / 2);
+
+            batch.draw(imgPause, viewport.getWorldWidth() - imgPause.getRegionWidth() - 20, 20);
+        } else {
+            batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.6f);
+            batch.draw(imgPause, viewport.getWorldWidth() - imgPause.getRegionWidth() - 20, 20);
+            batch.setColor(1, 1, 1, 1);
+        }
+
+        if (controller.isBossMode()) {
 
             Global.font.setColor(Color.YELLOW);
             Global.font.draw(batch, "Boss Energy: " + controller.bossControl.getBoss().live, 20 - 1, viewport.getWorldHeight() - 75 - 1);
             Global.font.setColor(Color.RED);
             Global.font.draw(batch, "Boss Energy: " + controller.bossControl.getBoss().live, 20, viewport.getWorldHeight() - 75);
-            renderLiveLine(controller.bossControl.getBoss().live, controller.bossControl.getMAX_ENERGY(), 55, true);
+
         }
 
 
@@ -137,26 +169,6 @@ public class GameScreenRender implements Disposable {
         Global.font.draw(batch, "Time: " + String.format(" %02d:%02d ", (int) controller.level.getDtLevelCounter() / 60, (int) controller.level.getDtLevelCounter() % 60), viewport.getWorldWidth() - 900, viewport.getWorldHeight() - 10);
 
 
-        if (controller.shipControl.isRecharge()) {
-            batch.draw(imgShield, viewport.getWorldWidth() - imgShield.getRegionWidth() * 3, 0);
-        } else {
-            batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.6f);
-            batch.draw(imgShield, viewport.getWorldWidth() - imgShield.getRegionWidth() * 3, 0);
-            batch.setColor(1, 1, 1, 1);
-        }
-
-        if (GameConfig.gameState == GameState.Pause) {
-            //   GlyphLayout layout = new GlyphLayout(Global.fontBig, "PAUSE", Color.GOLD, 100, 1, false);
-            //   GlyphLayout layout1 = new GlyphLayout(Global.fontBig, "PAUSE", Color.GRAY, 100, 1, false);
-            //   Global.fontBig.draw(batch, layout1, viewport.getWorldWidth() / 2 - layout.width / 2 - 1, viewport.getWorldHeight() / 2 + layout.height / 2 - 1);
-            //    Global.fontBig.draw(batch, layout, viewport.getWorldWidth() / 2 - layout.width / 2, viewport.getWorldHeight() / 2 + layout.height / 2);
-
-            batch.draw(imgPause, viewport.getWorldWidth() - imgPause.getRegionWidth() - 20, 20);
-        } else {
-            batch.setColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, 0.6f);
-            batch.draw(imgPause, viewport.getWorldWidth() - imgPause.getRegionWidth() - 20, 20);
-            batch.setColor(1, 1, 1, 1);
-        }
         if (GameConfig.gameState == GameState.End) {
             GlyphLayout layout = new GlyphLayout(Global.fontBig, "GAME OVER", Color.RED, 300, 1, false);
             GlyphLayout layout1 = new GlyphLayout(Global.fontBig, "GAME OVER", Color.WHITE, 300, 1, false);
@@ -190,7 +202,7 @@ public class GameScreenRender implements Disposable {
             if ((value / maxValue * 100) >= 75f) batch.setColor(0, 1, 0, 0.6f);
             else if ((value / maxValue * 100) <= 25f) batch.setColor(1, 0, 0, 0.6f);
             else batch.setColor(1, 1, 0, 0.6f);
-        } else Global.font.setColor(Color.GRAY);
+        } else batch.setColor(Color.GRAY);
 
         tempEnergy = (viewport.getWorldWidth() - 44) / 100 * (value / maxValue * 100);
         if (tempEnergy < 0) tempEnergy = 0;
@@ -207,8 +219,6 @@ public class GameScreenRender implements Disposable {
     @Override
     public void dispose() {
         batch.dispose();
-        Global.font.dispose();
-        Global.fontBig.dispose();
     }
 
 

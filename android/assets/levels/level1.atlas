@@ -1,151 +1,152 @@
 
 level1.png
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-boss
-  rotate: false
-  xy: 0, 22
-  size: 256, 238
-  orig: 256, 238
-  offset: 0, 0
-  index: 0
-asteroid
-  rotate: false
-  xy: 258, 132
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: 0
-explosion
-  rotate: false
-  xy: 388, 132
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: 0
-explosion
-  rotate: false
-  xy: 518, 132
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: 1
-explosion
-  rotate: false
-  xy: 648, 132
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: 2
-pause
-  rotate: false
-  xy: 258, 2
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: 0
-shield
-  rotate: false
-  xy: 388, 2
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: 0
-ship
-  rotate: false
-  xy: 518, 66
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 0
-ship
-  rotate: false
-  xy: 648, 66
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 1
-ship
-  rotate: false
-  xy: 518, 0
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 2
-block
-  rotate: false
-  xy: 648, 0
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
 alien1
   rotate: false
-  xy: 778, 208
-  size: 52, 52
-  orig: 52, 52
-  offset: 0, 0
-  index: 1
-alien1
-  rotate: false
-  xy: 714, 24
+  xy: 768, 152
   size: 64, 40
   orig: 64, 40
   offset: 0, 0
   index: 0
+alien1
+  rotate: false
+  xy: 896, 204
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: 1
+asteroid
+  rotate: false
+  xy: 256, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+block
+  rotate: false
+  xy: 640, 64
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
+boss
+  rotate: false
+  xy: 0, 18
+  size: 256, 238
+  orig: 256, 238
+  offset: 0, 0
+  index: 0
 bullet
   rotate: false
-  xy: 0, 4
+  xy: 0, 2
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: 0
 bullet
   rotate: false
-  xy: 714, 6
+  xy: 640, 48
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: 2
 bullet
   rotate: false
-  xy: 778, 190
+  xy: 704, 112
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: 3
 bullet
   rotate: false
-  xy: 34, 4
+  xy: 768, 136
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
+explosion
+  rotate: false
+  xy: 256, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+explosion
+  rotate: false
+  xy: 384, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 1
+explosion
+  rotate: false
+  xy: 384, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 2
+pause
+  rotate: false
+  xy: 512, 128
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
 rect
   rotate: false
-  xy: 748, 6
+  xy: 832, 176
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+shield
+  rotate: false
+  xy: 512, 0
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 640, 192
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 640, 128
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 768, 192
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: 2
 star
   rotate: false
-  xy: 778, 172
+  xy: 948, 240
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 0
 star
   rotate: false
-  xy: 812, 190
+  xy: 32, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: 1
 star
   rotate: false
-  xy: 52, 4
+  xy: 640, 32
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

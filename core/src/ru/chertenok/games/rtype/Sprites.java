@@ -1,6 +1,7 @@
 package ru.chertenok.games.rtype;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**
