@@ -20,7 +20,7 @@ public class GameScreen implements Screen, InputProcessor {
         controller = new GameScreenController();
         renderer = new GameScreenRender(controller);
         GameConfig.renderer = renderer;
-        Gdx.app.setLogLevel(Application.LOG_ERROR);
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     @Override
