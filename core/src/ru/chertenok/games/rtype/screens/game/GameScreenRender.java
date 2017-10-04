@@ -123,7 +123,7 @@ public class GameScreenRender implements Disposable {
 
 
     public void render(float delta) {
-        batch.totalRenderCalls = 0;
+        //    batch.totalRenderCalls = 0;
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //   batch.setProjectionMatrix(camera.projection);
@@ -149,7 +149,7 @@ public class GameScreenRender implements Disposable {
         renderHUD();
         controller.messages.render(batch);
 
-        log.debug("" + batch.totalRenderCalls);
+        //   log.debug("" + batch.totalRenderCalls);
     }
 
     private void renderDebugCollision() {
