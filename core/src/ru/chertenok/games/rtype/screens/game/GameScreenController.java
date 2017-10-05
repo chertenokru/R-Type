@@ -101,8 +101,8 @@ public class GameScreenController implements Level.ILevelEvent {
 
 
         if (GameConfig.isMusic()) {
-            music = Global.assetManager.get(GameConfig.FILE_MAIN_MUSIC_PATH, Music.class);
-            musicBoss = Global.assetManager.get(GameConfig.FILE_BOSS_MUSIC_PATH, Music.class);
+            music = Global.getAssetManager().get(GameConfig.FILE_MAIN_MUSIC_PATH, Music.class);
+            musicBoss = Global.getAssetManager().get(GameConfig.FILE_BOSS_MUSIC_PATH, Music.class);
             music.play();
             music.setLooping(true);
         }

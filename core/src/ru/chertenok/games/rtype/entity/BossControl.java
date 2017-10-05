@@ -39,7 +39,7 @@ public class BossControl extends Sprites {
     public BossControl(GameScreenController game) {
         super(game, "boss", 1);
         boss = new ru.chertenok.games.rtype.entity.Boss();
-        soundFire = Global.assetManager.get(GameConfig.FILE_BOSS_SOUND_PATH, Sound.class);
+        soundFire = Global.getAssetManager().get(GameConfig.FILE_BOSS_SOUND_PATH, Sound.class);
         reset();
     }
 

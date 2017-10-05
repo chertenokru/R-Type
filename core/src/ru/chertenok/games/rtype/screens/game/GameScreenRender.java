@@ -32,7 +32,7 @@ public class GameScreenRender implements Disposable {
     public TextureAtlas.AtlasRegion imgEnergy;
     private OrthographicCamera camera;
     private GlyphLayout layout = new GlyphLayout();
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
     private Stage stage;
     private Actor actor;
     private Actor actor1;
@@ -48,6 +48,7 @@ public class GameScreenRender implements Disposable {
 
     public GameScreenRender(GameScreenController controller) {
         this.controller = controller;
+        batch = Global.getBatch();
         init();
     }
 
@@ -56,7 +57,7 @@ public class GameScreenRender implements Disposable {
         viewport = new FitViewport(GameConfig.getWorldWidth(), GameConfig.getWorldHeight(), camera);
         initImages();
         Global.initFonts();
-        batch = new SpriteBatch();
+
         stage = new Stage(viewport, batch);
         actor = new Actor() {
             @Override
@@ -115,7 +116,7 @@ public class GameScreenRender implements Disposable {
     }
 
     private void initImages() {
-        TextureAtlas ta = Global.assetManager.get(Global.currentLevel);
+        TextureAtlas ta = Global.getAssetManager().get(Global.currentLevel);
         imgPause = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_PAUSE);
         imgShield = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_SHIELD);
         imgRect = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_RECT);
@@ -288,7 +289,8 @@ public class GameScreenRender implements Disposable {
 
     @Override
     public void dispose() {
-        batch.dispose();
+        stage.dispose();
+
     }
 
 

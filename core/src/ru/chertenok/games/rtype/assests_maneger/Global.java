@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.I18NBundle;
@@ -24,7 +25,8 @@ import java.util.Random;
 
 public class Global {
 
-    final public static AssetManager assetManager = new AssetManager();
+    private final static AssetManager assetManager = new AssetManager();
+    private final static SpriteBatch batch = new SpriteBatch();
     public static AssetDescriptor<TextureAtlas> currentLevel;
     public static Random rnd = new Random();
     public static Locale locale;
@@ -78,6 +80,7 @@ public class Global {
         assetManager.dispose();
         font.dispose();
         fontBig.dispose();
+        batch.dispose();
     }
 
 
@@ -92,5 +95,13 @@ public class Global {
         parameter.size = 75;
         fontBig = generator.generateFont(parameter);
         generator.dispose();
+    }
+
+    public static AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public static SpriteBatch getBatch() {
+        return batch;
     }
 }
