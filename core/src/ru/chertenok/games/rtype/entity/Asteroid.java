@@ -2,7 +2,7 @@ package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import ru.chertenok.games.rtype.Collisionable;
+import ru.chertenok.games.rtype.collisions.Collisionable;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 /**

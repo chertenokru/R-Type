@@ -1,4 +1,4 @@
-package ru.chertenok.games.rtype;
+package ru.chertenok.games.rtype.collisions;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;

@@ -56,7 +56,6 @@ public class GameScreenRender implements Disposable {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(GameConfig.getWorldWidth(), GameConfig.getWorldHeight(), camera);
         initImages();
-        Global.initFonts();
 
         stage = new Stage(viewport, batch);
         actor = new Actor() {

@@ -1,12 +1,13 @@
 package ru.chertenok.games.rtype.entity.collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 import ru.chertenok.games.rtype.assests_maneger.Global;
+import ru.chertenok.games.rtype.collisions.Collisionable;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.level.Level;
 import ru.chertenok.games.rtype.level.LevelEvents;
-import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 import java.util.Map;
 
@@ -24,11 +25,13 @@ public class Asteroids extends ObjectCollector implements Level.ILevelEvent {
     private float maxScale = 0.5f;
     private ru.chertenok.games.rtype.entity.Asteroid asteroid;
     private boolean fixOnScreen = false;
+    private Array<Collisionable> collObjects;
 
-    public Asteroids(GameScreenController game) throws Exception {
-        super(ru.chertenok.games.rtype.entity.Asteroid.class, game, "asteroid", 1);
+    public Asteroids(Array<Collisionable> collObjects) throws Exception {
+        super(ru.chertenok.games.rtype.entity.Asteroid.class, null, "asteroid", 1);
         maxSpeed = 120;
         minSpeed = 30;
+        this.collObjects = collObjects;
     }
 
     public boolean isFixOnScreen() {

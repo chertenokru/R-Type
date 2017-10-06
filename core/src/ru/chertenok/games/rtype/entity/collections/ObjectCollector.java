@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ReflectionPool;
 import ru.chertenok.games.rtype.Sprites;
+import ru.chertenok.games.rtype.assests_maneger.Global;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
@@ -57,7 +58,8 @@ public abstract class ObjectCollector extends Sprites implements Disposable {
             if (!activeObject.get(i).isActive()){
                 objectPool.free(activeObject.get(i));
                 // выпиливаем из списка объектов для проверки коллизий
-                if (activeObject.get(i).isCollisinable()) game.collObjects.removeValue(activeObject.get(i),true);
+                if (activeObject.get(i).isCollisinable())
+                    Global.getCollObjects().removeValue(activeObject.get(i), true);
                 activeObject.removeIndex(i);
                 //      System.out.println("-1");
             }
@@ -78,7 +80,7 @@ public abstract class ObjectCollector extends Sprites implements Disposable {
         gameInnerObject.originSpriteSize.x = spriteOriginSizeX;
         gameInnerObject.isActive = true;
         // добавляем в список сталкиваемых объектов
-        if (gameInnerObject.isCollisinable()) game.collObjects.add(gameInnerObject);
+        if (gameInnerObject.isCollisinable()) Global.getCollObjects().add(gameInnerObject);
     }
 
 
@@ -88,7 +90,7 @@ public abstract class ObjectCollector extends Sprites implements Disposable {
             activeObject.get(i).reset();
             objectPool.free(activeObject.get(i));
             // если сталкиваемый, то удаляем из списка
-            if (gameInnerObject.isCollisinable())  game.collObjects.removeValue(activeObject.get(i),true);
+            if (gameInnerObject.isCollisinable()) Global.getCollObjects().removeValue(activeObject.get(i), true);
             activeObject.removeIndex(i);
 
         }

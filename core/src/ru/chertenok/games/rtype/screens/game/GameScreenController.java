@@ -4,15 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
-import ru.chertenok.games.rtype.Collisionable;
 import ru.chertenok.games.rtype.FonGround;
 import ru.chertenok.games.rtype.FonStars;
 import ru.chertenok.games.rtype.Messages;
 import ru.chertenok.games.rtype.assests_maneger.Global;
+import ru.chertenok.games.rtype.collisions.CollisionChecker;
+import ru.chertenok.games.rtype.collisions.Collisionable;
 import ru.chertenok.games.rtype.config.GameConfig;
 import ru.chertenok.games.rtype.config.GameState;
 import ru.chertenok.games.rtype.entity.BossControl;
@@ -36,7 +36,7 @@ public class GameScreenController implements Level.ILevelEvent {
     public Explosions explosions;
     public Messages messages;
     // список объектов для обработки коллизий
-    public Array<Collisionable> collObjects = new Array<Collisionable>();
+    public Array<Collisionable> collObjects;
     public Array<ObjectCollector> collControllers = new Array<ObjectCollector>();
     public BossControl bossControl;
     public Level level;
@@ -52,15 +52,12 @@ public class GameScreenController implements Level.ILevelEvent {
     private boolean bossMode = false;
     // list of registred LevelEvents handlers
     private Map<String, Level.ILevelEvent> eventMap = new HashMap<String, Level.ILevelEvent>();
-    private Collisionable collisionable1;
-    private Collisionable collisionable2;
     private boolean lastMouseTouch = false;
     private boolean lastMouseTouch1 = false;
     private Music music;
     private Music musicBoss;
     private float dtBtn = 0;
     private int reChargeCost = 5;
-    private boolean isCollision = false;
 
 
     public GameScreenController() {
@@ -71,6 +68,7 @@ public class GameScreenController implements Level.ILevelEvent {
         // Global.setMessageLanguage(new Locale("en"));
 
 
+        this.collObjects = Global.getCollObjects();
         // menu = new Menu(this);
         fonStars = new FonStars(this);
         fonGround = new FonGround(this);
@@ -79,7 +77,7 @@ public class GameScreenController implements Level.ILevelEvent {
 
             enemies = new Enemies(this);
             explosions = new Explosions(this);
-            asteroids = new Asteroids(this);
+            asteroids = new Asteroids(collObjects);
             bullets = new Bullets(this);
 
         } catch (Exception e) {
@@ -120,7 +118,6 @@ public class GameScreenController implements Level.ILevelEvent {
         GameConfig.gameState = GameState.Run;
 
     }
-
 
 
     public int getDisplayScore() {
@@ -179,7 +176,6 @@ public class GameScreenController implements Level.ILevelEvent {
         if (GameConfig.gameState == GameState.Run) {
 
 
-
             // меняем настройки по времени
             level.update(dt);
 
@@ -224,73 +220,30 @@ public class GameScreenController implements Level.ILevelEvent {
         lastMouseTouch1 = Gdx.input.isTouched(1);
 
         if (GameConfig.gameState == GameState.Run) {
-            // обработка столкновений всего со всем 8-)
-            for (int i = collObjects.size - 1; i > 0; i--) {
-                // если не активен, то просто  выкидываем и чешем дальше
-                if (!collObjects.get(i).isActive()) {
-                    collObjects.removeIndex(i);
-                    continue;
-                }
 
-                for (int j = i - 1; j >= 0; j--) {
-                    // если не активен, то просто  чешем дальше
-                    if (!collObjects.get(j).isActive()) continue;
+            CollisionChecker.update(collObjects);
 
 
-                    isCollision = false;
-                    collisionable1 = collObjects.get(i);
-                    collisionable2 = collObjects.get(j);
-                    if (collisionable1.isCollisinable() && collisionable2.isCollisinable()) {
+            if (shipControl.getEnergy() <= 0 && shipControl.getLive() == 0) {
+                GameConfig.gameState = GameState.End;
+                explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
+            }
 
-                        // круги
-                        if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                            if (collisionable1.getHitAreaCircle().overlaps(collisionable2.getHitAreaCircle()))
-                                isCollision = true;
-                        // прямоугольники
-                        if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle)
-                            if (collisionable1.getHitAreaRectangle().overlaps(collisionable2.getHitAreaRectangle()))
-                                isCollision = true;
-                        // прямоугольник и круг
-                        if (collisionable1.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable2.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                            if (Intersector.overlaps(collisionable2.getHitAreaCircle(), collisionable1.getHitAreaRectangle()))
-                                isCollision = true;
-                        //  круг и прямоугольник
-                        if (collisionable2.getHitAreaType() == Collisionable.HitAreaType.Rectangle && collisionable1.getHitAreaType() == Collisionable.HitAreaType.Circle)
-                            if (Intersector.overlaps(collisionable1.getHitAreaCircle(), collisionable2.getHitAreaRectangle()))
-                                isCollision = true;
+            // проверяем жив ли корабль и если нет, то есть ли жизни
+            if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
+                // уменьшаем жизни
+                shipControl.setLive(shipControl.getLive() - 1);
+                messages.addMessage("-1 Life", shipControl.ship.position.x, shipControl.ship.position.y, 3f, Color.RED);
 
-                        // тот не активный и потом в помойку
-                        if (collisionable1.hitStatus_and_IsRemove(this, collisionable2, isCollision)) {
-                            collisionable1.setNoActive();
-                        }
-                        // этот не активный и потом в помойку
-                        if (collisionable2.hitStatus_and_IsRemove(this, collisionable1, isCollision)) {
-                            collisionable2.setNoActive();
-                        }
-                    }
-                }
-                if (!collisionable1.isActive()) collObjects.removeIndex(i);
-
+                // восстанавливаем энергию
+                shipControl.setEnergy(shipControl.getMAX_ENERGY());
+                explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
             }
         }
-
-
-        if (shipControl.getEnergy() <= 0 && shipControl.getLive() == 0) {
-            GameConfig.gameState = GameState.End;
-            explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
-        }
-
-        // проверяем жив ли корабль и если нет, то есть ли жизни
-        if (shipControl.getEnergy() <= 0 && shipControl.getLive() > 0) {
-            // уменьшаем жизни
-            shipControl.setLive(shipControl.getLive() - 1);
-            messages.addMessage("-1 Life", shipControl.ship.position.x, shipControl.ship.position.y, 3f, Color.RED);
-
-            // восстанавливаем энергию
-            shipControl.setEnergy(shipControl.getMAX_ENERGY());
-            explosions.addExplosion(shipControl.ship.position.x + 64, shipControl.ship.position.y, 1.0f);
-        }
     }
+
+
+
 
     private void displayScoreUpdate(float dt) {
         if (displayScore < score) {

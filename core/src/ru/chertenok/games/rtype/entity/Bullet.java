@@ -1,7 +1,7 @@
 package ru.chertenok.games.rtype.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import ru.chertenok.games.rtype.Collisionable;
+import ru.chertenok.games.rtype.collisions.Collisionable;
 import ru.chertenok.games.rtype.config.ObjectOwner;
 import ru.chertenok.games.rtype.screens.game.GameScreenController;
 

@@ -41,7 +41,7 @@ public class FonGround extends Sprites{
         if (isActive) {
             for (int w = 0; w < ground.length; w++) {
                 for (int h = 0; h < ground[w]; h++) {
-                    batch.draw(texture[spriteSize-1], w * spriteOriginSize - shift, h * spriteOriginSize );
+                    batch.draw(texture[0], w * spriteOriginSize - shift, h * spriteOriginSize);
                 }
             }
         }
