@@ -51,7 +51,7 @@ public class Asteroids extends ObjectCollector implements Level.ILevelEvent {
         asteroid.velocity.y = velocityY;
         asteroid.scale = scl;
         activeObject.add(asteroid);
-        game.collObjects.add(asteroid);
+        collObjects.add(asteroid);
     }
 
     public boolean isReversiveEnabled() {

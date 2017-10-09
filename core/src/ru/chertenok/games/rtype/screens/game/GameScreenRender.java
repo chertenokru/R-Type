@@ -9,10 +9,8 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -67,39 +65,39 @@ public class GameScreenRender implements Disposable {
         };
         actor.setBounds(0, 0, GameConfig.getWorldWidth(), GameConfig.getWorldHeight());
 
-        actor1 = new Actor() {
-            @Override
-            public void draw(Batch batch, float parentAlpha) {
-                batch.setColor(getColor());
-
-                batch.draw(imgShield, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-            }
-        };
-        actor1.setBounds(100, 100, 200, 200);
-        //  actor1.setColor(Color.RED);
-        actor1.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                event.getListenerActor().addAction(Actions.rotateBy(90, 2f));
-                log.debug("click");
-            }
-
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                event.getListenerActor().addAction(Actions.alpha(0, 1f));
-                log.debug("enter");
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                event.getListenerActor().addAction(Actions.alpha(1, 1f));
-            }
-
-        });
-
+//        actor1 = new Actor() {
+//            @Override
+//            public void draw(Batch batch, float parentAlpha) {
+//                batch.setColor(getColor());
+//
+//                batch.draw(imgShield, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+//            }
+//        };
+//        actor1.setBounds(100, 100, 200, 200);
+//        //  actor1.setColor(Color.RED);
+//        actor1.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                event.getListenerActor().addAction(Actions.rotateBy(90, 2f));
+//                log.debug("click");
+//            }
+//
+//
+//            @Override
+//            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+//                event.getListenerActor().addAction(Actions.alpha(0, 1f));
+//                log.debug("enter");
+//            }
+//
+//            @Override
+//            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+//                event.getListenerActor().addAction(Actions.alpha(1, 1f));
+//            }
+//
+//        });
+//
+//        stage.addActor(actor);
         stage.addActor(actor);
-        stage.addActor(actor1);
         Gdx.input.setInputProcessor(stage);
 
         actor.addAction(Actions.sequence(
@@ -118,7 +116,7 @@ public class GameScreenRender implements Disposable {
         TextureAtlas ta = Global.getAssetManager().get(Global.currentLevel);
         imgPause = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_PAUSE);
         imgShield = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_SHIELD);
-        imgRect = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_RECT);
+        imgRect = ta.findRegion(GameConfig.TEXTURE_REGION_RECT);
     }
 
 

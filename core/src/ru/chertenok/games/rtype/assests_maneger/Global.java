@@ -7,7 +7,6 @@ import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -55,7 +54,6 @@ public class Global {
         assetManager.load("sound/slimeball.mp3", Sound.class);
         assetManager.load("sound/foom_0.mp3", Sound.class);
         assetManager.load("sound/acid6.mp3", Sound.class);
-        assetManager.load("button.png", Texture.class);
         assetManager.load(GameConfig.FILE_BOSS_SOUND_PATH, Sound.class);
         assetManager.load(GameConfig.LOCALIZATION_GAMEBUNDLE_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));
         assetManager.load(GameConfig.LOCALIZATION_LEVEL1_PATH, I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(locale));

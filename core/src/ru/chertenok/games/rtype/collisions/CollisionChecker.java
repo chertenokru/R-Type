@@ -2,6 +2,7 @@ package ru.chertenok.games.rtype.collisions;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
+import ru.chertenok.games.rtype.screens.game.GameScreenController;
 
 public class CollisionChecker {
 
@@ -12,7 +13,7 @@ public class CollisionChecker {
     private CollisionChecker() {
     }
 
-    public static void update(Array<Collisionable> collObjects) {
+    public static void update(Array<Collisionable> collObjects, GameScreenController game) {
         // обработка столкновений всего со всем 8-)
         for (int i = collObjects.size - 1; i > 0; i--) {
             // если не активен, то просто  выкидываем и чешем дальше
@@ -49,11 +50,11 @@ public class CollisionChecker {
                             isCollision = true;
 
                     // тот не активный и потом в помойку
-                    if (collisionable1.hitStatus_and_IsRemove(null, collisionable2, isCollision)) {
+                    if (collisionable1.hitStatus_and_IsRemove(game, collisionable2, isCollision)) {
                         collisionable1.setNoActive();
                     }
                     // этот не активный и потом в помойку
-                    if (collisionable2.hitStatus_and_IsRemove(null, collisionable1, isCollision)) {
+                    if (collisionable2.hitStatus_and_IsRemove(game, collisionable1, isCollision)) {
                         collisionable2.setNoActive();
                     }
                 }

@@ -7,15 +7,22 @@ import ru.chertenok.games.rtype.screens.game.GameScreen;
 import ru.chertenok.games.rtype.screens.menu.MenuScreen;
 
 public class MainScreenManager extends Game {
-    private ru.chertenok.games.rtype.screens.game.GameScreen gameScreen;
+    private final ru.chertenok.games.rtype.screens.game.GameScreen gameScreen = new GameScreen();
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
 
     @Override
     public void create() {
-        gameScreen = new GameScreen();
+
         Global.load(GameConfig.LEVEL1_PACK_FILE_PATH);
+
         MenuScreen menuScreen = new MenuScreen(this);
-        setScreen(menuScreen);
-        //setScreen(gameScreen);
+        // setScreen(menuScreen);
+        setScreen(gameScreen);
+
+
 
     }
 }

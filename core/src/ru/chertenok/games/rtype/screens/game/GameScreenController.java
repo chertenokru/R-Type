@@ -221,7 +221,7 @@ public class GameScreenController implements Level.ILevelEvent {
 
         if (GameConfig.gameState == GameState.Run) {
 
-            CollisionChecker.update(collObjects);
+            CollisionChecker.update(collObjects, this);
 
 
             if (shipControl.getEnergy() <= 0 && shipControl.getLive() == 0) {

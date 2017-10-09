@@ -23,11 +23,12 @@ public class GameConfig {
     public static final String FONT_CHARS = "абвгдежзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
     public static final String TEXTURE_REGION_BUTTON_PAUSE = "pause";
     public static final String TEXTURE_REGION_BUTTON_SHIELD = "shield";
-    public static final String TEXTURE_REGION_BUTTON_RECT = "rect";
+    public static final String TEXTURE_REGION_RECT = "rect";
+    public static final String TEXTURE_REGION_BUTTON_RECT = "button";
     //--game--
     public static final int SCORE_MOVE = 100;
-    // =========== const ============
-    private static final String FILE_PATH = "config/GameConfig.json";
+    // FonStar
+    public static final int STAR_COUNT = 800;
     private final static boolean DEFAULT_MUSIC = false;
     private final static boolean DEFAULT_IS_DEBUG_DRAW = false;
     public static final int DEFAULT_WORLD_WIDTH = 1024;
@@ -36,6 +37,13 @@ public class GameConfig {
     private final static boolean DEFAULT_SOUND = false;
     public static GameState gameState;
     public static GameScreenRender renderer;
+    public static final int BIG_STAR_COUNT = 30;
+    public static final int MIDDLE_STAR_COUNT = 60;
+    public static final int BIG_STAR_SPEED = 15;
+    public static final int MIDDLE_STAR_SPEED = 100;
+    public static final int LITTLE_STAR_SPEED = 150;
+    // =========== const ============
+    private static final String FILE_PATH = "config/GameConfig.json";
 
 
 

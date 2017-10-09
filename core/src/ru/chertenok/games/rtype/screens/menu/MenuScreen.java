@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -38,11 +39,11 @@ public class MenuScreen extends ScreenAdapter {
     private FonGround fonGround;
     private GlyphLayout txtLayout = new GlyphLayout();
     private Asteroids asteroids;
+    private TextureAtlas.AtlasRegion button;
 
     public MenuScreen(MainScreenManager mainScreenManager) {
         this.mainScreenManager = mainScreenManager;
         this.assetManager = Global.getAssetManager();
-        texture = assetManager.get("button.png");
         batch = Global.getBatch();
 
     }
@@ -53,6 +54,9 @@ public class MenuScreen extends ScreenAdapter {
         viewport = new FillViewport(GameConfig.getWorldWidth(), GameConfig.getWorldHeight());
         stage = new Stage(viewport, batch);
         Gdx.input.setInputProcessor(stage);
+        Global.load(GameConfig.LEVEL1_PACK_FILE_PATH);
+        TextureAtlas ta = assetManager.get(Global.currentLevel);
+        button = ta.findRegion(GameConfig.TEXTURE_REGION_BUTTON_RECT);
         fonStars = new FonStars(null);
         fonGround = new FonGround(null);
         fonGround.setActive(true);
@@ -72,7 +76,7 @@ public class MenuScreen extends ScreenAdapter {
                 fonStars.update(Gdx.graphics.getDeltaTime());
                 fonGround.update(Gdx.graphics.getDeltaTime());
                 asteroids.update(Gdx.graphics.getDeltaTime());
-                CollisionChecker.update(Global.getCollObjects());
+                CollisionChecker.update(Global.getCollObjects(), null);
                 fonStars.render((SpriteBatch) batch);
                 fonGround.render((SpriteBatch) batch);
                 asteroids.render((SpriteBatch) batch);
@@ -89,12 +93,12 @@ public class MenuScreen extends ScreenAdapter {
             @Override
             public void draw(Batch batch, float parentAlpha) {
                 txtLayout.setText(Global.font, EXIT);
-                batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0, (int) getWidth(), (int) getHeight(), false, false);
+                batch.draw(button, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
                 Global.font.setColor(Color.YELLOW);
                 Global.font.draw(batch, txtLayout, GameConfig.getWorldWidth() / 2 - (getWidth() - txtLayout.width) / 2, (GameConfig.getWorldHeight() - getY()) / 2 - txtLayout.height * 2);
             }
         };
-        actor.setBounds(100, 100, texture.getWidth(), texture.getHeight());
+        actor.setBounds(100, 100, 600, button.getRegionHeight());
         stage.addActor(actor);
         actor1 = new Actor() {
 
@@ -102,13 +106,13 @@ public class MenuScreen extends ScreenAdapter {
             public void draw(Batch batch, float parentAlpha) {
 
                 txtLayout.setText(Global.font, START);
-                batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0, (int) getWidth(), (int) getHeight(), false, false);
+                batch.draw(button, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
                 Global.font.setColor(Color.YELLOW);
                 Global.font.draw(batch, txtLayout, GameConfig.getWorldWidth() / 2 - (getWidth() - txtLayout.width) / 2, (GameConfig.getWorldHeight() - getY()) / 2 - txtLayout.height * 2);
             }
         };
-        actor1.setBounds(100, 300, texture.getWidth(), texture.getHeight());
+        actor1.setBounds(100, 300, 600, button.getRegionHeight());
 
         stage.addActor(actor1);
 
